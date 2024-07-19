@@ -3,32 +3,32 @@
         <div class="flex flex-col gap-6">
             <div>
                 <p>{{ $response }}</p>
-           </div>
+            </div>
         </div>
     @endif
     <!-- Button to Open the Modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">
-        search 
+        search
     </button>
-    
+
 
     <!-- The Modal -->
-    <div class="modal" id="formModal">
+    <div class="modal" id="formModal" wire:ignore x-on:close-modal.window="$refs.close.click()">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Reservation</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" x-ref="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    
+
                     <div class="card-body">
-                      
+
 
                         <form wire:submit.prevent="submitted" autocomplete="off">
-                                
+
                             <!-- Input field with JavaScript for uppercase conversion -->
                             <div class="form-group">
                                 <label for="inputField">Enter Number Reservation:</label>
@@ -42,15 +42,13 @@
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 <button type="submit" onclick="validateInput()" class="btn btn-primary">confirm</button>
                             </div>
-                        
+
                         </form>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
         </div>
     </div>
 </div>
-
-

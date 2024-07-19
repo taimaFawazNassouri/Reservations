@@ -25,7 +25,7 @@ class EmptyPage extends Component
         $credentials = Credential::find(1);
         $this->username = $credentials->user_name;
         $this->password = $credentials->password;
-    } 
+    }
 
     public function render()
     {
@@ -79,7 +79,7 @@ class EmptyPage extends Component
     //     $req = Http::withHeaders([
     //         'Content-Type' => 'application/xml',
     //     ])->post($url, htmlentities($data));
-    
+
     //     dd($req->body());
     // }
 
@@ -90,7 +90,7 @@ class EmptyPage extends Component
         $reservations->number_reservation = $this->reservation_number;
         $reservations->user_id = $user->id;
         $reservations->save();
-        
+
         $client = new Client([
             'headers' => [
                 'Content-Type' => 'application/xml',
@@ -100,8 +100,8 @@ class EmptyPage extends Component
             <soap:Header>
                 <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
                     <wsse:UsernameToken wsu:Id="UsernameToken-17099451" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-                        <wsse:Username>'. $this->username .'</wsse:Username>
-                        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">'. $this->password .'</wsse:Password>
+                        <wsse:Username>' . $this->username . '</wsse:Username>
+                        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">' . $this->password . '</wsse:Password>
                     </wsse:UsernameToken>
                 </wsse:Security>
             </soap:Header>
@@ -109,13 +109,13 @@ class EmptyPage extends Component
                 <ns2:OTA_ReadRQ EchoToken="11839640750780-171674061" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="2023-02-28T20:00:00" Version="20061.00">
                     <ns2:POS>
                         <ns2:Source TerminalID="TestUser/Test Runner">
-                            <ns2:RequestorID ID="'. $this->username .'" Type="4"/>
+                            <ns2:RequestorID ID="' . $this->username . '" Type="4"/>
                             <ns2:BookingChannel Type="12"/>
                         </ns2:Source>
                     </ns2:POS>
                     <ns2:ReadRequests>
                         <ns2:ReadRequest>
-                            <ns2:UniqueID ID="'. $this->reservation_number .'" Type="14"/>
+                            <ns2:UniqueID ID="' . $this->reservation_number . '" Type="14"/>
                         </ns2:ReadRequest>
                         <ns2:AirReadRequest>
                             <ns2:DepartureDate>2023-10-12</ns2:DepartureDate>
@@ -137,19 +137,21 @@ class EmptyPage extends Component
         $res = $client->sendAsync($request)->wait();
 
         $this->response = (string) $res->getBody();
-        
+
+        $this->dispatch('close-modal');
+
         // $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
         // $xml = new SimpleXMLElement($response);
         // $body = $xml->xpath('//soapBody')[0];
         // $this->dataArray = json_decode(json_encode((array)$body), TRUE);
     }
 
-    
+
 
     #[Computed]
     public function loaded(): bool
     {
-        return count($this->dataArray) > 0 ;
+        return count($this->dataArray) > 0;
     }
 
     #[Computed]
