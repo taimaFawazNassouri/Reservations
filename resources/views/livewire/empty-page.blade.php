@@ -1,11 +1,13 @@
 <div class="container">
-    @if (!is_null($response))
+    @if ($this->loaded)
         <div class="flex flex-col gap-6">
             <div>
-                <p>{{ $response }}</p>
+                <span>الاسم</span>
+                <p>{{ $this->first_name }}</p>
             </div>
         </div>
     @endif
+
     <!-- Button to Open the Modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">
         search

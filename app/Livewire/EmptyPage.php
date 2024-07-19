@@ -2,14 +2,15 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Http;
-use App\Models\Reservation;
-use App\Models\Credential;
-use Illuminate\Support\Facades\Auth;
+use SimpleXMLElement;
 use GuzzleHttp\Client;
+use Livewire\Component;
+use App\Models\Credential;
+use App\Models\Reservation;
 use GuzzleHttp\Psr7\Request;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class EmptyPage extends Component
 {
@@ -136,17 +137,15 @@ class EmptyPage extends Component
         $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServicesForPay', [], $body);
         $res = $client->sendAsync($request)->wait();
 
-        $this->response = (string) $res->getBody();
+        // $this->response = (string) $res->getBody();
+
+        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
+        $xml = new SimpleXMLElement($response);
+        $body = $xml->xpath('//soapBody')[0];
+        $this->dataArray = json_decode(json_encode((array)$body), TRUE);
 
         $this->dispatch('close-modal');
-
-        // $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
-        // $xml = new SimpleXMLElement($response);
-        // $body = $xml->xpath('//soapBody')[0];
-        // $this->dataArray = json_decode(json_encode((array)$body), TRUE);
     }
-
-
 
     #[Computed]
     public function loaded(): bool
