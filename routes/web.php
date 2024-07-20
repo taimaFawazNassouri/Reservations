@@ -18,26 +18,41 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('dashboard');
 });
 
-Route::get('/admin', function () {
-    return view('admin.empty');
-})->middleware(['auth', 'verified'])->name('admin');
 
-Route::post('register_user', [RegisteredUserController::class, 'store'])->name('register_user');
-Route::post('login_user', [AuthenticatedSessionController::class, 'store'])->name('login_user');
-Route::resource('reservations', ReservationController::class);
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){ 
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->middleware(['auth', 'verified'])->name('dashboard1');
+
+        Route::resource('reservations', ReservationController::class);
+        
+        Route::middleware('auth')->group(function () {
+            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        });
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/livewire/update', $handle);
+        });
+        
+        
+        
+
+    });
 
 
 
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__ . '/auth.php';
