@@ -70,11 +70,15 @@
                     <label for="depart-date">DEPART DATE*</label>
                     <input type="date" id="depart-date" wire:model="selDepartureDate">
                 </div>
+                @if ($tripType === 'round-trip')
+                    <div class="form-group" id="return_date">
+                        <label for="return-date">RETURN DATE*</label>
+                        <input type="date" id="return-date" wire:model="elReturnDate">
+                    </div>
+                @endif
                
-                <div class="form-group" id="return_date">
-                    <label for="return-date">RETURN DATE*</label>
-                    <input type="date" id="return-date" wire:model="elReturnDate">
-                </div>
+               
+
                
             </div>
             <div class="form-row">
