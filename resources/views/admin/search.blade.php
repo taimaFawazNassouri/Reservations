@@ -87,15 +87,10 @@
             justify-content: space-between;
         }
 
-        .trip-back {
-            background-color: #007BFF;
-            /* Blue background */
-            text-align: center;
-            padding: 10px;
-            width: 250px;
-            height: 40px;
-
-        }
+       .trip-back button.active {
+        background-color: #007bff;
+        color: white;
+    }
 
         .trip-type-container label {
             display: inline;
@@ -105,6 +100,7 @@
             font-weight: normal;
             /* Normalize font weight */
         }
+        
     </style>
 @endsection
 
@@ -146,33 +142,43 @@
 
 @section('js')
     <script>
-        function validateInput() {
-            const inputField = document.getElementById('inputField');
-            const errorMessage = document.getElementById('error-message');
-            const pattern = /^[A-Za-z0-9]{6}$/;
-            if (!pattern.test(inputField.value)) {
-                errorMessage.style.display = 'block';
-                inputField.classList.add('is-invalid');
+    document.addEventListener('DOMContentLoaded', function () {
+      
+
+        const oneWayButton = document.getElementById('one-way');
+        const roundTripButton = document.getElementById('round-trip');
+        const returnDateGroup = document.getElementById('return_date');
+
+        const toggleReturnDate = () => {
+            if (oneWayButton.classList.contains('active')) {
+                returnDateGroup.style.display = 'none';
             } else {
-                errorMessage.style.display = 'none';
-                inputField.classList.remove('is-invalid');
-
+                returnDateGroup.style.display = 'block';
             }
-        }
+        };
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputField = document.getElementById('inputField');
-            inputField.addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
-            });
+        oneWayButton.addEventListener('click', () => {
+            oneWayButton.classList.add('active');
+            roundTripButton.classList.remove('active');
+            toggleReturnDate();
         });
 
-        var loadFile = function(event) {
+        roundTripButton.addEventListener('click', () => {
+            roundTripButton.classList.add('active');
+            oneWayButton.classList.remove('active');
+            toggleReturnDate();
+        });
+
+        // Initialize the display based on the initial state
+        toggleReturnDate();
+    });
+    var loadFile = function(event) {
             var output = document.getElementById('output');
             output.src = URL.createObjectURL(event.target.files[0]);
             output.onload = function() {
                 URL.revokeObjectURL(output.src) // free memory
             }
         };
+        
     </script>
 @endsection

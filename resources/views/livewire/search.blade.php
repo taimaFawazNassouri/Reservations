@@ -20,14 +20,13 @@
         <form wire:submit.prevent="submitted">
             <div class="trip-type-container">
                 <div class="trip-back">
-                    <input type="radio" id="round-trip" wire:model="trip-type" value="round-trip" checked>
-                    <label for="round-trip">ROUND TRIP</label>
+                    <button type="button" wire:click="setTripType('round-trip')" class="{{ $tripType === 'round-trip' ? 'active' : '' }}">ROUND TRIP</button>
                 </div>
                 <div class="trip-back">
-                    <input type="radio" id="one-way" name="trip-type" value="one-way">
-                    <label for="one-way">ONE WAY</label>
+                    <button type="button" wire:click="setTripType('one-way')" class="{{ $tripType === 'one-way' ? 'active' : '' }}">ONE WAY</button>
                 </div>
             </div>
+           
             <div class="form-row">
                 <div class="form-group">
                     <label for="from">FROM*</label>
@@ -61,6 +60,7 @@
                     <select id="to" wire:model="to" required>
                         <option value="" disabled selected>Choose your departure city</option>
                         <option value="SHJ">Sharjah International Airport (SHJ)</option>
+                        <option value='DAM'>Damascus International Airport (DAM)</option>
                         <!-- Add more options as needed -->
                     </select>
                 </div>
@@ -70,9 +70,17 @@
                     <label for="depart-date">DEPART DATE*</label>
                     <input type="date" id="depart-date" wire:model="selDepartureDate">
                 </div>
-                <div class="form-group">
+               
+                <div class="form-group" id="return_date">
                     <label for="return-date">RETURN DATE*</label>
                     <input type="date" id="return-date" wire:model="elReturnDate">
+                </div>
+               
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="checkbox" id="flexible-dates" wire:model="flexibleDates">
+                    <label for="flexible-dates" class="below-checkbox-label">+/- 3 days</label>
                 </div>
             </div>
             <div class="form-row">
