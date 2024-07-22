@@ -20,10 +20,10 @@
         <form wire:submit.prevent="submitted">
             <div class="trip-type-container">
                 <div class="trip-back">
-                    <button type="button" wire:click="setTripType('round-trip')" class="{{ $tripType === 'round-trip' ? 'active' : '' }}">ROUND TRIP</button>
+                    <button type="button" id="round-trip" wire:click.prevent="$set('tripType','round-trip')" class="{{ $tripType === 'round-trip' ? 'active' : '' }}">ROUND TRIP</button>
                 </div>
                 <div class="trip-back">
-                    <button type="button" wire:click="setTripType('one-way')" class="{{ $tripType === 'one-way' ? 'active' : '' }}">ONE WAY</button>
+                    <button type="button" id="one-way" wire:click.prevent="$set('tripType','one-way')" class="{{ $tripType === 'one-way' ? 'active' : '' }}">ONE WAY</button>
                 </div>
             </div>
            
