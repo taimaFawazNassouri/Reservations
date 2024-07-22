@@ -19,7 +19,7 @@ class EmptyPage extends Component
     public $password;
     public $response = null;
     public $dataArray = [];
-    public $totalCount;
+    public $total_count = 0;
 
 
     public function mount()
@@ -89,12 +89,18 @@ class EmptyPage extends Component
         $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServicesForPay', [], $body);
         $res = $client->sendAsync($request)->wait();
         
-       // $this->response = (string) $res->getBody();
+        //$this->response = (string) $res->getBody();
 
         $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
         $xml = new SimpleXMLElement($response);
         $body = $xml->xpath('//soapBody')[0];
         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
+
+        // this line just simulates there was non syrian travller 
+        // you should omit it in production.
+        // $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1TravelerInfo']['ns1AirTraveler'][1]['ns1Document']['@attributes']['DocHolderNationality'] = '!SY';
+
+        //unset($this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1TravelerInfo']['ns1AirTraveler'][1]);
 
         $this->dispatch('close-modal');
     }
@@ -104,18 +110,23 @@ class EmptyPage extends Component
     {
         return count($this->dataArray) > 0;
     }
+
     #[Computed]
     public function ticket_advisory()
     {
-       dd($this->dataArray);
+         //dd($this->dataArray);
         $ticket_advisory = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1Ticketing']['ns1TicketAdvisory'] ?? null;
         if ($ticket_advisory) {
-            if (strpos($ticket_advisory, 'Reservation is onhold. To avoid cancellation, pay before') !== false) {
+            // this is a valid PHP code, but why not doing it the laravel way?
+            //  more readable right?
+            // if (strpos($ticket_advisory, 'Reservation is onhold. To avoid cancellation, pay before') !== false) {
+            if (str($ticket_advisory)->contains('Reservation is onhold. To avoid cancellation, pay before')) {
                 return "هذا صحيح";
             }
         }
         return "يرجى مراجعة مكتب الاستعلامات";
     }
+
     #[Computed]
     public function count_passengers()
     {  
@@ -125,65 +136,99 @@ class EmptyPage extends Component
                 $count_passengersAdp = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1TPA_Extensions']['ns2AAAirReservationExt']['ns2ResSummary']['ns2PTCCounts']['ns2PTCCount'][0]['ns2PassengerTypeQuantity'];
                 $count_passengersChi = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1TPA_Extensions']['ns2AAAirReservationExt']['ns2ResSummary']['ns2PTCCounts']['ns2PTCCount'][1]['ns2PassengerTypeQuantity'];
                 $count_passengersAnf = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1TPA_Extensions']['ns2AAAirReservationExt']['ns2ResSummary']['ns2PTCCounts']['ns2PTCCount'][2]['ns2PassengerTypeQuantity'];
+                
                 $sum_passenger_counts = function($ptc_counts) {
-                $count = 0;
-                if (is_array($ptc_counts)) {
-                    foreach ($ptc_counts as $quantity) {
-                        $count += (int)$quantity;
-                    }
+                    $count = 0;
+                    if (is_array($ptc_counts)) {
+                        foreach ($ptc_counts as $quantity) {
+                            $count += (int)$quantity;
+                        }
                     } else {
                         $count += (int)$ptc_counts;
                     }
                     return $count;
                 };
-    
+        
                 // Sum up the quantities for each source
                 $this->total_count = $sum_passenger_counts($count_passengersAdp) +
-                               $sum_passenger_counts($count_passengersChi) +
-                               $sum_passenger_counts($count_passengersAnf);
-    
+                    $sum_passenger_counts($count_passengersChi) +
+                    $sum_passenger_counts($count_passengersAnf);
+
                 return $this->total_count;
-              
-                }
-            
-               
             }
+        }
     
         return 0; // If no advisory or other conditions aren't met
     }
+
     #[Computed]
     public function checkTravelersNationality()
     {
         // Ensure $this->total_count is set by calling count_passengers() first
         if (!isset($this->total_count)) {
             $this->count_passengers();
+            
         }
-    
         $travelers = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1TravelerInfo']['ns1AirTraveler'] ?? [];
-        $all_sy = true;
-        
+            // for traveller this array will have the key "@attributes"
+            if (array_key_exists('@attributes', $travelers)) {
+                // you will need to wrap it with another array like so
+                $travelers = [$travelers];
+            }
+    
+         
+            if (count($travelers) != $this->total_count) {
+                return "Mismatch between total count and travellers count";
+            }
+            
+            // dd($travelers);
+            $all_sy = true;
+            // for ($i = 0; $i <= $this->total_count; $i++) {
+            foreach ($travelers as $traveler) {
+                $doc_attributes = $traveler['ns1Document']['@attributes'] ?? [];
+                $nationality = $doc_attributes['DocHolderNationality'] ?? null;
+            
+                if ($nationality !== 'SY') {
+                    $all_sy = false;
+                    break;
+                }
+            }
+            // }
+            if ($all_sy) {
+                $destinationCheck = $this->checkDestination();
+                if ($destinationCheck) {
+                    return "هذه جنسية سورية ومسار الرحلة يشمل المواقع المحددة";
+                }
+                return "هذه جنسية سورية";
+            }
+            else {
+                return 'هذه الجنسية غير سورية';
+            }
       
-        if (count($travelers) !== $this->total_count) {
-           
-            return "Mismatch between total count and number of travelers";
-        }
     
-        foreach ($travelers as $traveler) {
-            $doc_attributes = $traveler['ns1Document']['@attributes'] ?? [];
-            $nationality = $doc_attributes['DocHolderNationality'] ?? null;
+    }
+    #[Computed]
+    public function checkDestination()
+    {
+        $destenaction = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1AirItinerary']['ns1OriginDestinationOptions']['ns1OriginDestinationOption'] ?? [];
+        $validCodes = ['DAM', 'LAK', 'KAC', 'ALP'];
     
-            if ($nationality !== 'SY') {
-                $all_sy = false;
-                break;
+        foreach ($destenaction as $option) {
+            $departureCode = $option['ns1FlightSegment']['ns1DepartureAirport']['@attributes']['LocationCode'] ?? null;
+            //$arrivalCode = $option['ns1FlightSegment']['ns1ArrivalAirport']['@attributes']['LocationCode'] ?? null;
+    
+            if (in_array($departureCode, $validCodes)) {
+                return "نعم الوجهة الى سورية";
             }
         }
     
-      
-        if ($all_sy) {
-            return "هذه جنسية سورية";
-        } else {
-            return $this->total_count;
-        }
+        return false;
+    }
+
+    public function test()
+    {
+        dd($this->dataArray);
+        dd($this->total_count, $this->count_passengers);
     }
     
   

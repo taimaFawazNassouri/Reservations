@@ -6,6 +6,7 @@
                 <p>{{ $this->ticket_advisory }}</p>
                 <p>{{ $this->count_passengers }}</p>
                 <p>{{ $this->checkTravelersNationality }}</p>
+                <p>{{ $this->checkDestination }}</p>
             </div>
         </div>
     @endif
@@ -20,6 +21,10 @@
     <!-- Button to Open the Modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">
         {{trans('reservations.inquiry_about_number')}}
+    </button>
+
+    <button type="button" class="btn btn-primary" wire:click.prevent="test">
+        test
     </button>
 
 

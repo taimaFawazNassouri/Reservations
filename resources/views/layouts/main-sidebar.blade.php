@@ -26,6 +26,7 @@
                         </a>
                         <ul id="elements" class="collapse" data-parent="#sidebarnav">
                             <li><a href="{{ route('reservations.index') }}">{{trans('main_trans.list_reservations')}}</a></li>
+                            <li><a href="{{ route('search.index') }}">{{trans('main_trans.search')}}</a></li>
                         </ul>
                     </li>
                     <!-- menu item calendar-->
