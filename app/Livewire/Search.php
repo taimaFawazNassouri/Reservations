@@ -10,6 +10,7 @@ use App\Models\Credential;
 use App\Models\Reservation;
 use GuzzleHttp\Psr7\Request;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -24,9 +25,16 @@ class Search extends Component
     public $adults = 1;
     public $children = 0;
     public $infants = 0;
- 
+
     public $dataArray = [];
     public $response = null;
+
+    public function mount(): void
+    {
+        $this->from = 'DAM';
+        $this->to = 'SHJ';
+    }
+
     public function submitted()
     {
         $client = new Client([
@@ -60,15 +68,15 @@ class Search extends Component
                         <ns1:DestinationLocation LocationCode="' . $this->to . '"/>
                     </ns1:OriginDestinationInformation>';
 
-                    if ($this->tripType === 'round-trip') {
-                     $body .= '
+        if ($this->tripType === 'round-trip') {
+            $body .= '
                     <ns1:OriginDestinationInformation>
                         <ns1:DepartureDateTime>' . $this->elReturnDate . 'T00:00:00.000</ns1:DepartureDateTime>
                         <ns1:OriginLocation LocationCode="' . $this->to . '"/>
                         <ns1:DestinationLocation LocationCode="' . $this->from . '"/>
                     </ns1:OriginDestinationInformation>';
-                    }
-                    $body .= '
+        }
+        $body .= '
                     <ns1:TravelerInfoSummary>
                         <ns1:AirTravelerAvail>
                             <ns1:PassengerTypeQuantity Code="ADT" Quantity="' . $this->adults . '"/>
@@ -81,35 +89,33 @@ class Search extends Component
         </soap:Envelope>';
 
 
-        \Log::info('SOAP Request: ' . $body);
+        Log::info('SOAP Request: ' . $body);
 
         try {
-            $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServicesForPay', [], $body);
+            $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
             $res = $client->sendAsync($request)->wait();
-            
+
             // Capture and store the response body
             $this->response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
-            \Log::info('SOAP Response: ' . $this->response);
+            Log::info('SOAP Response: ' . $this->response);
             dd($this->response);
         } catch (\Exception $e) {
             // Log the error for debugging
             $responseBody = $e->getResponse() ? (string) $e->getResponse()->getBody() : 'No response body';
-            \Log::error('SOAP Request Error: ' . $e->getMessage());
-            \Log::error('SOAP Request Error Body: ' . $responseBody);
+            Log::error('SOAP Request Error: ' . $e->getMessage());
+            Log::error('SOAP Request Error Body: ' . $responseBody);
             dd($e->getMessage(), $responseBody);
         }
     }
 
+    #[Computed]
+    public function loaded(): bool
+    {
+        return count($this->dataArray) > 0;
+    }
 
-   #[Computed]
-   public function loaded(): bool
-   {
-       return count($this->dataArray) > 0;
-   }
-   public function render()
-   {
-       return view('livewire.search');
-   }
-
-
+    public function render()
+    {
+        return view('livewire.search');
+    }
 }
