@@ -1,62 +1,79 @@
 <div>
     <div>
         @if ($this->loaded)
-        <div class="table-responsive">
-            <table id="datatable" class="table  table-hover table-sm table-bordered p-0"data-page-length="50"style="text-align: center">
-               <thead>
-                    <tr>
-                            
-                        <th>DepartureAirport</th>
-                        <th>ArrivalAirport</th>
-                        <th>DepartureDateTime</th>
-                        <th>ArrivalDateTime</th>
-                        <th>FlightNumber</th>
-                        <th>JourneyDuration</th>
-                        <th>TotalFareWithCCFee</th>
-                        <th>TotalEquivFareWithCCFee</th>
-                        <th>FareBasisCodes</th>
-                        <th>FareRuleReference</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                    <tr>
-                        <td>{{ $this->DepartureAirport }}</td>
-                        <td>{{ $this->ArrivalAirport}}</td>
-                        <td>{{ $this->DepartureDateTime}}</td>
-                        <td>{{ $this->ArrivalDateTime}}</td>
-                        <td>{{ $this->FlightNumber}}</td>
-                        <td>{{ $this->JourneyDuration}}</td>
-                        <td><a wire:click="toggleDropdown">{{ $this->TotalFareWithCCFee }}</a></td>
+            <div class="table-responsive">
+                <table id="datatable" class="table-hover table-sm table-bordered table p-0"data-page-length="50" style="text-align: center">
+                    <thead>
+                        <tr>
 
-                        <!-- Dropdown menu -->
-                        @if($isDropdownVisible)
-                        <div class="dropdown-content">
-                            <a href="#" wire:click.prevent="setBasis">BaseFare</a>
-                            
-                        </div>
-                        @endif
-                    
-                        <!-- Display selected option and its details -->
-                        @if($selectedOption)
-                        <div class="selected-details">
-                            <p><strong>Details:</strong> {{ $this->Basis }}</p>
-                        </div>
-                        @endif
-                       
-                        <td>{{ $this->TotalEquivFareWithCCFee}}</td>
-                        <td>{{ $this->FareBasisCodes}}</td>
-                        <td>{{ $this->FareRuleReference}}</td>
-    
-    
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                            <th>DepartureAirport</th>
+                            <th>ArrivalAirport</th>
+                            <th>DepartureDateTime</th>
+                            <th>ArrivalDateTime</th>
+                            <th>FlightNumber</th>
+                            <th>JourneyDuration</th>
+                            <th>TotalFareWithCCFee</th>
+                            <th>TotalEquivFareWithCCFee</th>
+                            <th>FareBasisCodes</th>
+                            <th>FareRuleReference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>{{ $this->DepartureAirport }}</td>
+                            <td>{{ $this->ArrivalAirport }}</td>
+                            <td>{{ $this->DepartureDateTime }}</td>
+                            <td>{{ $this->ArrivalDateTime }}</td>
+                            <td>{{ $this->FlightNumber }}</td>
+                            <td>{{ $this->JourneyDuration }}</td>
+                            <td>
+                                {{-- <a wire:click="toggleDropdown">{{ $this->TotalFareWithCCFee }}</a> --}}
+
+                                <x-dropdown align="right" width="48">
+                                    <x-slot name="trigger">
+                                        <div class="group dark:hover:bg-gray-900 hover:bg-gray-100 flex items-center gap-1 p-1 transition duration-300 rounded-full cursor-pointer" :class="{ 'dark:bg-gray-900 bg-gray-100': open }">
+                                            {{ $this->TotalFareWithCCFee }}
+                                        </div>
+                                    </x-slot>
+
+                                    <x-slot name="content">
+                                        <button wire:click="setBasis" class="text-start w-full bg-white border-0">
+                                            <x-dropdown-link>
+                                                BaseFare
+                                            </x-dropdown-link>
+                                        </button>
+                                    </x-slot>
+                                </x-dropdown>
+                            </td>
+
+                            <!-- Dropdown menu -->
+                            {{-- @if ($isDropdownVisible)
+                                <div class="dropdown-content">
+                                    <a href="#" wire:click.prevent="setBasis">BaseFare</a>
+                                </div>
+                            @endif --}}
+
+                            <!-- Display selected option and its details -->
+                            @if ($selectedOption)
+                                <div class="selected-details">
+                                    <p><strong>Details:</strong> {{ $this->Basis }}</p>
+                                </div>
+                            @endif
+
+                            <td>{{ $this->TotalEquivFareWithCCFee }}</td>
+                            <td>{{ $this->FareBasisCodes }}</td>
+                            <td>{{ $this->FareRuleReference }}</td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         @endif
     </div>
-    <div class="form-container"  x-data="{ isVisible: true }" x-init="window.addEventListener('hideForm', () => {isVisible = false;})">
-        
+    <div class="form-container" x-data="{ isVisible: true }" x-init="window.addEventListener('hideForm', () => { isVisible = false; })">
+
         {{-- @if ($response)
             <div class="flex flex-col gap-6">
                 <div>
@@ -73,7 +90,7 @@
                     <button type="button" id="one-way" wire:click.prevent="$set('tripType','one-way')" class="{{ $tripType === 'one-way' ? 'active' : '' }}">ONE WAY</button>
                 </div>
             </div>
-           
+
             <div class="form-row">
                 <div class="form-group">
                     <label for="from">FROM*</label>
@@ -123,10 +140,10 @@
                         <input type="date" id="return-date" wire:model="elReturnDate">
                     </div>
                 @endif
-               
-               
 
-               
+
+
+
             </div>
             <div class="form-row">
                 <div class="form-group">
