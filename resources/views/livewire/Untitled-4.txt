@@ -1,70 +1,23 @@
 <div>
-    <div>
-        @if ($this->loaded)
-        <div class="table-responsive">
-            <table id="datatable" class="table  table-hover table-sm table-bordered p-0"data-page-length="50"style="text-align: center">
-               <thead>
-                    <tr>
-                            
-                        <th>DepartureAirport</th>
-                        <th>ArrivalAirport</th>
-                        <th>DepartureDateTime</th>
-                        <th>ArrivalDateTime</th>
-                        <th>FlightNumber</th>
-                        <th>JourneyDuration</th>
-                        <th>TotalFareWithCCFee</th>
-                        <th>TotalEquivFareWithCCFee</th>
-                        <th>FareBasisCodes</th>
-                        <th>FareRuleReference</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                    <tr>
-                        <td>{{ $this->DepartureAirport }}</td>
-                        <td>{{ $this->ArrivalAirport}}</td>
-                        <td>{{ $this->DepartureDateTime}}</td>
-                        <td>{{ $this->ArrivalDateTime}}</td>
-                        <td>{{ $this->FlightNumber}}</td>
-                        <td>{{ $this->JourneyDuration}}</td>
-                        <td><a wire:click="toggleDropdown">{{ $this->TotalFareWithCCFee }}</a></td>
-
-                        <!-- Dropdown menu -->
-                        @if($isDropdownVisible)
-                        <div class="dropdown-content">
-                            <a href="#" wire:click.prevent="setBasis">BaseFare</a>
-                            
-                        </div>
-                        @endif
-                    
-                        <!-- Display selected option and its details -->
-                        @if($selectedOption)
-                        <div class="selected-details">
-                            <p><strong>Details:</strong> {{ $this->Basis }}</p>
-                        </div>
-                        @endif
-                       
-                        <td>{{ $this->TotalEquivFareWithCCFee}}</td>
-                        <td>{{ $this->FareBasisCodes}}</td>
-                        <td>{{ $this->FareRuleReference}}</td>
-    
-    
-                    </tr>
-                </tbody>
-            </table>
+    <div class="form-container">
+        <h2>FIND YOUR FLIGHT</h2>
+        {{-- @if ($this->loaded)
+        <div class="flex flex-col gap-6">
+            <div>
+                <span>البطاقة</span>
+                <p>{{ $this->$response }}</p>
+            
+            </div>
         </div>
-        @endif
-    </div>
-    <div class="form-container"  x-data="{ isVisible: true }" x-init="window.addEventListener('hideForm', () => {isVisible = false;})">
-        
-        {{-- @if ($response)
+        @endif --}}
+        @if ($response)
             <div class="flex flex-col gap-6">
                 <div>
                     <p>{{ $response }}</p>
                 </div>
             </div>
-        @endif --}}
-        <form x-show="isVisible" wire:submit.prevent="submitted">
+        @endif
+        <form wire:submit.prevent="submitted">
             <div class="trip-type-container">
                 <div class="trip-back">
                     <button type="button" id="round-trip" wire:click.prevent="$set('tripType','round-trip')" class="{{ $tripType === 'round-trip' ? 'active' : '' }}">ROUND TRIP</button>
@@ -115,23 +68,20 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="depart-date">DEPART DATE*</label>
-                    <input type="date" id="depart-date" wire:model="selDepartureDate">
+                    <input type="date"  placeholder="YYYY/MM/DD" id="depart-date" wire:model="selDepartureDate">
                 </div>
                 @if ($tripType === 'round-trip')
                     <div class="form-group" id="return_date">
                         <label for="return-date">RETURN DATE*</label>
-                        <input type="date" id="return-date" wire:model="elReturnDate">
+                        <input type="date"  placeholder="YYYY/MM/DD" id="return-date" wire:model="elReturnDate">
                     </div>
                 @endif
-               
-               
-
-               
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <input type="checkbox" id="flexible-dates" wire:model="flexibleDates">
-                    <label for="flexible-dates" class="below-checkbox-label">+/- 3 days</label>
+                    <input type="checkbox" id="flexible-dates" class="checkbox" wire:model="flexibleDates">
+
+                    <label for="flexible-dates" class="checklabel">+/- 3 days</label>
                 </div>
             </div>
             <div class="form-row">
@@ -169,16 +119,7 @@
                 <div class="form-group">
                     <label for="infants">INFANTS</label>
                     <select id="infants" wire:model="infants">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
+                      <!-- Options will be dynamically populated by JavaScript -->
                     </select>
                 </div>
                 <div class="form-group">

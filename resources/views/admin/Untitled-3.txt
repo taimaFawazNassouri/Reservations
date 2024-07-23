@@ -1,0 +1,84 @@
+"
+
+<soapEnvelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <soapBody xmlns:ns1="http://www.opentravel.org/OTA/2003/05">
+       <ns1OTA_AirAvailRS EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" RetransmissionIndicator="false" SequenceNmbr="1" TransactionIdentifier="TID$1721675224441606052.demo2018" Version="2006.01">
+           <ns1Success />
+           <ns1Warnings />
+           <ns1OriginDestinationInformation SameAirportInd="false">
+               <ns1DepartureDateTime CrossDateAllowedIndicator="false">2024-08-25T00:15:00</ns1DepartureDateTime>
+               <ns1ArrivalDateTime CrossDateAllowedIndicator="false">2024-08-25T04:30:00</ns1ArrivalDateTime>
+               <ns1OriginLocation AlternateLocationInd="false" LocationCode="DAM" MultiAirportCityInd="false">Damascus International Airport</ns1OriginLocation>
+               <ns1DestinationLocation AlternateLocationInd="false" LocationCode="SHJ" MultiAirportCityInd="false">Sharjah International Airport</ns1DestinationLocation>
+               <ns1OriginDestinationOptions>
+                   <ns1OriginDestinationOption>
+                       <ns1FlightSegment ArrivalDateTime="2024-08-25T04:30:00" DepartureDateTime="2024-08-25T00:15:00" FlightNumber="6Q745" JourneyDuration="PT3H15M0.000S" RPH="6Q$DAM/SHJ$117115$20240825001500$20240825043000" SmokingAllowed="false" returnFlag="false">
+                           <ns1DepartureAirport LocationCode="DAM" Terminal="TerminalX" />
+                           <ns1ArrivalAirport LocationCode="SHJ" />
+                       </ns1FlightSegment>
+                   </ns1OriginDestinationOption>
+               </ns1OriginDestinationOptions>
+           </ns1OriginDestinationInformation>
+           <ns1AAAirAvailRSExt>
+               <ns1PricedItineraries>
+                   <ns1PricedItinerary SequenceNumber="1">
+                       <ns1AirItinerary>
+                           <ns1OriginDestinationOptions>
+                               <ns1OriginDestinationOption>
+                                   <ns1FlightSegment ArrivalDateTime="2024-08-25T04:30:00" DepartureDateTime="2024-08-25T00:15:00" FlightNumber="6Q745" RPH="6Q$DAM/SHJ$117115$20240825001500$20240825043000" returnFlag="false">
+                                       <ns1DepartureAirport LocationCode="DAM" Terminal="TerminalX" />
+                                       <ns1ArrivalAirport LocationCode="SHJ" />
+                                   </ns1FlightSegment>
+                               </ns1OriginDestinationOption>
+                           </ns1OriginDestinationOptions>
+                       </ns1AirItinerary>
+                       <ns1AirItineraryPricingInfo PricingSource="Published">
+                           <ns1ItinTotalFare NegotiatedFare="false">
+                               <ns1BaseFare Amount="485.00" CurrencyCode="USD" DecimalPlaces="2" />
+                               <ns1TotalFare Amount="600.84" CurrencyCode="USD" DecimalPlaces="2" />
+                               <ns1TotalEquivFare Amount="7548300.00" CurrencyCode="SYP" DecimalPlaces="2" />
+                               <ns1TotalFareWithCCFee Amount="600.84" CurrencyCode="USD" DecimalPlaces="2" />
+                               <ns1TotalEquivFareWithCCFee Amount="7548300.00" CurrencyCode="SYP" DecimalPlaces="2" />
+                           </ns1ItinTotalFare>
+                           <ns1PTC_FareBreakdowns>
+                               <ns1PTC_FareBreakdown PricingSource="Published">
+                                   <ns1PassengerTypeQuantity Age="0" Code="ADT" Quantity="1" />
+                                   <ns1FareBasisCodes>
+                                       <ns1FareBasisCode>P</ns1FareBasisCode>
+                                       <ns1FareBasisCode>YOWSY1</ns1FareBasisCode>
+                                   </ns1FareBasisCodes>
+                                   <ns1PassengerFare NegotiatedFare="false">
+                                       <ns1BaseFare Amount="485.00" CurrencyCode="USD" DecimalPlaces="2" />
+                                       <ns1Taxes>
+                                           <ns1Tax Amount="3.00" CurrencyCode="USD" DecimalPlaces="2" TaxCode="SC" TaxName="SCAA Security Charge" />
+                                           <ns1Tax Amount="0.85" CurrencyCode="USD" DecimalPlaces="2" TaxCode="LM" TaxName="Syria Local Municipility" />
+                                           <ns1Tax Amount="1.49" CurrencyCode="USD" DecimalPlaces="2" TaxCode="FY" TaxName="(FY) Syria Departure Tax" />
+                                           <ns1Tax Amount="1.14" CurrencyCode="USD" DecimalPlaces="2" TaxCode="CBS" TaxName="Central Bank of Syria Audit Fe" />
+                                           <ns1Tax Amount="1.36" CurrencyCode="USD" DecimalPlaces="2" TaxCode="ZR" TaxName="Advanced Passenger Information" />
+                                           <ns1Tax Amount="0.02" CurrencyCode="USD" DecimalPlaces="2" TaxCode="LF" TaxName="Labor Fee" />
+                                           <ns1Tax Amount="16.98" CurrencyCode="USD" DecimalPlaces="2" TaxCode="SY1" TaxName="Syria Sales Tax" />
+                                           <ns1Tax Amount="6.00" CurrencyCode="USD" DecimalPlaces="2" TaxCode="YRSHJO" TaxName="YRSHJO" />
+                                       </ns1Taxes>
+                                       <ns1Fees>
+                                           <ns1Fee Amount="50.00" CurrencyCode="USD" DecimalPlaces="2" FeeCode="YQ11/Cham Wings Surcharge" />
+                                           <ns1Fee Amount="30.00" CurrencyCode="USD" DecimalPlaces="2" FeeCode="RB04/RB04 RB Royalty" />
+                                           <ns1Fee Amount="5.00" CurrencyCode="USD" DecimalPlaces="2" FeeCode="RBSUM01/RB Summer Surcharge" />
+                                       </ns1Fees>
+                                       <ns1TotalFare Amount="600.84" CurrencyCode="USD" DecimalPlaces="2" />
+                                   </ns1PassengerFare>
+                                   <ns1TravelerRefNumber RPH="A1" />
+                                   <ns1FareInfo CurrencyCode="USD" FareBasisCode="YOWSY1" FareRuleInfo="SHJ01" NegotiatedFare="false" ResBookDesigCode="OO5" SegmentCode="DAM/SHJ" adultFare="485">
+                                       <ns1FareRuleReference>Penalties (Per Sector): Modification free + Any fare difference. Refund before departure: USD 50,  No-Show: USD 100 . Changes or Refund within 24 Hrs will be considered as a No Show. Baggage allowance 30 Kgs &amp; Handbag 7 Kgs. Excess Baggage: DAM/SHJ = SYP 55000   per 1KG</ns1FareRuleReference>
+                                   </ns1FareInfo>
+                               </ns1PTC_FareBreakdown>
+                           </ns1PTC_FareBreakdowns>
+                       </ns1AirItineraryPricingInfo>
+                   </ns1PricedItinerary>
+               </ns1PricedItineraries>
+           </ns1AAAirAvailRSExt>
+           <ns1Errors />
+       </ns1OTA_AirAvailRS>
+   </soapBody>
+</soapEnvelope>
+ ◀
+" // app\Livewire\Search.php:101
