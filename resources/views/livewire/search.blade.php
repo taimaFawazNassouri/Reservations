@@ -27,23 +27,49 @@
                         <td>{{ $this->ArrivalDateTime}}</td>
                         <td>{{ $this->FlightNumber}}</td>
                         <td>{{ $this->JourneyDuration}}</td>
-                        <td><a wire:click="toggleDropdown">{{ $this->TotalFareWithCCFee }}</a></td>
+                        <td>
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <div class="group dark:hover:bg-gray-900 hover:bg-gray-100 flex items-center gap-1 p-1 transition duration-300 rounded-full cursor-pointer" :class="{ 'dark:bg-gray-900 bg-gray-100': open }">
+                                        {{ $this->TotalFareWithCCFee }}
+                                    </div>
+                                </x-slot>
+    
+                                 <x-slot name="content">
+                                    <button wire:click="setBasis" class="text-start w-full bg-white border-0">
+                                        <x-dropdown-link>
+                                            BaseFare
+                                        </x-dropdown-link>
+                                    </button>
+                                      <!-- Button to select Taxes -->
+                                    <button wire:click="setTaxes" class="text-start w-full bg-white border-0">
+                                        <x-dropdown-link>
+                                            Taxes
+                                        </x-dropdown-link>
+                                    </button>
+                                </x-slot>
+                            </x-dropdown>
+                        </td>
 
-                        <!-- Dropdown menu -->
-                        @if($isDropdownVisible)
-                        <div class="dropdown-content">
-                            <a href="#" wire:click.prevent="setBasis">BaseFare</a>
-                            
-                        </div>
-                        @endif
-                    
-                        <!-- Display selected option and its details -->
-                        @if($selectedOption)
+                        @if ($selectedOption)
                         <div class="selected-details">
                             <p><strong>Details:</strong> {{ $this->Basis }}</p>
+                            @if (!empty($this->taxes))
+                                @foreach ($this->taxes as $index => $taxDetail)
+                                   <div>
+                                        <p wire:click="toggleTaxDetail({{ $index }})" class="cursor-pointer">
+                                                <strong>Show Tax Detail {{ $index + 1 }}</strong>
+                                        </p>
+                                        @if (!empty($this->expandedTaxDetails[$index]) && $this->expandedTaxDetails[$index])
+                                            <div class="ml-4">
+                                                <p>{{ $taxDetail }}</p> <!-- Display more detailed information here -->
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                         @endif
-                       
                         <td>{{ $this->TotalEquivFareWithCCFee}}</td>
                         <td>{{ $this->FareBasisCodes}}</td>
                         <td>{{ $this->FareRuleReference}}</td>

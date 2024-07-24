@@ -27,8 +27,8 @@ class Search extends Component
     public $infants = 0;
     public $flexibleDates;
     public $isDropdownVisible = false;
-    public $selectedOption = null;
-
+    public $selectedOption=null;
+    public $expandedTaxDetails = [];
     public $dataArray = [];
     public $response = null;
 
@@ -107,7 +107,7 @@ class Search extends Component
         $body = $xml->xpath('//soapBody')[0];
         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
         $this->dispatch('hideForm');
-       // dd( $this->dataArray);
+       //dd( $this->dataArray);
 
         // try {
         //     $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
@@ -256,10 +256,58 @@ class Search extends Component
         ? "Amount: {$amount}, CurrencyCode: {$currencyCode}, DecimalPlaces: {$decimalPlaces}" 
         : null;
     }
-    public function setBasis(){
-        $this->Basis;
+    #[Computed]
+    public function taxes()
+    {
+        // Extract the ns1Taxes array
+        $taxes = $this->dataArray['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1PTC_FareBreakdowns']['ns1PTC_FareBreakdown']['ns1PassengerFare']['ns1Taxes']['ns1Tax'] ?? [];
+
+       // Check if taxes array is empty and return null if so
+       if (empty($taxes)) {
+         return null;
+       }
+
+      // Prepare to collect formatted tax details
+        $taxDetails = [];
+
+       // Iterate over each tax and format the details
+        foreach ($taxes as $tax) {
+          $attributes = $tax['@attributes'] ?? [];
+          $amount = $attributes['Amount'] ?? 'N/A';
+          $currencyCode = $attributes['CurrencyCode'] ?? 'N/A';
+          $decimalPlaces = $attributes['DecimalPlaces'] ?? 'N/A';
+          $taxCode = $attributes['TaxCode'] ?? 'N/A';
+          $taxName = $attributes['TaxName'] ?? 'N/A';
+
+          // Add formatted tax information to the array
+          $taxDetails[] = "Amount: {$amount}, CurrencyCode: {$currencyCode}, DecimalPlaces: {$decimalPlaces}, TaxCode: {$taxCode}, TaxName: {$taxName}";
+        }
+
+        // Return the joined string of all tax details for the current output format
+        return $taxDetails;
+
+    
     }
- 
+
+
+    public function setBasis(){
+        $this->selectedOption =$this->Basis();
+    }
+    
+    public function setTaxes()
+    {
+        $this->selectedOption= $this->taxes();// Store the option type, not the data itself
+    }
+    public function toggleTaxDetail($index)
+    {
+        // Initialize the index if not already set
+        if (!isset($this->expandedTaxDetails[$index])) {
+            $this->expandedTaxDetails[$index] = false;
+        }
+
+        // Toggle the visibility of the specific tax detail
+        $this->expandedTaxDetails[$index] = !$this->expandedTaxDetails[$index];
+    }
     public function render()
     {
         return view('livewire.search');
