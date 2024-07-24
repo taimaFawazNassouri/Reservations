@@ -308,6 +308,7 @@ class Search extends Component
         // Toggle the visibility of the specific tax detail
         $this->expandedTaxDetails[$index] = !$this->expandedTaxDetails[$index];
     }
+  
     public function render()
     {
         return view('livewire.search');

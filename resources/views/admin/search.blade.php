@@ -101,15 +101,15 @@
             /* Normalize font weight */
         }
         .dropdown-content {
-    display: block; /* Ensure dropdown content is visible when condition is met */
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+        display: block; /* Ensure dropdown content is visible when condition is met */
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        }
 
 /* Dropdown links */
 .dropdown-content a {
@@ -127,8 +127,15 @@
 /* Styles for selected details */
 .selected-details {
     margin-top: 10px;
-}
-
+      }
+       .checkbox{
+           margin-right: -270px;
+           margin-top: -270px;
+        }
+        .checklabel{
+          margin-top: -35px;
+          margin-right: 30px;
+        }
         
     </style>
 @endsection
@@ -175,6 +182,33 @@
     console.log('hideForm event received');
     isVisible = false;
     });
+   
+    document.addEventListener('DOMContentLoaded', function () {
+    const adultsSelect = document.getElementById('adults');
+    const infantsSelect = document.getElementById('infants');
+
+    function updateInfantsOptions(maxInfants) {
+        // Clear existing options
+        infantsSelect.innerHTML = '';
+
+        // Add new options based on maxInfants
+        for (let i = 0; i <= maxInfants; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            infantsSelect.appendChild(option);
+        }
+    }
+
+    // Initialize options on page load
+    updateInfantsOptions(adultsSelect.value);
+
+    // Update options when adults value changes
+    adultsSelect.addEventListener('change', function () {
+        updateInfantsOptions(adultsSelect.value);
+    });
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
       
 
