@@ -2,6 +2,7 @@
 <script src="{{ URL::asset('assets/js/jquery-3.3.1.min.js') }}"></script>
 <!-- plugins-jquery -->
 <script src="{{ URL::asset('assets/js/plugins-jquery.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- plugin_path -->
 <script type="text/javascript">
     var plugin_path = '{{ asset('assets/js') }}/';

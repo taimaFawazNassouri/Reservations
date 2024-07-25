@@ -13,6 +13,7 @@ use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class Search extends Component
 {
@@ -29,13 +30,19 @@ class Search extends Component
     public $isDropdownVisible = false;
     public $selectedOption=null;
     public $expandedTaxDetails = [];
+    public $expandedFeeDetails = [];
     public $dataArray = [];
     public $response = null;
+    public $username;
+    public $password;
 
     public function mount(): void
     {
         $this->from = 'DAM';
         $this->to = 'SHJ';
+        $credentials = Credential::find(1);
+        $this->username = $credentials->user_name;
+        $this->password = $credentials->password;
     }
 
     public function submitted()
@@ -59,8 +66,8 @@ class Search extends Component
             <soap:Header>
                 <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
                     <wsse:UsernameToken wsu:Id="UsernameToken-17855236" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-                        <wsse:Username>WSALHARAMPAY</wsse:Username>
-                        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">1234pass</wsse:Password>
+                        <wsse:Username>' . $this->username .'</wsse:Username>
+                        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">'. $this->password .'</wsse:Password>
                     </wsse:UsernameToken>
                 </wsse:Security>
             </soap:Header>
@@ -68,7 +75,7 @@ class Search extends Component
                 <ns1:OTA_AirAvailRQ EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="' . date('Y-m-d\TH:i:s') . '" Version="20061.00" Target="TEST">
                     <ns1:POS>
                         <ns1:Source TerminalID="TestUser/Test Runner">
-                            <ns1:RequestorID ID="WSALHARAMPAY" Type="4"/>
+                            <ns1:RequestorID ID="'. $this->username .'" Type="4"/>
                             <ns1:BookingChannel Type="12"/>
                         </ns1:Source>
                     </ns1:POS>
@@ -107,7 +114,7 @@ class Search extends Component
         $body = $xml->xpath('//soapBody')[0];
         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
         $this->dispatch('hideForm');
-       //dd( $this->dataArray);
+        //dd( $this->dataArray);
 
         // try {
         //     $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
@@ -178,7 +185,13 @@ class Search extends Component
     public function TransactionIdentifier()
     { 
         $TransactionIdentifier = $this->dataArray['ns1OTA_AirAvailRS']['@attributes']['TransactionIdentifier']?? null;
-        return $TransactionIdentifier ? str($TransactionIdentifier)->squish()->toString() : null;
+        if ($TransactionIdentifier) {
+            // Use str_replace to replace 'DEMO' with 'demo'
+            $TransactionIdentifier = str_replace('DEMO', 'demo', $TransactionIdentifier);
+            return str($TransactionIdentifier)->squish()->toString();
+        }
+    
+        return null;
     }
     #[Computed]
     public function RPH()
@@ -263,9 +276,9 @@ class Search extends Component
         $taxes = $this->dataArray['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1PTC_FareBreakdowns']['ns1PTC_FareBreakdown']['ns1PassengerFare']['ns1Taxes']['ns1Tax'] ?? [];
 
        // Check if taxes array is empty and return null if so
-       if (empty($taxes)) {
+        if (empty($taxes)) {
          return null;
-       }
+        }
 
       // Prepare to collect formatted tax details
         $taxDetails = [];
@@ -288,6 +301,38 @@ class Search extends Component
 
     
     }
+     #[Computed]
+    public function fees()
+    {
+         // Extract the ns1Taxes array
+        $fees = $this->dataArray['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1PTC_FareBreakdowns']['ns1PTC_FareBreakdown']['ns1PassengerFare']['ns1Fees']['ns1Fee'] ?? [];
+ 
+        // Check if taxes array is empty and return null if so
+        if (empty($fees)) {
+          return null;
+        }
+ 
+       // Prepare to collect formatted tax details
+        $feeDetails = [];
+ 
+        // Iterate over each tax and format the details
+        foreach ($feeDetails as $fee) {
+           $attributes = $fee['@attributes'] ?? [];
+           $amount = $attributes['Amount'] ?? 'N/A';
+           $currencyCode = $attributes['CurrencyCode'] ?? 'N/A';
+           $decimalPlaces = $attributes['DecimalPlaces'] ?? 'N/A';
+           $feeCode = $attributes['FeeCode'] ?? 'N/A';
+         
+ 
+           // Add formatted tax information to the array
+           $feeDetails[] = "Amount: {$amount}, CurrencyCode: {$currencyCode}, DecimalPlaces: {$decimalPlaces}, FeeCode: {$feeCode}";
+        }
+        // dd($feeDetails);
+         // Return the joined string of all tax details for the current output format
+        return $feeDetails;
+ 
+     
+    }
 
 
     public function setBasis(){
@@ -297,6 +342,10 @@ class Search extends Component
     public function setTaxes()
     {
         $this->selectedOption= $this->taxes();// Store the option type, not the data itself
+    }
+    public function setFees()
+    {
+        $this->selectedOption= $this->fees();// Store the option type, not the data itself
     }
     public function toggleTaxDetail($index)
     {
@@ -308,7 +357,38 @@ class Search extends Component
         // Toggle the visibility of the specific tax detail
         $this->expandedTaxDetails[$index] = !$this->expandedTaxDetails[$index];
     }
+    public function toggleFeeDetail($index)
+    {
+        // Initialize the index if not already set
+        if (!isset($this->expandedFeeDetails[$index])) {
+            $this->expandedFeeDetails[$index] = false;
+        }
+
+        // Toggle the visibility of the specific tax detail
+        $this->expandedFeeDetails[$index] = !$this->expandedFeeDetails[$index];
+    }
   
+    public function showDetails()
+    {
+        Session::put('fare_basis_codes', $this->FareBasisCodes);
+        Session::put('fare_rule_reference', $this->FareRuleReference);
+        Session::put('DepartureAirport', $this->DepartureAirport);
+        Session::put('ArrivalAirport', $this->ArrivalAirport);
+        Session::put('DepartureDateTime', $this->DepartureDateTime);
+        Session::put('ArrivalDateTime', $this->ArrivalDateTime);
+        Session::put('FlightNumber', $this->FlightNumber);
+        Session::put('TotalFareWithCCFee', $this->TotalFareWithCCFee);
+        Session::put('TotalEquivFareWithCCFee', $this->TotalEquivFareWithCCFee);
+        Session::put('TransactionIdentifier', $this->TransactionIdentifier);
+        Session::put('RPH', $this->RPH);
+
+        return redirect()->route('details'); // Make sure to define a route named 'details'
+    }
+    public function test()
+    {
+        dd($this->dataArray);
+    }
+    
     public function render()
     {
         return view('livewire.search');

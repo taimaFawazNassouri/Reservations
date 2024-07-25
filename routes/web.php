@@ -40,6 +40,9 @@ Route::group(
         Route::resource('reservations', ReservationController::class);
 
         Route::resource('search', SearchController::class);
+        Route::get('/details', function () {
+            return view('admin.details');
+        })->name('details');
 
         Route::middleware('auth')->group(function () {
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

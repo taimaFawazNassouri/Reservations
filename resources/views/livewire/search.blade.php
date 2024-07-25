@@ -2,6 +2,9 @@
         <div>
             @if ($this->loaded)
             <div class="table-responsive">
+                <button type="button" class="btn btn-primary" wire:click.prevent="test">
+                    test
+                </button>
                 <table id="datatable" class="table  table-hover table-sm table-bordered p-0"data-page-length="50"style="text-align: center">
                    <thead>
                         <tr>
@@ -47,6 +50,11 @@
                                                 Taxes
                                             </x-dropdown-link>
                                         </button>
+                                        <button wire:click="setFees" class="text-start w-full bg-white border-0">
+                                            <x-dropdown-link>
+                                                Fees
+                                            </x-dropdown-link>
+                                        </button>
                                     </x-slot>
                                 </x-dropdown>
                             </td>
@@ -68,10 +76,24 @@
                                         </div>
                                     @endforeach
                                 @endif
+                                @if (!empty($this->fees))
+                                    @foreach ($this->fees as $index => $feeDetail)
+                                       <div>
+                                            <p wire:click="toggleFeeDetail({{ $index }})" class="cursor-pointer">
+                                                    <strong>Show Fee Detail {{ $index + 1 }}</strong>
+                                            </p>
+                                            @if (!empty($this->expandedFeeDetails[$index]) && $this->expandedFeeDetails[$index])
+                                                <div class="ml-4">
+                                                    <p>{{ $feeDetail }}</p> <!-- Display more detailed information here -->
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                             @endif
-                            <td>{{ $this->TotalEquivFareWithCCFee}}</td>
-                            <td>{{ $this->FareBasisCodes}}</td>
+                            <td wire:click.prevent="showDetails">{{ $this->TotalEquivFareWithCCFee}}</td>
+                            <td>{{ $this->TransactionIdentifier}}</td>
                             <td>{{ $this->FareRuleReference}}</td>
         
         
@@ -81,6 +103,7 @@
             </div>
             @endif
         </div>
+      
         <div class="form-container"  x-data="{ isVisible: true }" x-init="window.addEventListener('hideForm', () => {isVisible = false;})">
             
             {{-- @if ($response)
