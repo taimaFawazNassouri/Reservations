@@ -93,7 +93,7 @@
                             </div>
                             @endif
                             <td wire:click.prevent="showDetails">{{ $this->TotalEquivFareWithCCFee}}</td>
-                            <td>{{ $this->TransactionIdentifier}}</td>
+                            <td>{{ $this->FareBasisCodes}}</td>
                             <td>{{ $this->FareRuleReference}}</td>
         
         

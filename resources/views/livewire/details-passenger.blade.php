@@ -15,10 +15,10 @@
                 <label for="title" class="form-label">Title *</label>
                 <select wire:model="title" id="title" class="form-control" required>
                     <option value=""  selected>Select your title</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Ms">Ms</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Dr">Dr</option>
+                    <option value="MR">Mr</option>
+                    <option value="MS">Ms</option>
+                    <option value="MRS">Mrs</option>
+                    <option value="DR">Dr</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -35,7 +35,30 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="nationality" class="form-label">Nationality *</label>
-                <input wire:model="nationality" type="text" id="nationality" class="form-control" required>
+                <select wire:model="nationality" id="nationality" class="form-control" required>
+                    <option value="" disabled selected></option>
+                    <option value="United States" data-code="+1">United States</option>
+                    <option value="Canada" data-code="+1">Canada</option>
+                    <option value="United Kingdom" data-code="+44">United Kingdom</option>
+                    <option value="Australia" data-code="+61">Australia</option>
+                    <option value="India" data-code="+91">India</option>
+                    <option value="Germany" data-code="+49">Germany</option>
+                    <option value="France" data-code="+33">France</option>
+                    <option value="Japan" data-code="+81">Japan</option>
+                    <option value="Brazil" data-code="+55">Brazil</option>
+                    <option value="China" data-code="+86">China</option>
+                    <option value="Mexico" data-code="+52">Mexico</option>
+                    <option value="Italy" data-code="+39">Italy</option>
+                    <option value="South Africa" data-code="+27">South Africa</option>
+                    <option value="Russia" data-code="+7">Russia</option>
+                    <option value="South Korea" data-code="+82">South Korea</option>
+                    <option value="Turkey" data-code="+90">Turkey</option>
+                    <option value="Saudi Arabia" data-code="+966">Saudi Arabia</option>
+                    <option value="United Arab Emirates" data-code="+971">United Arab Emirates</option>
+                    <option value="Argentina" data-code="+54">Argentina</option>
+                    <option value="Indonesia" data-code="+62">Indonesia</option>
+                        <!-- Add more countries as needed -->
+                </select>
             </div>
             <div class="col-md-6">
                 <label for="dob" class="form-label">Date of Birth *</label>
@@ -52,29 +75,29 @@
             <div class="col-md-4">
                 <label for="passportCountry" class="form-label">Passport Issued Country *</label>
                 <select wire:model="passport_issued_country" id="passportCountry" class="form-control" required>
-                        <option value="" disabled selected></option>
-                        <option wire:model="passport_issued_country" value="United States" data-code="+1">United States</option>
-                        <option wire:model="passport_issued_country" value="Canada" data-code="+1">Canada</option>
-                        <option wire:model="passport_issued_country" value="United Kingdom" data-code="+44">United Kingdom</option>
-                        <option wire:model="passport_issued_country" value="Australia" data-code="+61">Australia</option>
-                        <option wire:model="passport_issued_country" value="India" data-code="+91">India</option>
-                        <option wire:model="passport_issued_country" value="Germany" data-code="+49">Germany</option>
-                        <option wire:model="passport_issued_country" value="France" data-code="+33">France</option>
-                        <option wire:model="passport_issued_country" value="Japan" data-code="+81">Japan</option>
-                        <option wire:model="passport_issued_country" value="Brazil" data-code="+55">Brazil</option>
-                        <option wire:model="passport_issued_country" value="China" data-code="+86">China</option>
-                        <option wire:model="passport_issued_country" value="Mexico" data-code="+52">Mexico</option>
-                        <option wire:model="passport_issued_country" value="Italy" data-code="+39">Italy</option>
-                        <option wire:model="passport_issued_country" value="South Africa" data-code="+27">South Africa</option>
-                        <option wire:model="passport_issued_country" value="Russia" data-code="+7">Russia</option>
-                        <option wire:model="passport_issued_country" value="South Korea" data-code="+82">South Korea</option>
-                        <option wire:model="passport_issued_country" value="Turkey" data-code="+90">Turkey</option>
-                        <option wire:model="passport_issued_country" value="Saudi Arabia" data-code="+966">Saudi Arabia</option>
-                        <option wire:model="passport_issued_country" value="United Arab Emirates" data-code="+971">United Arab Emirates</option>
-                        <option wire:model="passport_issued_country" value="Argentina" data-code="+54">Argentina</option>
-                        <option wire:model="passport_issued_country" value="Indonesia" data-code="+62">Indonesia</option>
+                    <option value="" disabled selected></option>
+                    <option value="United States" data-code="+1">United States</option>
+                    <option value="Canada" data-code="+1">Canada</option>
+                    <option value="United Kingdom" data-code="+44">United Kingdom</option>
+                    <option value="Australia" data-code="+61">Australia</option>
+                    <option value="India" data-code="+91">India</option>
+                    <option value="Germany" data-code="+49">Germany</option>
+                    <option value="France" data-code="+33">France</option>
+                    <option value="Japan" data-code="+81">Japan</option>
+                    <option value="Brazil" data-code="+55">Brazil</option>
+                    <option value="China" data-code="+86">China</option>
+                    <option value="Mexico" data-code="+52">Mexico</option>
+                    <option value="Italy" data-code="+39">Italy</option>
+                    <option value="South Africa" data-code="+27">South Africa</option>
+                    <option value="Russia" data-code="+7">Russia</option>
+                    <option value="South Korea" data-code="+82">South Korea</option>
+                    <option value="Turkey" data-code="+90">Turkey</option>
+                    <option value="Saudi Arabia" data-code="+966">Saudi Arabia</option>
+                    <option value="United Arab Emirates" data-code="+971">United Arab Emirates</option>
+                    <option value="Argentina" data-code="+54">Argentina</option>
+                    <option value="Indonesia" data-code="+62">Indonesia</option>
                         <!-- Add more countries as needed -->
-                    </select>
+                </select>
             </div>
             <div class="col-md-4">
                 <label for="passportExpiry" class="form-label">Passport Expiry Date *</label>
