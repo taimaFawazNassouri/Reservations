@@ -1,18 +1,18 @@
 <div id="search_flight_tab1" class="search_flight_tab" >
 
     <ul class="tabs--small tabs--tabled flightSelOpts">
-        <li class="is-tab-active"><a href="javascript:void(0)" wire:click.prevent="$set('tripType','round-trip')"  onclick="updateSearchFlight('frm_round_trip', this)">ROUND TRIP</a></li>
-        <li><a href="javascript:void(0)" wire:click.prevent="$set('tripType','one-way')" onclick="updateSearchFlight('frm_oneway_trip', this)">One Way</a></li>
+        <li class="is-tab-active"><a href="javascript:void(0)" wire:click.prevent="$set('tripType','one-way')">ROUND TRIP</a></li>
+        <li><a href="javascript:void(0)" wire:click.prevent="$set('tripType','round-trip')" >One Way</a></li>
         <!--<li><a href="https://reservations.chamwings.com/ibe/public/showReservation.action?hdnParamData=EN^MC^USD" target="_blank">Multi-City</a></li>-->
         <!--<li><a href="#">Multi-City</a></li>-->
     </ul>
     <div class="tabs--small-content">
         <div class="formwrap">
-           <form wire:submit.prevent="submitted" id="search_flight" name="search_flight">
+           <form wire:submit.prevent="submitted" id="search_flight">
                 <table class="formtable table--bordered" id="tbl_srch_flights">
                     <tr>
                        <td>From<span class="required">*</span>
-                            <select name="selFromLoc" class="field--location" onchange="updateSelectText(this)">
+                            <select wire:model="from" class="field--location" onchange="updateSelectText(this)">
                                 <option value=''>--</option>
                                 <option value='DAM'>Damascus International Airport (DAM)</option>
                                 <option value='LTK'>Latakia Bassel Al-Assad International Airport (LTK)</option>
@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                         <td>DEPART DATE<span class="required">*</span><input type="text" readonly class="field--calender" id="depart-date" wire:model="selDepartureDate" placeholder="dd/mm/yyyy">                        
-                        <td><span id="return_date_title">Return DATE</span><span id="is_required_star" class="required">*</span><input type="text" readonly class="field--calender" id="return-date" wire:model="elReturnDate" placeholder="dd/mm/yyyy">                        
+                        {{-- <td><span id="return_date_title">Return DATE</span><span id="is_required_star" class="required">*</span><input type="text" readonly class="field--calender" id="return-date" wire:model="elReturnDate" placeholder="dd/mm/yyyy">                         --}}
                     </tr>
                     <tr>
                         <td>
@@ -444,10 +444,12 @@
                             <input type="hidden" name="chkReturnTrip" value="true"/>
                             <!--<input type="hidden" name="selCurrency" value="USD"/>-->
                             <input type="hidden" name="selLanguage" value="en"/>
-                            <input type="submit" value="Submit" onclick="return validate();">
+                            {{-- <input type="submit" value="Submit" onclick="return validate();"> --}}
                         </td>
                     </tr>
                  </table>
+                 <button type="submit"> SUBMIT</button>
+
             </form>
         </div>
     </div>
