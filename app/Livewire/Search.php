@@ -113,7 +113,10 @@ class Search extends Component
         $xml = new SimpleXMLElement($response);
         $body = $xml->xpath('//soapBody')[0];
         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
-        $this->dispatch('hideForm');
+        dd($this->dataArray);
+        return $this->send();
+
+        // $this->dispatch('hideForm');
         //dd( $this->dataArray);
 
         // try {
@@ -132,7 +135,8 @@ class Search extends Component
         //     dd($e->getMessage(), $responseBody);
         // }
     }
-   
+ 
+    
     public function toggleDropdown()
     {
         $this->isDropdownVisible = !$this->isDropdownVisible;
@@ -366,6 +370,21 @@ class Search extends Component
 
         // Toggle the visibility of the specific tax detail
         $this->expandedFeeDetails[$index] = !$this->expandedFeeDetails[$index];
+    }
+    public function send()
+    {
+        Session::put('fare_basis_codes', $this->FareBasisCodes);
+        Session::put('fare_rule_reference', $this->FareRuleReference);
+        Session::put('DepartureAirport', $this->DepartureAirport);
+        Session::put('ArrivalAirport', $this->ArrivalAirport);
+        Session::put('DepartureDateTime', $this->DepartureDateTime);
+        Session::put('ArrivalDateTime', $this->ArrivalDateTime);
+        Session::put('FlightNumber', $this->FlightNumber);
+        Session::put('TotalFareWithCCFee', $this->TotalFareWithCCFee);
+        Session::put('TotalEquivFareWithCCFee', $this->TotalEquivFareWithCCFee);
+     
+
+        return redirect()->route('response'); // Make sure to define a route named 'details'
     }
   
     public function showDetails()

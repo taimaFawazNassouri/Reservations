@@ -18,16 +18,16 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('nationality');
             $table->date('date_of_birth');
-            $table->string('passport_number')->unique();;
+            $table->string('passport_number');
             $table->string('passport_issued_country');
             $table->date('passport_expiry_date');
             $table->string('city');
             $table->string('country_of_residence');
-            $table->string('email')->unique();;
+            $table->string('email');
             $table->string('country_code_phone');
-            $table->string('phone')->unique();;
+            $table->string('phone');
             $table->string('country_code_travel')->nullable();
-            $table->string('phone_travel')->unique()->nullable();
+            $table->string('phone_travel')->nullable();
             $table->string('document_path')->nullable();
 
             $table->timestamps();
