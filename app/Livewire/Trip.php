@@ -39,6 +39,31 @@ class Trip extends Component
         $DepartureAirport = $this->dataArray['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation']['ns1OriginDestinationOptions']['ns1OriginDestinationOption']['ns1FlightSegment']['ns1DepartureAirport']['@attributes']['LocationCode']?? null;
         return $DepartureAirport ? str($DepartureAirport)->squish()->toString() : null;
     }
+    #[Computed]
+    public function DepartureDateTime()
+    { 
+        $flightSegment = $this->dataArray['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation']['ns1OriginDestinationOptions']['ns1OriginDestinationOption']['ns1FlightSegment'] ?? null;
+
+        // Check if flightSegment exists and is an array
+        if (is_array($flightSegment)) {
+            // If it contains '@attributes', ensure it's wrapped in another array
+            if (array_key_exists('@attributes', $flightSegment)) {
+                $flightSegment = [$flightSegment];
+            }
+            dd($flightSegment);
+    
+            // Iterate over each segment (assuming there might be multiple)
+            foreach ($flightSegment as $segment) {
+                if (isset($segment['@attributes']['DepartureDateTime'])) {
+                    // Return the DepartureDateTime from the @attributes
+                    return $segment['@attributes']['DepartureDateTime'];
+                }
+            }
+        }
+    
+        // Return null or an empty string if no DepartureDateTime found
+        return null;
+    }
     public function render()
     {
         return view('livewire.trip');
