@@ -1,383 +1,219 @@
-<html dir="LTR" class="LTR  en" ng-controller="indexCtrl as main" style="overflow: auto;"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style> <title>IBE Flight Booking</title> <meta name="description" content=""> <meta charset="utf-8"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> <link rel="shortcut icon" href="images/favicon.ico"> <link rel="apple-touch-icon" href="images/apple-touch-icon.png"> <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,500,300" rel="stylesheet" type="text/css"> <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <link rel="stylesheet" href="js/libs/styles/bower_styles.css"> <link rel="stylesheet" href="js/util/isaui_lib/dist/css/isaui_lib.css"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <!--[if lte IE 8]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]--> <link rel="stylesheet" href="styles/styles.d5a34.css"> <script type="text/javascript" async="" src="https://www.google-analytics.com/plugins/ua/ecommerce.js"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id= "></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>window.onload = function () { 
-        if(window.matchMedia("only screen and (max-width: 767px)").matches){
-            if(typeof document.getElementById("xs-mobile-drawer") !== 'undefined' && document.getElementById("xs-mobile-drawer") !== null) {
-                var value=parseInt(document.getElementById("xs-mobile-drawer").offsetHeight) - 15;
-                var css = '.xs-ui-view-container{margin-bottom: '+value+'px !important;}',
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
-                style.type = 'text/css';
-                if (style.styleSheet){
-                  style.styleSheet.cssText = css;
-                } else {
-                  style.appendChild(document.createTextNode(css));
-                }
+        .navbar {
+            background-color: #002147;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            align-items: center;
+        }
 
-                head.appendChild(style);
-            }else {
-                var css = '.xs-ui-view-container{margin-bottom: '+40+'px !important;}',
-                head = document.head || document.getElementsByTagName('head')[0],
-                style = document.createElement('style');
+        .navbar ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
 
-                style.type = 'text/css';
-                if (style.styleSheet){
-                  style.styleSheet.cssText = css;
-                } else {
-                  style.appendChild(document.createTextNode(css));
-                }
+        .navbar li {
+            margin-right: 20px;
+        }
 
-                head.appendChild(style);
-            }
-        }	
-    };</script> <script>var pattern = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/g;
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
 
-        var bValidIP = pattern.test(document.location.hostname);
+        .navbar a:hover {
+            color: #ddd;
+        }
 
-        var filename = document.location.port === '9000' ?  "//ricmb2.isaaviations.com/ondjs/ond.js" : "/../../ondjs/ond.js";
-        document.writeln("<script src="+filename+"><\/script>");</script><script src="/../../ondjs/ond.js"></script>
- <!-- build:template
-	<%= message %> 
-	/build --> <style type="text/css">.ADMdtpDays>span:nth-child(1)>span {-moz-transition: all .5s, transform 0.2s 0.01s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.01s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.01s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.01s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(2)>span {-moz-transition: all .5s, transform 0.2s 0.02s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.02s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.02s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.02s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(3)>span {-moz-transition: all .5s, transform 0.2s 0.03s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.03s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.03s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.03s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(4)>span {-moz-transition: all .5s, transform 0.2s 0.04s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.04s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.04s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.04s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(5)>span {-moz-transition: all .5s, transform 0.2s 0.05s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.05s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.05s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.05s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(6)>span {-moz-transition: all .5s, transform 0.2s 0.06s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.06s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.06s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.06s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(7)>span {-moz-transition: all .5s, transform 0.2s 0.07s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.07s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.07s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.07s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(8)>span {-moz-transition: all .5s, transform 0.2s 0.08s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.08s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.08s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.08s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(9)>span {-moz-transition: all .5s, transform 0.2s 0.09s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.09s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.09s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.09s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(10)>span {-moz-transition: all .5s, transform 0.2s 0.1s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.1s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.1s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.1s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(11)>span {-moz-transition: all .5s, transform 0.2s 0.11s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.11s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.11s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.11s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(12)>span {-moz-transition: all .5s, transform 0.2s 0.12s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.12s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.12s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.12s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(13)>span {-moz-transition: all .5s, transform 0.2s 0.13s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.13s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.13s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.13s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(14)>span {-moz-transition: all .5s, transform 0.2s 0.14s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.14s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.14s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.14s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(15)>span {-moz-transition: all .5s, transform 0.2s 0.15s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.15s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.15s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.15s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(16)>span {-moz-transition: all .5s, transform 0.2s 0.16s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.16s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.16s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.16s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(17)>span {-moz-transition: all .5s, transform 0.2s 0.17s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.17s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.17s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.17s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(18)>span {-moz-transition: all .5s, transform 0.2s 0.18s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.18s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.18s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.18s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(19)>span {-moz-transition: all .5s, transform 0.2s 0.19s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.19s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.19s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.19s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(20)>span {-moz-transition: all .5s, transform 0.2s 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(21)>span {-moz-transition: all .5s, transform 0.2s 0.21s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.21s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.21s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.21s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(22)>span {-moz-transition: all .5s, transform 0.2s 0.22s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.22s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.22s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.22s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(23)>span {-moz-transition: all .5s, transform 0.2s 0.23s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.23s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.23s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.23s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(24)>span {-moz-transition: all .5s, transform 0.2s 0.24s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.24s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.24s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.24s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(25)>span {-moz-transition: all .5s, transform 0.2s 0.25s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.25s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.25s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.25s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(26)>span {-moz-transition: all .5s, transform 0.2s 0.26s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.26s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.26s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.26s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(27)>span {-moz-transition: all .5s, transform 0.2s 0.27s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.27s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.27s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.27s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(28)>span {-moz-transition: all .5s, transform 0.2s 0.28s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.28s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.28s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.28s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(29)>span {-moz-transition: all .5s, transform 0.2s 0.29s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.29s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.29s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.29s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(30)>span {-moz-transition: all .5s, transform 0.2s 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(31)>span {-moz-transition: all .5s, transform 0.2s 0.31s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.31s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.31s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.31s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(32)>span {-moz-transition: all .5s, transform 0.2s 0.32s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.32s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.32s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.32s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(33)>span {-moz-transition: all .5s, transform 0.2s 0.33s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.33s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.33s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.33s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(34)>span {-moz-transition: all .5s, transform 0.2s 0.34s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.34s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.34s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.34s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(35)>span {-moz-transition: all .5s, transform 0.2s 0.35000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.35000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.35000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.35000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(36)>span {-moz-transition: all .5s, transform 0.2s 0.36s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.36s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.36s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.36s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(37)>span {-moz-transition: all .5s, transform 0.2s 0.37s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.37s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.37s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.37s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(38)>span {-moz-transition: all .5s, transform 0.2s 0.38s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.38s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.38s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.38s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(39)>span {-moz-transition: all .5s, transform 0.2s 0.39s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.39s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.39s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.39s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(40)>span {-moz-transition: all .5s, transform 0.2s 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(41)>span {-moz-transition: all .5s, transform 0.2s 0.41000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.41000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.41000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.41000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(42)>span {-moz-transition: all .5s, transform 0.2s 0.42s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.42s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.42s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.42s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(43)>span {-moz-transition: all .5s, transform 0.2s 0.43s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.43s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.43s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.43s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(44)>span {-moz-transition: all .5s, transform 0.2s 0.44s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.44s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.44s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.44s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(45)>span {-moz-transition: all .5s, transform 0.2s 0.45s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.45s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.45s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.45s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(46)>span {-moz-transition: all .5s, transform 0.2s 0.46s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.46s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.46s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.46s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(47)>span {-moz-transition: all .5s, transform 0.2s 0.47000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.47000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.47000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.47000000000000003s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(48)>span {-moz-transition: all .5s, transform 0.2s 0.48s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.48s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.48s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.48s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(49)>span {-moz-transition: all .5s, transform 0.2s 0.49s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.49s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.49s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.49s cubic-bezier(0.680, -0.550, 0.265, 1.550); }.ADMdtpDays>span:nth-child(50)>span {-moz-transition: all .5s, transform 0.2s 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550); -o-transition: all .5s, transform 0.2s 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550); -webkit-transition: all .5s, transform 0.2s 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550); transition: all .5s, transform 0.2s 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550); }</style></head> <body> <!--[if lte IE 8]>
-<!--[if lte IE 8]>
-<div class="container old-browser">
-    <h2 class="center-text">Your internet browser is out of date.</h2>
-    <p class="center-text">Your browser is not supported, please upgrade your browser to the latest version or switch to a supported browser</p>
+        .navbar img {
+            max-height: 40px;
+        }
 
-    <div class="row img-row" style="">
-        <div class="col-md-4">
-            <img class="image img-thumbnail" src="images/browser/ie.png" alt="Internet Explorer">
-            <p>Internet Explorer 9+</p>
-            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" class="btn btn-default">Download</a>
-        </div>
-        <div class="col-md-4">
-            <img class="image img-thumbnail" src="images/browser/cr.png" alt="Google Chrome">
-            <p>Google Chrome</p>
-            <a href="https://www.google.com/chrome/browser/desktop/" class="btn btn-default">Download</a>
-        </div>
-        <div class="col-md-4">
-            <img class="image img-thumbnail" src="images/browser/ff.png" alt="Mozilla Firefox">
-            <p>Mozilla Firefox</p>
-            <a href="http://www.mozilla.org/firefox/new/" class="btn btn-default">Download</a>
-        </div>
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .progress-bar li {
+            padding: 10px 15px;
+            position: relative;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+
+        .progress-bar li.current {
+            background-color: #d4af37;
+            color: #fff;
+        }
+
+        .progress-bar li::after {
+            content: '>';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .progress-bar li:last-child::after {
+            content: '';
+        }
+
+        .date-selection {
+            display: flex;
+            justify-content: space-between;
+            overflow-x: auto;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .date {
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            flex: 1;
+            margin-right: 5px;
+        }
+
+        .date.active {
+            background-color: #d4af37;
+            color: #fff;
+        }
+
+        .date:last-child {
+            margin-right: 0;
+        }
+
+        .flight-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .flight-table th,
+        .flight-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .flight-table th {
+            background-color: #f0f0f0;
+        }
+
+        .flight-info {
+            text-align: center;
+            position: relative;
+        }
+
+        .flight-info::before {
+            content: '\2708';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .economy-class {
+            text-align: center;
+            color: #d4af37;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="https://www.chamwings.com"><img src="images/main_logo.png" alt="Cham Wings Logo"></a></li>
+            <li><a href="#">Search</a></li>
+            <li class="current"><a href="#">Select flight</a></li>
+            <li><a href="#">Enter details</a></li>
+            <li><a href="#">Add extras</a></li>
+            <li><a href="#">Pay and confirm</a></li>
+        </ul>
     </div>
-</div>
-<![endif]--> <div class="container-fluid page-fade" style="position: absolute; top: 0px; height: 70px;"> <!-- Reservation header --> <div id="header-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 70px;"><header id="header" class="dashboard ng-isolate-scope sticky-bg" stick-me="" ng-style="{'visibility': pageTransistion?'visible':'hidden'}" style="visibility: visible; width: 1577px; position: fixed; z-index: auto;" ng-class="{'xs-hidden-progress-header': main.steps[4]['status'] === 'completed'}"> <!-- ngIf: main.themeEnginStatus === true --> <!-- uiView: topNav --><div ui-view="topNav" class="ng-scope" style=""><div class="container pd-0 ng-scope" ng-class="{'confirm-page': main.selectedStep.id === 'confirm'}"> <div class="hidden-xs"> <ul> <!-- For Screen other than mobile --> <li class="hidden-xs logo pd-4 pd-tp-2"> <a href="https://www.chamwings.com"> <img src="images/main_logo.png" alt="Air Arabia"> </a> </li> <!-- For Mobile Screen--> <li class="hidden-sm hidden-md hidden-lg logo xs-logo"> <a href="https://www.chamwings.com"> <img src="images/main_logo.png" alt="Air Arabia"> </a> </li> <li class="pending wd-header" id="payment"> <a href="javascript:;" ng-click="main.navigateToState('payment')"> <table> <tbody> <tr> <td> <!-- ngIf: main.steps[4]['status'] !== 'completed' --><i class="number ng-scope" ng-if="main.steps[4]['status'] !== 'completed'">5</i><!-- end ngIf: main.steps[4]['status'] !== 'completed' --> <!-- ngIf: main.steps[4]['status'] === 'completed' --> </td> <td> <span translate="lbl_header_payments" class="ng-scope">Pay and confirm</span> </td> </tr> </tbody> </table> </a></li> <li class="pending wd-header" id="extras"> <a href="javascript:;" ng-click="main.navigateToState('extras')"> <table> <tbody> <tr> <td> <!-- ngIf: main.steps[3]['status'] !== 'completed' --><i class="number ng-scope" ng-if="main.steps[3]['status'] !== 'completed'">4</i><!-- end ngIf: main.steps[3]['status'] !== 'completed' --> <!-- ngIf: main.steps[3]['status'] === 'completed' --> </td> <td> <span translate="lbl_header_extras" class="ng-scope">Add extras</span> </td> </tr> </tbody> </table> </a></li> <li class="pending wd-header" id="passenger"> <a href="javascript:;" ng-click="main.navigateToState('passenger')"> <table> <tbody> <tr> <td> <!-- ngIf: main.steps[2]['status'] !== 'completed' --><i class="number ng-scope" ng-if="main.steps[2]['status'] !== 'completed'">3</i><!-- end ngIf: main.steps[2]['status'] !== 'completed' --> <!-- ngIf: main.steps[2]['status'] === 'completed' --> </td> <td> <span translate="lbl_header_passenger" class="ng-scope">Enter details</span> </td> </tr> </tbody> </table> </a></li> <li class="current wd-header" id="fare"> <a href="javascript:;" ng-click="main.navigateToState('fare')"> <table> <tbody> <tr> <td> <!-- ngIf: main.steps[1]['status'] !== 'completed' --><i class="number ng-scope" ng-if="main.steps[1]['status'] !== 'completed'">2</i><!-- end ngIf: main.steps[1]['status'] !== 'completed' --> <!-- ngIf: main.steps[1]['status'] === 'completed' --> </td> <td> <span translate="lbl_header_selectFare" class="ng-scope">Select flight</span> </td> </tr> </tbody> </table> </a></li> <li class="completed wd-header" id="search"> <a href="javascript:;" ng-click="main.navigateToState('search')"> <table> <tbody> <tr> <td class="search-table"> <!-- ngIf: main.steps[0]['status'] !== 'completed' --> <!-- ngIf: main.steps[0]['status'] === 'completed' --><i class="icon-done pull-right ng-scope" ng-if="main.steps[0]['status'] === 'completed'"></i><!-- end ngIf: main.steps[0]['status'] === 'completed' --> </td> <td class="search-table"> <span class="ng-binding">Search</span> </td> </tr> </tbody> </table> </a> </li> </ul> </div> <!-- For extra small devices --> <div class="hidden-lg hidden-md hidden-sm"> <isa-progress main="main" class="ng-isolate-scope"><div class="container pd-0 ng-scope"><div><ul><li id="xs-li-logo" class="logo pd-tp-2 xs-li-logo"><span style="align:center" id="xs-logo-img"><a href="https://www.chamwings.com"><img src="images/main_logo.png" alt="Air Arabia"></a></span></li></ul></div><div class="row xs-icon xs-menu" ng-class="{'xs-hidden-nav':main.steps[4]['status'] === 'completed'}"><ul id="header-title" class="col-xs-6" ng-class="{'col-xs-12':main.steps[4]['status'] === 'current' || applicationMode !== 'create','col-xs-6':main.steps[4]['status'] != 'current'&amp;&amp; applicationMode === 'create'}"><!-- ngIf: main.steps[4]['status'] === 'current' --><!-- ngIf: main.steps[3]['status'] === 'current' --><!-- ngIf: main.steps[2]['status'] === 'current' --><!-- ngIf: main.steps[1]['status'] === 'current' --><li class="current xs-li-6" ng-if="main.steps[1]['status'] === 'current'" id="fare"><a href="javascript:;" ng-click="main.navigateToState('fare')"><table><tbody><tr><td><!-- ngIf: main.steps[1]['status'] !== 'completed' --><i class="number ng-scope" ng-if="main.steps[1]['status'] !== 'completed'">2</i><!-- end ngIf: main.steps[1]['status'] !== 'completed' --> <!-- ngIf: main.steps[1]['status'] === 'completed' --></td><td ng-class="{'create-flow-header':applicationMode == 'create', 'modify-flow-header':applicationMode !== 'create'}" class="create-flow-header"><span translate="lbl_header_selectFare" class="ng-scope">Select flight</span></td></tr></tbody></table></a></li><!-- end ngIf: main.steps[1]['status'] === 'current' --><!-- ngIf: main.steps[0]['status'] === 'current' --></ul><div ng-show="applicationMode === 'create'" id="md-sr-cr-bg" class="pd-r-0 modify-search-currency col-xs-6 modify-cur-bg-grey" ng-class="{'hidden':main.steps[4]['status'] === 'current', 'modify-cur-background': applicationMode !== 'create' , 'modify-cur-bg-grey': applicationMode === 'create'}"><!-- ngIf: applicationMode === 'create' --><ul ng-if="applicationMode === 'create'" class="ng-scope"><li class="btn-wrap pd-r-0" ng-hide="extraNavTag"><table class="row modify-search-currency" style="display: table"><tbody><tr><td class="pd-r-0 pd-l-0" ng-click="showModifySearch()" style="width: 68.75%; display: table-cell" ng-style="main.hideCurrencySelector &amp;&amp; {'width' : '100%'}"><div ng-hide="main.steps[0]['status'] === 'current'" class=""><!-- ngIf: modifyValue !== 21 --><a ng-if="modifyValue !== 21" translate="btn_selectFare_ModifySearch" class="truncate pull-left xs-msearch ng-scope">Modify Search</a><!-- end ngIf: modifyValue !== 21 --> <!-- ngIf: modifyValue === 21 --> <i class="fa fa-angle-down xs-modify-fa"></i></div></td><!-- ngIf: !main.hideCurrencySelector --><td id="" class="pd-l-0 text-right ng-scope" style="width: 31.25%; display: table-cell" ng-if="!main.hideCurrencySelector"><span class="currency-txt ng-isolate-scope" isacurconverter="" text="Currsss" curruncytypes="curencyTypes" isopen="false" selected-currency="defaultCurrencyType"><div class="ng-scope"><div class="cc-link" ng-class="{ccactive:showpanel}"><span ng-click="showHideMenu()" class="currancy-type"><span class="currency-txt ng-binding">SYP</span></span> <span ng-click="showHideMenu()" class="icon_syp icon"></span> <!-- ngIf: !isMobileDevice --><i ng-if="!isMobileDevice" class="glyphicon ng-scope glyphicon-chevron-down" ng-class="{'glyphicon-chevron-down' : !showpanel,'glyphicon-chevron-up':showpanel}" ng-click="showHideMenu()"></i><!-- end ngIf: !isMobileDevice --> <!-- ngIf: isMobileDevice --><!--<i ng-show="showpanel" class="glyphicon glyphicon-chevron-up" ng-click="showHideMenu()"></i>--></div><div class="curruny-wrapper ng-hide" ng-show="showpanel" id="dp-menu"><ul><!-- ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="AED"><span class="menu-item currancy-type ng-binding">AED</span> <span class="flag icon_aed icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="IRR"><span class="menu-item currancy-type ng-binding">IRR</span> <span class="flag icon_irr icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="KWD"><span class="menu-item currancy-type ng-binding">KWD</span> <span class="flag icon_kwd icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="OMR"><span class="menu-item currancy-type ng-binding">OMR</span> <span class="flag icon_omr icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="PKR"><span class="menu-item currancy-type ng-binding">PKR</span> <span class="flag icon_pkr icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="RUB"><span class="menu-item currancy-type ng-binding">RUB</span> <span class="flag icon_rub icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="SAR"><span class="menu-item currancy-type ng-binding">SAR</span> <span class="flag icon_sar icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="SYP"><span class="menu-item currancy-type ng-binding">SYP</span> <span class="flag icon_syp icon"></span></li><!-- end ngRepeat: currency in curruncytypes --><li class="currency-item ng-scope" ng-repeat="currency in curruncytypes" ng-click="onItemSelect(this)" title="USD"><span class="menu-item currancy-type ng-binding">USD</span> <span class="flag icon_usd icon"></span></li><!-- end ngRepeat: currency in curruncytypes --></ul></div></div></span><!--<span isacurconverter text="Currsss" curruncytypes="main.curencyTypes" isopen="false" selected-currency="main.defaultCurrencyType"></span>--></td><!-- end ngIf: !main.hideCurrencySelector --></tr></tbody></table><!--                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <a translate="btn_selectFare_ModifySearch" class="truncate pull-left">
-                                                Modify Search
-                                                </a><i class="fa fa-angle-down" style="font-size:14px;"></i>
-                                        </td>
 
-                                        <td>    
-                                           <span isacurconverter text="Currsss" curruncytypes="curencyTypes" isopen="false" selected-currency="main.defaultCurrencyType"></span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>     --></li><li ng-show="extraNavTag" class="extras-header content-wrapper ng-hide"><section class="content-header"><div class="page-title xs-textcenter"><h1><a href="" class="extras-page-sub-title truncate pd-l-2 pd-r-2 ng-scope" ng-click="skipServices()" translate="">Skip Selection</a></h1></div></section></li></ul><!-- end ngIf: applicationMode === 'create' --></div></div></div></isa-progress> </div> </div></div> <!-- <div isa-step-progress="" class="progress-step" current-flag="current" current-step="main.selectedStep">
-            <div class="bar-animator"></div>
-        </div> --> </header></div> <!--// Reservation header -->
-                                <div class="btn-wrap  pd-r-0" >
-                    <div class="row btn-wrap col-xs-6 modify-search-currency">
-                        <div id="modify-search" class="col-xs-4 pd-r-0 pd-l-0">
-                            <a ng-click="fare.showModifySearch()" translate="btn_selectFare_ModifySearch">
-                                Modify Search
-                            </a>
-                            <i class="glyphicon glyphicon-chevron-right"></i>
-                        </div>
-                        <div id="currency" class="col-xs-2  pd-l-0 pull-right" ng-show="$index == 0">
-                            <span isacurconverter text="Currsss" curruncytypes="fare.curencyTypes" isopen="false" selected-currency="fare.defaultCurrencyType"></span>
-                        </div>
-                    </div>
-                                </div>
-                </div>--> <!-- Hidden Small/Medium/Large --> 
-                <div class="row hidden-lg hidden-md hidden-sm"> <!-- Page Title -->
-                     <div class="col-xs-12 source-destination-div"> <h1 id="xs-page-title" class="page-title"> 
-                         <span class="ico icon-plane-shape icon-plane_shape_R" style="font-size:16px !important;margin-right:5px !important;color:#9b9b9b !important">
-                             <span class="path1"></span><span class="path2"></span>
-                             </span> <span class="main-text pull-right" style="padding-top: 10px;max-width: 93%">
-                                 <p class="xs-travel-heading-text row">
-                                      <span class="thin source-destination ng-scope" translate="msg_common_from">From</span>
-                                       <span class="strong source-destination place-holder direction-ltr ng-binding" title="DAM"> DAM </span>
-                                        <span class="thin source-destination ng-scope" translate="msg_common_to">to</span>
-                                         <span class="strong source-destination place-holder direction-ltr ng-binding" title="SHJ"> SHJ </span> </p> </span> </h1><!-- // Page Title --> </div> <!--</div>--> </div> <!-- Content Body --> <section class="content-body travelfare-body"> <!-- Row --> <div id="flight-options" class="row mobile-row" style="width: auto;"> <div class="ma-bt-4 fare-block-rtl ng-isolate-scope accelAero-slide" ng-class="{'block-day':fare.isBlockFare}" fare-floater="" datasource="sector.timeLineData" on-after-slide="fare.setNextPreviousData(setData,direction, $index)" currency="AED" on-before-slide="fare.validate(date, direction,$index)" on-select-date="fare.afterSelected(selectedDate, dayObj,sequence)" cache-data="true" auto-select-date="true" timeline-speed=".4" animation-easing="ease-out-in" display-animation="fadeIn" is-rtl="fare.isRtlLanguage()" month-text="fare.monthsText" days-text="fare.daysText" on-before-select-date="fare.onBeforeSelectDate(selectedDate, dayObj,sequence, isOriginalEvent)" style="direction: ltr; width: 995px;"><div class="fare-floater-wrapper" style="width: 945px;"><ul class="clearfix" ng-style="sliderWidth" ng-class="{rtl:isRtl}" style="width: 1215px; left: -135px;"><!-- ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated bounceIn"><img src="js/util/isaui_lib/dist/images/bx_loader.gif" alt="loading"></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Saturday</span><span class="hid-date hide">17/08/2024</span><span class="day-month-date-text">17 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="420.75">5751094</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Sunday</span><span class="hid-date hide">18/08/2024</span><span class="day-month-date-text">18 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="420.75">5751094</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Monday</span><span class="hid-date hide">19/08/2024</span><span class="day-month-date-text">19 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope selected-date" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Tuesday</span><span class="hid-date hide">20/08/2024</span><span class="day-month-date-text">20 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Wednesday</span><span class="hid-date hide">21/08/2024</span><span class="day-month-date-text">21 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Thursday</span><span class="hid-date hide">22/08/2024</span><span class="day-month-date-text">22 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --><li ng-click="selectDate($event)" ng-repeat="day in sliderData track by $index" ng-style="slideWidth" class="ng-scope" style="width: 135px;"><div class="day-block"><div class="animated fadeIn ng-scope"><span class="day-date-text">Friday</span><span class="hid-date hide">23/08/2024</span><span class="day-month-date-text">23 Aug</span><span class="day-fare" ng-show="true"><span class="currency">SYP</span> <span class="day-fare-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <i class="more">+</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined"><i class="more ng-scope" style="font-size:13px" translate="lbl_common_noFlights" translate-default="Flight No">No Flights</i></span><span class="day-fare not-fare ng-hide" ng-show="false"><i class="more">Available</i></span><span class="day-fare not-fare ng-hide" ng-show="undefined" style=""><i class="more ng-scope" style="font-size:13px" translate="lbl_common_flight_full" translate-default="Flight No">lbl_common_flight_full</i></span></div></div></li><!-- end ngRepeat: day in sliderData track by $index --></ul></div><a href="javascript:;" class="slide-nav slide-prev" ng-click="navigate('PREV')"><i class="glyphicon glyphicon-chevron-left"></i></a><a href="javascript:;" class="slide-nav slide-next" ng-click="navigate('NEXT')"><i class="glyphicon glyphicon-chevron-right"></i></a></div> <!-- ngIf: fare.savingsAvailable[$index] --> 
-                                            <div class="flight-options col-sm-12 col-xs-12">
-            <label>
-            	<span translate="lbl_common_time">Time</span>
-            </label>--></div><div class="options-td flight-info"><label class="flight-info-label ng-scope" translate="lbl_common_flightInformation">Flight Information</label></div><div class="options-td arrival-time"><label><span translate="lbl_common_arrival_time" class="ng-scope"><label>Arrival</label><br><label>Time</label></span></label><!--	<br>
-            <label>
-                <span translate="lbl_common_time">Time</span>
-                            'icon-bus':(flight.travelMode === 'BUS')}" ng-style="setDurationOfWidth(flight.stops)" style="margin-right: 88%;"><i class="flight-name ng-binding">6Q745</i></span> <span><ul class="flight-point"><!-- ngRepeat: stop in flight.stops --></ul></span> <span class="flight-icon flight-stop icon-stop pull-right"></span></div><!-- <p class="segment-code-txt">
-                            <span>flight.originCode/</span><span ng-repeat="stop in flight.stops">stop.airportCode/</span><span>flight.destinationCode</span>
-                        </p> --><div class="flight-duration caption-txt"><p class="segment-code-txt"><span class="ng-binding">DAM/</span> <!-- ngRepeat: stop in flight.stops --><span class="ng-binding">SHJ</span></p></div></div><div class="rs-arrival-time options-td arrival-time arrival-time-txt no-nextday-flag" ng-class="{'nextday-flag': flight.nextDayFlag !== '','no-nextday-flag': flight.nextDayFlag == ''}"><label class="ng-binding">04:30</label><!-- ngIf: flight.nextDayFlag !== '' --></div><!-- ngIf: !(flight.flightFaresAvailability[0].fareValue === 0 || flight.flightFaresAvailability[0].fareValue === 'null') --><div ng-if="!(flight.flightFaresAvailability[0].fareValue === 0 || flight.flightFaresAvailability[0].fareValue === 'null')" class="price-expand-lbl-div testing options-td flight-price-lbl pull-right ng-scope no-nextday-flag" ng-class="{'nextday-flag': flight.nextDayFlag !== '','no-nextday-flag': flight.nextDayFlag == ''}"><i class="flight-price-expand-icon fa fa-angle-down pull-right pull-right pd-rt-5"></i> <span class="currency-text currency ng-binding">SYP</span> <span class="currency-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span><!--                    <div class="flight-fa-icon">
-                        <i class="glyphicon glyphicon-chevron-down"></i>
-                    </div>--></div><!-- end ngIf: !(flight.flightFaresAvailability[0].fareValue === 0 || flight.flightFaresAvailability[0].fareValue === 'null') --><div class="col-xs-12 flightDuration" style="padding: 0 !important"><p style="text-align:start" class="ng-binding">3 hour(s) 15 minute(s) / Direct Flight</p></div></div><div class="hidden-sm hidden-md hidden-lg section-line"><hr></div></div><script>$(document).ready(function () {
-                //changeHeightOnLoad(0);
-                // changeHeightOnLoad(1);
+    <div class="container">
+        <h2>Select your departing flight from <strong>DAM</strong> to <strong>SHJ</strong></h2>
+        <div class="progress-bar">
+            <ul>
+                <li class="completed">Search</li>
+                <li class="current">Select flight</li>
+                <li>Enter details</li>
+                <li>Add extras</li>
+                <li>Pay and confirm</li>
+            </ul>
+        </div>
 
-            });
-            $('.collapse').on('shown.bs.collapse', function () {
-                $(this).parent().find(".fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");
-                var maxValue = 0;
-                var indexValue = $(this).parent().index();
-                var indexValue2 = $(this).parent().parent().parent().parent().parent().parent().parent().index() - 1;
-                //console.log("indexValue1="+indexValue+" index2="+indexValue2);
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_0") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_0") != null) {
-                    maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_0").offsetHeight;
-                    //console.log(document.getElementById("xs-fareclassid_0").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1").offsetHeight;
-                    // console.log(document.getElementById("xs-fareclassid_1").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2").offsetHeight;
-                    // console.log(document.getElementById("xs-fareclassid_2").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3").offsetHeight;
-                    //console.log(document.getElementById("xs-fareclassid_3").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4").offsetHeight;
-                    //console.log(document.getElementById("xs-fareclassid_4").offsetHeight);
-                }
-                if (maxValue !== '0') {
-                    var css = '.xs-fareclass_' + indexValue2 + '_' + indexValue + '{height: ' + maxValue + 'px !important;}',
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
+        <div class="date-selection">
+            <div class="date">Saturday<br>17 AUG<br>SYP 5751094</div>
+            <div class="date">Sunday<br>18 AUG<br>SYP 5751094</div>
+            <div class="date">Monday<br>19 AUG<br>SYP 8033762</div>
+            <div class="date active">Tuesday<br>20 AUG<br>SYP 8033762</div>
+            <div class="date">Wednesday<br>21 AUG<br>SYP 8033762</div>
+            <div class="date">Thursday<br>22 AUG<br>SYP 8033762</div>
+            <div class="date">Friday<br>23 AUG<br>SYP 8033762</div>
+        </div>
 
-                    style.type = 'text/css';
-                    if (style.styleSheet) {
-                        style.styleSheet.cssText = css;
-                    } else {
-                        style.appendChild(document.createTextNode(css));
-                    }
-
-                    head.appendChild(style);
-                }
-            }).on('hidden.bs.collapse', function () {
-                $(this).parent().find(".fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
-            });
-
-
-            function changeHeightOnLoad(i) {
-                var maxValue = 0;
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_0") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_0") != null) {
-                    //console.log("in");
-                    maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_0").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_1") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_1") != null) {
-                    // console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_1").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_1").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_2") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_2") != null) {
-                    //  console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_2").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_2").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_3") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_3") != null) {
-                    // console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_3").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_3").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_4") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_4") != null) {
-                    // console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_4").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_4").offsetHeight;
-                }
-
-                if (maxValue !== '0') {
-                    var css = '.xs-fareclass_' + i + '_' + 0 + '{height: ' + maxValue + 'px !important;}',
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
-
-                    style.type = 'text/css';
-                    if (style.styleSheet) {
-                        style.styleSheet.cssText = css;
-                    } else {
-                        style.appendChild(document.createTextNode(css));
-                    }
-
-                    head.appendChild(style);
-                }
-            }</script><!--  <div class="options-row body fare_col_headerInfo.length" data-index="$index" ng-repeat="flight in flightOptions" ng-show="flightOptions.length"> --><div class="collapse right-section right-section-fare accordion-content" id="accordion_0_1"><!-- ngRepeat: flightFare in flight.flightFaresAvailability| limitTo:5 --><!-- ngIf: !flight.isFlightFull --><a href="javascript:;" ng-repeat="flightFare in flight.flightFaresAvailability| limitTo:5" class="fare-option-0 options-td fare-col-1" data-id="5_6Q745_Y_D" ng-style="fTypeWidth" ng-class="{'selected-fare':flightFare.isFlightSelect,'block-fare':blockFare}" ng-if="!flight.isFlightFull"><div class="fare-col" ng-click="selectThisFare($event, flight, flightFare, $index)" ng-show="!flightFare.fareValue === 'null' || !flightFare.fareValue === ' ' || flightFare.fareValue"><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><div class="xs-fareclass_0_0" style="font-size:1rem !important"><span id="xs-fareclassid_0_0_0" class="flight-class-name ng-binding">Economy Class</span></div><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><div class="fare-radio-container" ng-show="flightFare.fareValue &amp;&amp; flightFare.fareValue !== 'null'" isaconnecotor=""><span class="currency-text currency ng-binding">SYP</span> <span class="currency-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <span class="fare-radio"><input name="radioname_5_6Q745_Y_D_6Q745" type="radio" id="radio_5_6Q745_Y_D_6Q745" ng-model="flightFare.isFlightSelect" ng-value="true" class="ng-pristine ng-untouched ng-valid" value="true"><label for="radio_5_6Q745_Y_D_6Q745"></label></span></div><!-- ngIf: flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue --><!-- ngIf: flightFare.availableSeats !== '' && flightFare.availableSeats !== '-1' && flightFare.availableSeats > -1 --><!-- <div class="select-button"  ng-hide="flightFare.fareValue === 'null' || flightFare.fareValue ===' '|| !flightFare.fareValue || flightFare.isFlightSelect">
-                          Select
-                      </div>
-
-                      <div class="selected-button"  ng-show="flightFare.isFlightSelect">
-                          Selected
-                      </div>--></div><!-- <div class="fare-col text-center notavailable"  ng-show="flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue">
-
-                    <div class='not-fare'>
-                        <span class="not-available" translate="lbl_common_notAvailable">Not Available</span>
-                    </div>
-
-                </div> --></a>
-                </div></div><div class="panel accordion hidden-sm hidden-md hidden-lg options-row body flight-option-row fare_col_1" data-index="1" ng-repeat="flight in flightOptions" ng-show="flightOptions.length"><div class="left-section" data-toggle="collapse" data-target="#accordion_1,#accordion_1_1" data-parent="#accordion-section-" aria-expanded="true" aria-controls="accordion_1" style="cursor:pointer"><div class="flight-data-row xs-flight-margin" ng-class="{'xs-flight-margin':!isThreeTwentyDevice}"><div class="options-td departure-time departure-time-txt"><label class="ng-binding">14:45</label></div><div class="options-td flight-info flight-info-detail"><!--<div class="caption-txt">&nbsp;<!-- Flight {{flight.flightNumber}}--><div class="flight-stop-wrapper"><span class="flight-path"></span> <span class="flight-icon flight-start pull-left icon-plane_shape_R" uib-tooltip-html="flight|stopType" tooltip-placement="top" tooltip-trigger="mouseenter" ng-class="{'icon-plane_shape_R':(flight.travelMode === 'FLIGHT'),
-                            'icon-bus':(flight.travelMode === 'BUS')}" ng-style="setDurationOfWidth(flight.stops)" style="margin-right: 88%;"><i class="flight-name ng-binding">6Q747</i></span> <span><ul class="flight-point"><!-- ngRepeat: stop in flight.stops --></ul></span> <span class="flight-icon flight-stop icon-stop pull-right"></span></div><!-- <p class="segment-code-txt">
-                            <span>flight.originCode/</span><span ng-repeat="stop in flight.stops">stop.airportCode/</span><span>flight.destinationCode</span>
-                        </p> --><div class="flight-duration caption-txt"><p class="segment-code-txt"><span class="ng-binding">DAM/</span> <!-- ngRepeat: stop in flight.stops --><span class="ng-binding">SHJ</span></p></div></div><div class="rs-arrival-time options-td arrival-time arrival-time-txt no-nextday-flag" ng-class="{'nextday-flag': flight.nextDayFlag !== '','no-nextday-flag': flight.nextDayFlag == ''}"><label class="ng-binding">18:45</label><!-- ngIf: flight.nextDayFlag !== '' --></div><!-- ngIf: !(flight.flightFaresAvailability[0].fareValue === 0 || flight.flightFaresAvailability[0].fareValue === 'null') --><div ng-if="!(flight.flightFaresAvailability[0].fareValue === 0 || flight.flightFaresAvailability[0].fareValue === 'null')" class="price-expand-lbl-div testing options-td flight-price-lbl pull-right ng-scope no-nextday-flag" ng-class="{'nextday-flag': flight.nextDayFlag !== '','no-nextday-flag': flight.nextDayFlag == ''}"><i class="flight-price-expand-icon fa fa-angle-down pull-right pull-right pd-rt-5"></i> <span class="currency-text currency ng-binding">SYP</span> <span class="currency-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span><!--                    <div class="flight-fa-icon">
-                        <i class="glyphicon glyphicon-chevron-down"></i>
-                    </div>--></div><!-- end ngIf: !(flight.flightFaresAvailability[0].fareValue === 0 || flight.flightFaresAvailability[0].fareValue === 'null') --><div class="col-xs-12 flightDuration" style="padding: 0 !important"><p style="text-align:start" class="ng-binding">3 hour(s)  / Direct Flight</p></div></div><div class="hidden-sm hidden-md hidden-lg section-line"><hr></div></div><script>$(document).ready(function () {
-                //changeHeightOnLoad(0);
-                // changeHeightOnLoad(1);
-
-            });
-            $('.collapse').on('shown.bs.collapse', function () {
-                $(this).parent().find(".fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");
-                var maxValue = 0;
-                var indexValue = $(this).parent().index();
-                var indexValue2 = $(this).parent().parent().parent().parent().parent().parent().parent().index() - 1;
-                //console.log("indexValue1="+indexValue+" index2="+indexValue2);
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_0") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_0") != null) {
-                    maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_0").offsetHeight;
-                    //console.log(document.getElementById("xs-fareclassid_0").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_1").offsetHeight;
-                    // console.log(document.getElementById("xs-fareclassid_1").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_2").offsetHeight;
-                    // console.log(document.getElementById("xs-fareclassid_2").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_3").offsetHeight;
-                    //console.log(document.getElementById("xs-fareclassid_3").offsetHeight);
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4") != 'undefined' && document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4") != null) {
-                    if (maxValue < document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + indexValue2 + "_" + indexValue + "_4").offsetHeight;
-                    //console.log(document.getElementById("xs-fareclassid_4").offsetHeight);
-                }
-                if (maxValue !== '0') {
-                    var css = '.xs-fareclass_' + indexValue2 + '_' + indexValue + '{height: ' + maxValue + 'px !important;}',
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
-
-                    style.type = 'text/css';
-                    if (style.styleSheet) {
-                        style.styleSheet.cssText = css;
-                    } else {
-                        style.appendChild(document.createTextNode(css));
-                    }
-
-                    head.appendChild(style);
-                }
-            }).on('hidden.bs.collapse', function () {
-                $(this).parent().find(".fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
-            });
-
-
-            function changeHeightOnLoad(i) {
-                var maxValue = 0;
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_0") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_0") != null) {
-                    //console.log("in");
-                    maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_0").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_1") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_1") != null) {
-                    // console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_1").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_1").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_2") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_2") != null) {
-                    //  console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_2").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_2").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_3") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_3") != null) {
-                    // console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_3").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_3").offsetHeight;
-                }
-                if (typeof document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_4") != 'undefined' && document.getElementById("xs-fareclassid_" + 0 + "_" + 0 + "_4") != null) {
-                    // console.log("in");
-                    if (maxValue < document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_4").offsetHeight)
-                        maxValue = document.getElementById("xs-fareclassid_" + i + "_" + 0 + "_4").offsetHeight;
-                }
-
-                if (maxValue !== '0') {
-                    var css = '.xs-fareclass_' + i + '_' + 0 + '{height: ' + maxValue + 'px !important;}',
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
-
-                    style.type = 'text/css';
-                    if (style.styleSheet) {
-                        style.styleSheet.cssText = css;
-                    } else {
-                        style.appendChild(document.createTextNode(css));
-                    }
-
-                    head.appendChild(style);
-                }
-            }</script><!--  <div class="options-row body fare_col_headerInfo.length" data-index="$index" ng-repeat="flight in flightOptions" ng-show="flightOptions.length"> --><div class="collapse right-section right-section-fare accordion-content" id="accordion_1_1"><!-- ngRepeat: flightFare in flight.flightFaresAvailability| limitTo:5 --><!-- ngIf: !flight.isFlightFull --><a href="javascript:;" ng-repeat="flightFare in flight.flightFaresAvailability| limitTo:5" class="fare-option-0 options-td fare-col-1" data-id="6_6Q747_Y_D" ng-style="fTypeWidth" ng-class="{'selected-fare':flightFare.isFlightSelect,'block-fare':blockFare}" ng-if="!flight.isFlightFull"><div class="fare-col" ng-click="selectThisFare($event, flight, flightFare, $index)" ng-show="!flightFare.fareValue === 'null' || !flightFare.fareValue === ' ' || flightFare.fareValue"><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><div class="xs-fareclass_0_1" style="font-size:1rem !important"><span id="xs-fareclassid_0_1_0" class="flight-class-name ng-binding">Economy Class</span></div><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><div class="fare-radio-container" ng-show="flightFare.fareValue &amp;&amp; flightFare.fareValue !== 'null'" isaconnecotor=""><span class="currency-text currency ng-binding">SYP</span> <span class="currency-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span> <span class="fare-radio"><input name="radioname_6_6Q747_Y_D_6Q747" type="radio" id="radio_6_6Q747_Y_D_6Q747" ng-model="flightFare.isFlightSelect" ng-value="true" class="ng-pristine ng-untouched ng-valid" value="true"><label for="radio_6_6Q747_Y_D_6Q747"></label></span></div><!-- ngIf: flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue --><!-- ngIf: flightFare.availableSeats !== '' && flightFare.availableSeats !== '-1' && flightFare.availableSeats > -1 --><!-- <div class="select-button"  ng-hide="flightFare.fareValue === 'null' || flightFare.fareValue ===' '|| !flightFare.fareValue || flightFare.isFlightSelect">
-                          Select
-                      </div>
-
-                      <div class="selected-button"  ng-show="flightFare.isFlightSelect">
-                          Selected
-                      </div>--></div><!-- <div class="fare-col text-center notavailable"  ng-show="flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue">
-
-                    <div class='not-fare'>
-                        <span class="not-available" translate="lbl_common_notAvailable">Not Available</span>
-                    </div>
-
-                </div> --></a>
-   </div></div><div><!-- end ngIf: !isMultiCitySearch --><!-- ngIf: isMultiCitySearch --><!-- For Medium and small --><!-- ngRepeat: flight in flightOptions -->
-                <div class="hidden-xs options-row body fare_col_1" data-index="0" ng-repeat="flight in flightOptions" ng-show="flightOptions.length" style="">
-                    <div class="left-section left-section-body"><!-- fare.toggleFlight('test 2') -->
-                        <div class="options-td departure-time departure-time-txt">
-                            <label class="ng-binding">00:15</label>
-                        </div>
-                        <div class="options-td flight-info timeline-info">
-                            <div class="caption-txt">&nbsp;<!-- Flight flight.flightNumber --></div>
-                            <div class="flight-stop-wrapper"><span class="flight-path"></span>
-                                <i class="flight-name flight-start-name ng-binding">6Q745</i>
-                             <span><ul class="flight-point"><!-- ngRepeat: stop in flight.stops --></ul></span> <span class="flight-icon flight-stop icon-stop pull-right"></span></div><div class="flight-duration"><p class="segment-code-txt"><span class="ng-binding">DAM/</span><!-- ngRepeat: stop in flight.stops --><span class="ng-binding">SHJ</span></p><p class="caption-txt ng-binding">3 hour(s) 15 minute(s) / Direct Flight</p></div></div><div class="rs-arrival-time options-td arrival-time arrival-time-txt" ng-class="{'nextday-flag': flight.nextDayFlag !== ''}"><label class="ng-binding">04:30</label><!-- ngIf: flight.nextDayFlag !== '' --></div><!-- ngIf: carrierCode === 'C7'|| carrierCode === 'VP' --></div><div class="right-section right-section-body"><!-- ngRepeat: flightFare in flight.flightFaresAvailability| limitTo:5 --><!-- ngIf: !flight.isFlightFull --><a href="javascript:;" ng-repeat="flightFare in flight.flightFaresAvailability| limitTo:5" class="options-td fare-col-1" data-id="5_6Q745_Y_D" ng-style="fTypeWidth" ng-class="{'selected-fare':flightFare.isFlightSelect,'block-fare':blockFare}" ng-if="!flight.isFlightFull"><div class="fare-col" ng-class="{'radioWithSeats':flightFare.availableSeats !== '' &amp;&amp; flightFare.availableSeats !== '-1' &amp;&amp; flightFare.availableSeats > -1}" ng-click="selectThisFare($event, flight, flightFare, $index)" ng-hide="flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue"><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><div class="fare-radio-container" ng-show="flightFare.fareValue &amp;&amp; flightFare.fareValue !== 'null'" isaconnecotor=""><span class="fare-radio"><input name="radioname_5_6Q745_Y_D_Y_D" type="radio" id="radio_5_6Q745_Y_D_Y_D" ng-model="flightFare.isFlightSelect" ng-value="true" class="ng-pristine ng-untouched ng-valid" value="true"><label for="radio_5_6Q745_Y_D_Y_D"></label></span> <span class="currency-text currency ng-binding">SYP</span> <span class="currency-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span></div><!-- ngIf: flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue --><!-- ngIf: flightFare.availableSeats !== '' && flightFare.availableSeats != '-1' && flightFare.availableSeats > -1 --><!--                <div class="select-button"  ng-hide="flightFare.fareValue === 'null' || flightFare.fareValue ===' '|| !flightFare.fareValue || flightFare.isFlightSelect">
-                                    Select
-                                </div>
-
-                                <div class="selected-button"  ng-show="flightFare.isFlightSelect">
-                                    Selected
-                                </div>--></div><div class="fare-col ng-hide" ng-show="(flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue)"><div class="not-fare"><span class="not-available ng-scope" translate="lbl_common_notAvailable">Not Available</span></div></div></a>
-    </div></div><div class="hidden-xs options-row body fare_col_1" data-index="1" ng-repeat="flight in flightOptions" ng-show="flightOptions.length"><div class="left-section left-section-body"><!-- fare.toggleFlight('test 2') --><div class="options-td departure-time departure-time-txt"><label class="ng-binding">14:45</label></div><div class="options-td flight-info timeline-info"><div class="caption-txt">&nbsp;<!-- Flight flight.flightNumber --></div><div class="flight-stop-wrapper"><span class="flight-path"></span> <span class="flight-icon flight-start pull-left icon-plane_shape_R" uib-tooltip-html="flight|stopType" tooltip-placement="top" tooltip-trigger="mouseenter" ng-class="{'icon-plane_shape_R':(flight.travelMode === 'FLIGHT'),
-                            'icon-bus':(flight.travelMode === 'BUS')" ng-style="setDurationOfWidth(flight.stops)" style="margin-right: 88%;"></span> <i class="flight-name flight-start-name ng-binding">6Q747</i> <span><ul class="flight-point"><!-- ngRepeat: stop in flight.stops --></ul></span> <span class="flight-icon flight-stop icon-stop pull-right"></span></div><div class="flight-duration"><p class="segment-code-txt"><span class="ng-binding">DAM/</span><!-- ngRepeat: stop in flight.stops --><span class="ng-binding">SHJ</span></p><p class="caption-txt ng-binding">3 hour(s)  / Direct Flight</p></div></div><div class="rs-arrival-time options-td arrival-time arrival-time-txt" ng-class="{'nextday-flag': flight.nextDayFlag !== ''}"><label class="ng-binding">18:45</label><!-- ngIf: flight.nextDayFlag !== '' --></div><!-- ngIf: carrierCode === 'C7'|| carrierCode === 'VP' --></div><div class="right-section right-section-body"><!-- ngRepeat: flightFare in flight.flightFaresAvailability| limitTo:5 --><!-- ngIf: !flight.isFlightFull --><a href="javascript:;" ng-repeat="flightFare in flight.flightFaresAvailability| limitTo:5" class="options-td fare-col-1" data-id="6_6Q747_Y_D" ng-style="fTypeWidth" ng-class="{'selected-fare':flightFare.isFlightSelect,'block-fare':blockFare}" ng-if="!flight.isFlightFull"><div class="fare-col" ng-class="{'radioWithSeats':flightFare.availableSeats !== '' &amp;&amp; flightFare.availableSeats !== '-1' &amp;&amp; flightFare.availableSeats > -1}" ng-click="selectThisFare($event, flight, flightFare, $index)" ng-hide="flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue"><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><!-- ngIf: flightFare.additionalFareClassInfo.discountAmount --><div class="fare-radio-container" ng-show="flightFare.fareValue &amp;&amp; flightFare.fareValue !== 'null'" isaconnecotor=""><span class="fare-radio"><input name="radioname_6_6Q747_Y_D_Y_D" type="radio" id="radio_6_6Q747_Y_D_Y_D" ng-model="flightFare.isFlightSelect" ng-value="true" class="ng-pristine ng-untouched ng-valid" value="true"><label for="radio_6_6Q747_Y_D_Y_D"></label></span> <span class="currency-text currency ng-binding">SYP</span> <span class="currency-value fare-value ng-isolate-scope" isa-connector="587.75">8033762</span></div><!-- ngIf: flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue --><!-- ngIf: flightFare.availableSeats !== '' && flightFare.availableSeats != '-1' && flightFare.availableSeats > -1 --><!--                <div class="select-button"  ng-hide="flightFare.fareValue === 'null' || flightFare.fareValue ===' '|| !flightFare.fareValue || flightFare.isFlightSelect">
-                                    Select
-                                </div>
-
-                                <div class="selected-button"  ng-show="flightFare.isFlightSelect">
-                                    Selected
-                                </div>--></div><div class="fare-col ng-hide" ng-show="(flightFare.fareValue === 'null' || flightFare.fareValue === ' ' || !flightFare.fareValue)"><div class="not-fare"><span class="not-available ng-scope" translate="lbl_common_notAvailable">Not Available</span></div></div></a>
-                      </div></div><div class="options-row body ng-scope ng-hide" data-index="" ng-hide="flightOptions.length" style=""><div class="center-section"><div class="options-td departure-time"><label translate="lbl_fare_noFlights" class="ng-scope">No Flight(s) available</label></div></div></div><isa-busy-loader ng-hide="isBusyLoaderVisible === false" msg-text="msg_fare_loadingMsgForOutbound" class="ng-scope ng-isolate-scope ng-hide" style=""><div class="cg-busy cg-busy-animation ng-scope"><div class="cg-busy cg-busy-backdrop"></div><div class="cg-busy-default-wrapper"><div class="cg-busy-default-sign" ng-style="positionFixed"><div class="cg-busy-default-spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div></div><div class="cg-busy-default-text ng-scope" translate="msg_fare_loadingMsgForOutbound">Loading flight options for your departing flight. Please wait...</div></div></div></div></isa-busy-loader><div class="section-popup fade ng-scope" ng-class="{'show in':blockSection}" ng-style="popupPos"><div class="header col-sm-12"><label class="ng-binding">You selected </label><a href="javascript:;" class="pull-right" ng-click="closePopup()"><i class="fa fa-close"></i></a></div><div class="panelBody col-sm-12"><div class="special-savings"></div><div class="flight-details ng-binding"> to  on  Dep:  - Arr: </div><div class="fare-details"><span><span class="currency-text currency ng-binding">SYP</span> <span class="price ng-isolate-scope" isa-connector="">0</span></span> <span class="fare-popup-icon icon-plane_shape_R"></span></div><div class="btn red-btn popup-btn ng-binding" ng-click="onConfirm({msg : 'this fare is confirmed'})"></div></div></div><div class="section-mask ng-scope" ng-style="applyMask" ng-click="closePopup()" style="z-index: -10;"></div></isa-flight-select> </div> </div><!-- // Row --> <!-- // Modal Box --> <!--<div class="hidden-sm hidden-md hidden-lg section-line" ><hr></div>--> </section><!-- // Content Body --> </div><!-- end ngRepeat: sector in fare.sectorsData.sectors --><!-- // Result Panel --> <div class="row"></div> <div class="ma-4"> <!--airport messages--> <div class="inpage-alert alert-warning pd-3 ng-hide" ng-show="fare.airportMessages.length != 0"> <!-- ngRepeat: message in fare.airportMessages --> </div><!--airport messages--> </div> <div class="summary-wrap travelfare-summary" id="travelfare-summary-bottom" style="position: relative;"> <div class="summary-drawer fare-timeline-drawer"> <!-- ngIf: fare.quoteDetailsSummary --> </div> <!--Only show summary block if 1st sectors flights have loaded--> <!-- ngIf: fare.quoteDetailsSummary --> <isa-busy-loader ng-show="fare.isFareQuoteBusyLoaderVisible" msg-text="Calculating the total for your selection. Please wait..." class="ng-isolate-scope ng-hide"> <div class="cg-busy cg-busy-animation ng-scope"><div class="cg-busy cg-busy-backdrop"></div><div class="cg-busy-default-wrapper"><div class="cg-busy-default-sign" ng-style="positionFixed"><div class="cg-busy-default-spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div></div><div class="cg-busy-default-text ng-scope" translate="msg_fare_loadingMsgForFareQuote">Calculating the total for your selection. Please wait...</div></div></div></div></isa-busy-loader></div> <!-- Modal Box --> <div class="modal-box ng-hide" ng-show="main.ismodalModal"> <!-- Overlay --> <div class="overlay"></div><!-- // Overlay --> <!-- Modal Content --> <div class="modal-content" ng-class="{'fare-rule-popup':main.fareRules}" style="max-width: 900px;top:10%;max-height: 600px"> <!-- Modal Header --> <div class="modal-header"> <!-- ngIf: main.termsNCondition --> <!-- ngIf: main.fareRules --> <span class="close-btn" ng-click="main.closePopup()"> <i class="fa fa-times"></i> </span> </div><!-- // Modal Header --> <!-- Modal Body --> <!-- ngIf: main.termsNCondition --> <!-- ngIf: main.fareRules --> <!-- // Modal Body --> <!-- Modal Footer --> <div class="modal-footer"> <div class="row"> <div class="col-md-6 col-sm-12 col-xs-6"> </div> <div class="col-md-6 col-sm-12 col-xs-6"> <button class="button red-btn ng-scope" type="button" ng-click="main.closePopup()" translate="btn_summary_drawer_continue">Close and continue</button> </div> </div> </div><!-- // Modal Footer --> </div><!-- // Modal Content --> </div> </div><!-- // Page Wrapper --></div> <!-- End loading UI route view --> </div> <!-- uiView: footer --><div ui-view="footer" class="ng-scope"><!-- ngIf: main.quoteStatus --> <!-- ngIf: main.showSummaryDrawer --> <!-- Modal Box --> <div class="modal-box ng-scope ng-hide" ng-show="main.ismodalModal"> <!-- Overlay --> <div class="overlay"></div><!-- // Overlay --> <!-- Modal Content --> <div class="modal-content" ng-class="{'fare-rule-popup':main.fareRules}" style="max-width: 900px;top:10%;max-height: 600px; overflow: auto"> <!-- Modal Header --> <div class="modal-header xs-term-header"> <!-- ngIf: main.termsNCondition --> <!-- ngIf: main.fareRules --> <span class="close-btn" ng-click="main.closePopup()"> <i class="fa fa-times"></i> </span> </div><!-- // Modal Header --> <!-- Modal Body --> <!-- ngIf: main.termsNCondition --><!-- // Modal Body --> <!-- ngIf: main.fareRules --> <!-- Modal Footer --> <div class="modal-footer"> <div class="row"> <div class="col-md-6 col-sm-6"> </div> <div class="col-md-6 col-sm-6 col-xs-12"> <button class="button red-btn ng-scope" type="button" ng-click="main.closePopup()" translate="btn_summary_drawer_continue">Close and continue</button> </div> </div> </div><!-- // Modal Footer --> </div><!-- // Modal Content --> </div><!-- // Modal Box --></div> </div> <!-- loading animation directive --> <div class="ng-isolate-scope ng-hide" loading-status="!pageLoaded" time-out="10"><div style="position: fixed;top: 0;bottom: 0;right: 0;left: 0;background: white;z-index: 9995"></div><div class="loading-animation ng-binding">Loading Please wait...<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div> <!-- End loading animation directive --> <!-- Uncomment for debugging purpouses
-<script src="js/libs/scripts/bower_libs.js"></script>
-<script src="js/util/isaui_lib/dist/js/isaui_lib.js"></script>
-<script src="js/util/isaui_lib/dist/js/lib.templates.js"></script>
---> <script src="scripts/scripts.2c292.js"></script> <link rel="stylesheet" href="https://www.paytabs.com/theme/express_checkout/css/express.css"> <script src="https://www.paytabs.com/express/express_checkout_v3.js"></script> <!--
-<script type="text/javascript" src="https://airarabia.widget.custhelp.com/euf/rightnow/RightNow.Client.js"></script>
-<script type="text/javascript">
-    function callLiveChat(){
-        RightNow.Client.Controller.addComponent({
-            seconds: 120,
-            logo_image: "/euf/assets/images/airarabialogo.png",
-            instance_id: "spac_0",
-            div_id: "chatDiv",
-            module: "ProactiveChat",
-            label_question : "Need help? Click here to chat with one of our representatives",
-            type: 2},
-            "https://airarabia.widget.custhelp.com/ci/ws/get"
-            );
-    }
-</script>
- -->  </body></html>
+        <table class="flight-table">
+            <thead>
+                <tr>
+                    <th>Departure Time</th>
+                    <th>Flight Information</th>
+                    <th>Arrival Time</th>
+                    <th>Economy Class</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>00:15</td>
+                    <td class="flight-info">6Q745<br>DAM/SHJ<br>3 hour(s) 15 minute(s) / Direct Flight</td>
+                    <td>04:30</td>
+                    <td class="economy-class">SYP 8033762</td>
+                </tr>
+                <tr>
+                    <td>14:45</td>
+                    <td class="flight-info">6Q747<br>DAM/SHJ<br>3 hour(s) / Direct Flight</td>
+                    <td>18:45</td>
+                    <td class="economy-class">SYP 8033762</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
