@@ -2,18 +2,9 @@
 
 namespace App\Livewire;
 
-use SimpleXMLElement;
-use GuzzleHttp\Client;
 use Livewire\Component;
-use App\Models\Credential;
-use App\Models\Reservation;
-use GuzzleHttp\Psr7\Request;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
 class Trip extends Component
 {
@@ -71,7 +62,8 @@ class Trip extends Component
 
     #[Computed]
     public function TotalFareWithCCFee()
-    {  // Extract the total fare with credit card fee element
+    {
+        // Extract the total fare with credit card fee element
         $totalFareWithCCFee = $this->dataArray['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1ItinTotalFare']['ns1TotalFareWithCCFee']['@attributes'] ?? [];
 
         // Get the amount and currency code

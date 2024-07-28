@@ -30,22 +30,22 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($this->dataArray as )
-                    
-                @endforeach --}}
-                <tr>
-                   
-
-
-
-                    <td class="economy-class">SYP 8033762</td>
-                </tr>
-                <tr>
-                    <td>14:45</td>
-                    <td class="flight-info">6Q747<br>DAM/SHJ<br>3 hour(s) / Direct Flight</td>
-                    <td>18:45</td>
-                    <td class="economy-class">SYP 8033762</td>
-                </tr>
+                @foreach ($this->flights as $flight)
+                    <tr>
+                        @php
+                            $departure = \Carbon\Carbon::parse($flight['ns1DepartureDateTime']);
+                            $arrival = \Carbon\Carbon::parse($flight['ns1ArrivalDateTime']);
+                        @endphp
+                        <td>{{ $departure->format('H:i') }}</td>
+                        <td class="flight-info">
+                            {{ $flight['ns1OriginDestinationOptions']['ns1OriginDestinationOption']['ns1FlightSegment']['@attributes']['FlightNumber'] }}
+                            <br>DAM/SHJ<br>
+                            3 hour(s) / Direct Flight
+                        </td>
+                        <td>{{ $arrival->format('H:i') }}</td>
+                        <td class="economy-class">{{ '' }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     @endif

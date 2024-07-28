@@ -50,6 +50,16 @@ class Response extends Component
         return $this->allResponses[$this->selected] ?? null;
     }
 
+    #[Computed]
+    public function flights()
+    {
+        if (array_key_exists('@attributes', $this->selectedDay['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'])) {
+            return [$this->selectedDay['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation']];
+        }
+
+        return $this->selectedDay['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'];
+    }
+
     public function render()
     {
         return view('livewire.response');
