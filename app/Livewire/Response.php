@@ -18,34 +18,38 @@ use Illuminate\Support\Facades\Session;
 
 class Response extends Component
 {
-
-    public $FareBasisCodes;
-    public $FareRuleReference;
-    public $DepartureAirport;
-    public $ArrivalAirport;
-    public $DepartureDateTime;
-    public $ArrivalDateTime;
-    public $FlightNumber;
-    public $TotalFareWithCCFee;
-    public $TotalEquivFareWithCCFee;
+    public $selected = null;
     public $allResponses = [];
-
-
 
     public function mount()
     {
         $this->allResponses = session('allResponses');
-        //dd( $this->allResponses);
-        // $this->FareRuleReference = session('fare_rule_reference');
-        // $this->DepartureAirport = session('DepartureAirport');
-        // $this->ArrivalAirport = session('ArrivalAirport');
-        // $this->DepartureDateTime = session('DepartureDateTime');
-        // $this->ArrivalDateTime = session('ArrivalDateTime');
-        // $this->FlightNumber = session('FlightNumber');
-        // $this->TotalFareWithCCFee = session('TotalFareWithCCFee');
-        // $this->TotalEquivFareWithCCFee = session('TotalEquivFareWithCCFee');
-      
+
+        // select first available day
+        foreach ($this->allResponses as $uuid => $response) {
+            if (array_key_exists('ns1AAAirAvailRSExt', $response['ns1OTA_AirAvailRS'])) {
+                $this->selected = $uuid;
+                break;
+            }
+        }
     }
+
+    public function test()
+    {
+        dd($this->selectedDay);
+    }
+
+    public function select($uuid)
+    {
+        $this->selected = $uuid;
+    }
+
+    #[Computed]
+    public function selectedDay()
+    {
+        return $this->allResponses[$this->selected] ?? null;
+    }
+
     public function render()
     {
         return view('livewire.response');
