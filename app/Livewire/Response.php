@@ -28,20 +28,22 @@ class Response extends Component
     public $FlightNumber;
     public $TotalFareWithCCFee;
     public $TotalEquivFareWithCCFee;
+    public $allResponses = [];
 
 
 
     public function mount()
     {
-        $this->FareBasisCodes = session('fare_basis_codes');
-        $this->FareRuleReference = session('fare_rule_reference');
-        $this->DepartureAirport = session('DepartureAirport');
-        $this->ArrivalAirport = session('ArrivalAirport');
-        $this->DepartureDateTime = session('DepartureDateTime');
-        $this->ArrivalDateTime = session('ArrivalDateTime');
-        $this->FlightNumber = session('FlightNumber');
-        $this->TotalFareWithCCFee = session('TotalFareWithCCFee');
-        $this->TotalEquivFareWithCCFee = session('TotalEquivFareWithCCFee');
+        $this->allResponses = session('allResponses');
+        //dd( $this->allResponses);
+        // $this->FareRuleReference = session('fare_rule_reference');
+        // $this->DepartureAirport = session('DepartureAirport');
+        // $this->ArrivalAirport = session('ArrivalAirport');
+        // $this->DepartureDateTime = session('DepartureDateTime');
+        // $this->ArrivalDateTime = session('ArrivalDateTime');
+        // $this->FlightNumber = session('FlightNumber');
+        // $this->TotalFareWithCCFee = session('TotalFareWithCCFee');
+        // $this->TotalEquivFareWithCCFee = session('TotalEquivFareWithCCFee');
       
     }
     public function render()

@@ -14,7 +14,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            @foreach($allResponses as $response)
+                <livewire:trip :data-array="$response"/>
+            @endforeach
+            {{-- <tr>
                 <td>{{ $FareBasisCodes }}</td>
                 <td>{{ $FareRuleReference }}</td>
                 <td>{{ $DepartureAirport }}</td>
@@ -24,7 +27,7 @@
                 <td>{{ $FlightNumber }}</td>
                 <td>{{ $TotalFareWithCCFee }}</td>
                 <td>{{ $TotalEquivFareWithCCFee }}</td>
-            </tr>
+            </tr> --}}
         </tbody>
     </table>
 </div>
