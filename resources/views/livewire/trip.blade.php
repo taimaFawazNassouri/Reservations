@@ -1,18 +1,13 @@
 <div @class(['date', 'active' => $selected])>
+    {{ $date->translatedFormat('l') }}
+    <br>
+    <span style="text-transform: uppercase;">
+        {{ $date->format('d M') }}
+    </span>
+    <br>
     @if ($this->available)
-        @php
-            $carbon = \Carbon\Carbon::parse($this->DepartureDateTime);
-        @endphp
-        {{ $carbon->format('D') }}
-        <br>
-        {{ $carbon->format('d M') }}
-        <br>
         {{ $this->TotalEquivFareWithCCFee }}
     @else
-        Unavailable
-        <br>
-        Unavailable
-        <br>
-        Unavailable
+        No Flights
     @endif
 </div>

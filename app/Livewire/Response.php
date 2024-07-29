@@ -26,12 +26,7 @@ class Response extends Component
         $this->allResponses = session('allResponses');
 
         // select first available day
-        foreach ($this->allResponses as $uuid => $response) {
-            if (array_key_exists('ns1AAAirAvailRSExt', $response['ns1OTA_AirAvailRS'])) {
-                $this->selected = $uuid;
-                break;
-            }
-        }
+        $this->selected = session('selDepartureDate');
     }
 
     public function test()
@@ -51,8 +46,18 @@ class Response extends Component
     }
 
     #[Computed]
+    public function Available()
+    {
+        return array_key_exists('ns1AAAirAvailRSExt', $this->selectedDay['ns1OTA_AirAvailRS']);
+    }
+
+    #[Computed]
     public function flights()
     {
+        if (!$this->Available) {
+            return [];
+        }
+
         if (array_key_exists('@attributes', $this->selectedDay['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'])) {
             return [$this->selectedDay['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation']];
         }

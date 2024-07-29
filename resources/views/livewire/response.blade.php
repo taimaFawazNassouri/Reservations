@@ -12,9 +12,9 @@
 
     <button wire:click="test">test</button>
     <div class="date-selection">
-        @foreach ($allResponses as $uuid => $response)
-            <div wire:click.prevent="select(@js($uuid))">
-                <livewire:trip :key="$uuid" :data-array="$response" :selected="$selected === $uuid" />
+        @foreach ($allResponses as $date => $response)
+            <div wire:click.prevent="select(@js($date))">
+                <livewire:trip :key="$date" :date="$date" :data-array="$response" :selected="$selected === $date" />
             </div>
         @endforeach
     </div>

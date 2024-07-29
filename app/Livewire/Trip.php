@@ -2,18 +2,21 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
 
 class Trip extends Component
 {
+    public string|Carbon $date;
     #[Reactive]
     public $selected;
     public $dataArray;
 
-    public function mount($dataArray, bool $selected)
+    public function mount(string $date, $dataArray, bool $selected)
     {
+        $this->date = Carbon::parse($date);
         $this->selected = $selected;
         $this->dataArray = $dataArray;
     }
