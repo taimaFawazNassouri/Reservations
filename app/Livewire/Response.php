@@ -64,6 +64,24 @@ class Response extends Component
 
         return $this->selectedDay['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'];
     }
+    #[Computed]
+    public function TotalEquivFareWithCCFee()
+    {
+        $TotalEquivFareWithCCFee = $this->selectedDay['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1ItinTotalFare']['ns1TotalEquivFareWithCCFee']['@attributes'] ?? [];
+
+        // Get the amount and currency code
+        $amount = $TotalEquivFareWithCCFee['Amount'] ?? null;
+        $currencyCode = $TotalEquivFareWithCCFee['CurrencyCode'] ?? null;
+
+        // Format the amount
+        $formattedAmount = $amount ? str($amount)->squish()->toString() : null;
+
+        // Return formatted string
+        return $formattedAmount && $currencyCode
+            ? "{$formattedAmount} {$currencyCode}"
+            : null;
+    }
+ 
 
     public function render()
     {

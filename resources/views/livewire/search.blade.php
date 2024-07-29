@@ -461,14 +461,14 @@
                                 <input type="hidden" name="chkReturnTrip" value="true"/>
                                 <!--<input type="hidden" name="selCurrency" value="USD"/>-->
                                 <input type="hidden" name="selLanguage" value="en"/>
-                                {{-- <input type="submit" value="Submit" onclick="return validate();"> --}}
+                                <input type="submit" value="Submit" onclick="return validate();">
                             </td>
                         </tr>
                     </table>
                    
                        
                     
-                    <button type="submit"> SUBMIT</button>
+                    {{-- <button type="submit"> SUBMIT</button> --}}
                 </form>
            
         </div>

@@ -128,6 +128,7 @@ class Search extends Component
                 Log::error('SOAP Request Error: ' . $e->getMessage());
             }
         }
+        //dd($this->allResponses);
 
         return $this->send();
     }
