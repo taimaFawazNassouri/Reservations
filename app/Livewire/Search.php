@@ -48,12 +48,12 @@ class Search extends Component
         $departureDate = Carbon::parse($this->selDepartureDate);
 
         // Create an array to hold the different date variations
-        $dateVariations = [];
+        // $dateVariations = [];
 
         // Populate the array with the current date, three days before, and three days after
-        for ($i = -3; $i <= 3; $i++) {
-            $dateVariations[] = $departureDate->clone()->addDays($i);
-        }
+        // for ($i = -3; $i <= 3; $i++) {
+        //     $dateVariations[] = $departureDate->clone()->addDays($i);
+        // }
         // for ($i = -7; $i <= 7; $i++) {
         //     $dateVariations[] = $departureDate->clone()->addDays($i);
         // }
@@ -66,72 +66,73 @@ class Search extends Component
 
         // dd($this->elReturnDate);
 
-        foreach ($dateVariations as $selDepartureDate) {
-            // Prepare the SOAP request body for each date
-            $body = '
-                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                    <soap:Header>
-                        <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-                            <wsse:UsernameToken wsu:Id="UsernameToken-17855236" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-                                <wsse:Username>' . $this->username . '</wsse:Username>
-                                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">' . $this->password . '</wsse:Password>
-                            </wsse:UsernameToken>
-                        </wsse:Security>
-                    </soap:Header>
-                    <soap:Body xmlns:ns1="http://www.opentravel.org/OTA/2003/05">
-                        <ns1:OTA_AirAvailRQ EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="' . date('Y-m-d\TH:i:s') . '" Version="20061.00" Target="TEST">
-                            <ns1:POS>
-                                <ns1:Source TerminalID="TestUser/Test Runner">
-                                    <ns1:RequestorID ID="' . $this->username . '" Type="4"/>
-                                    <ns1:BookingChannel Type="12"/>
-                                </ns1:Source>
-                            </ns1:POS>
-                            <ns1:OriginDestinationInformation>
-                                <ns1:DepartureDateTime WindowAfter="P0D" WindowBefore="P0D">' . $selDepartureDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
-                                <ns1:OriginLocation LocationCode="' . $this->from . '"/>
-                                <ns1:DestinationLocation LocationCode="' . $this->to . '"/>
-                            </ns1:OriginDestinationInformation>
-            ';
+        // foreach ($dateVariations as $selDepartureDate) {
+        // }
 
-            if ($this->tripType === 'round-trip') {
-                $elReturnDate = Carbon::parse($this->elReturnDate);
-                $body .= '
-                    <ns1:OriginDestinationInformation>
-                        <ns1:DepartureDateTime>' . $elReturnDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
-                        <ns1:OriginLocation LocationCode="' . $this->to . '"/>
-                        <ns1:DestinationLocation LocationCode="' . $this->from . '"/>
-                    </ns1:OriginDestinationInformation>
-                ';
-            }
+        // Prepare the SOAP request body for each date
+        $body = '
+            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <soap:Header>
+                    <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                        <wsse:UsernameToken wsu:Id="UsernameToken-17855236" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                            <wsse:Username>' . $this->username . '</wsse:Username>
+                            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">' . $this->password . '</wsse:Password>
+                        </wsse:UsernameToken>
+                    </wsse:Security>
+                </soap:Header>
+                <soap:Body xmlns:ns1="http://www.opentravel.org/OTA/2003/05">
+                    <ns1:OTA_AirAvailRQ EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="' . date('Y-m-d\TH:i:s') . '" Version="20061.00" Target="TEST">
+                        <ns1:POS>
+                            <ns1:Source TerminalID="TestUser/Test Runner">
+                                <ns1:RequestorID ID="' . $this->username . '" Type="4"/>
+                                <ns1:BookingChannel Type="12"/>
+                            </ns1:Source>
+                        </ns1:POS>
+                        <ns1:OriginDestinationInformation>
+                            <ns1:DepartureDateTime WindowAfter="P3D" WindowBefore="P3D">' . $departureDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
+                            <ns1:OriginLocation LocationCode="' . $this->from . '"/>
+                            <ns1:DestinationLocation LocationCode="' . $this->to . '"/>
+                        </ns1:OriginDestinationInformation>
+        ';
 
+        if ($this->tripType === 'round-trip') {
+            $elReturnDate = Carbon::parse($this->elReturnDate);
             $body .= '
-                            <ns1:TravelerInfoSummary>
-                                <ns1:AirTravelerAvail>
-                                    <ns1:PassengerTypeQuantity Code="ADT" Quantity="' . $this->adults . '"/>
-                                    <ns1:PassengerTypeQuantity Code="CHD" Quantity="' . $this->children . '"/>
-                                    <ns1:PassengerTypeQuantity Code="INF" Quantity="' . $this->infants . '"/>
-                                </ns1:AirTravelerAvail>
-                            </ns1:TravelerInfoSummary>
-                        </ns1:OTA_AirAvailRQ>
-                    </soap:Body>
-                </soap:Envelope>
+                <ns1:OriginDestinationInformation>
+                    <ns1:DepartureDateTime>' . $elReturnDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
+                    <ns1:OriginLocation LocationCode="' . $this->to . '"/>
+                    <ns1:DestinationLocation LocationCode="' . $this->from . '"/>
+                </ns1:OriginDestinationInformation>
             ';
+        }
 
-            Log::info('SOAP Request: ' . $body);
+        $body .= '
+                        <ns1:TravelerInfoSummary>
+                            <ns1:AirTravelerAvail>
+                                <ns1:PassengerTypeQuantity Code="ADT" Quantity="' . $this->adults . '"/>
+                                <ns1:PassengerTypeQuantity Code="CHD" Quantity="' . $this->children . '"/>
+                                <ns1:PassengerTypeQuantity Code="INF" Quantity="' . $this->infants . '"/>
+                            </ns1:AirTravelerAvail>
+                        </ns1:TravelerInfoSummary>
+                    </ns1:OTA_AirAvailRQ>
+                </soap:Body>
+            </soap:Envelope>
+        ';
 
-            try {
-                $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
-                $res = $client->sendAsync($request)->wait();
-                $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
-                $xml = new SimpleXMLElement($response);
-                $body = $xml->xpath('//soapBody')[0];
-                $this->dataArray = json_decode(json_encode((array)$body), TRUE);
+        Log::info('SOAP Request: ' . $body);
 
-                // Use dd() to dump the last added element in the array
-                $this->allResponses[$selDepartureDate->format('Y-m-d')] = $this->dataArray;
-            } catch (\Exception $e) {
-                Log::error('SOAP Request Error: ' . $e->getMessage());
-            }
+        try {
+            $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
+            $res = $client->sendAsync($request)->wait();
+            $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
+            $xml = new SimpleXMLElement($response);
+            $body = $xml->xpath('//soapBody')[0];
+            $this->dataArray = json_decode(json_encode((array)$body), TRUE);
+
+            // Use dd() to dump the last added element in the array
+            $this->allResponses[] = $this->dataArray;
+        } catch (\Exception $e) {
+            Log::error('SOAP Request Error: ' . $e->getMessage());
         }
 
 
