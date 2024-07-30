@@ -40,7 +40,7 @@
                                 3 hour(s) / Direct Flight
                             </td>
                             <td>{{ $arrival->format('H:i') }}</td>
-                            <td class="economy-class">{{ $this->TotalEquivFareWithCCFee }}</td>
+                            <td wire:click.prevent="showDetails" class="economy-class">{{ $this->TotalEquivFareWithCCFee }}</td>
                         </tr>
                     @endforeach
                 </tbody>

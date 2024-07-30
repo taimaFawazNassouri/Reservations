@@ -51,7 +51,10 @@ class Search extends Component
         $dateVariations = [];
 
         // Populate the array with the current date, three days before, and three days after
-        for ($i = -3; $i <= 3; $i++) {
+        // for ($i = -3; $i <= 3; $i++) {
+        //     $dateVariations[] = $departureDate->clone()->addDays($i);
+        // }
+        for ($i = -7; $i <= 7; $i++) {
             $dateVariations[] = $departureDate->clone()->addDays($i);
         }
 
@@ -61,8 +64,76 @@ class Search extends Component
             ]
         ]);
 
-        foreach ($dateVariations as $selDepartureDate) {
+        // foreach ($dateVariations as $selDepartureDate) {
+        //     // Prepare the SOAP request body for each date
+        //     $body = '
+        //         <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        //             <soap:Header>
+        //                 <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+        //                     <wsse:UsernameToken wsu:Id="UsernameToken-17855236" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        //                         <wsse:Username>' . $this->username . '</wsse:Username>
+        //                         <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">' . $this->password . '</wsse:Password>
+        //                     </wsse:UsernameToken>
+        //                 </wsse:Security>
+        //             </soap:Header>
+        //             <soap:Body xmlns:ns1="http://www.opentravel.org/OTA/2003/05">
+        //                 <ns1:OTA_AirAvailRQ EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="' . date('Y-m-d\TH:i:s') . '" Version="20061.00" Target="TEST">
+        //                     <ns1:POS>
+        //                         <ns1:Source TerminalID="TestUser/Test Runner">
+        //                             <ns1:RequestorID ID="' . $this->username . '" Type="4"/>
+        //                             <ns1:BookingChannel Type="12"/>
+        //                         </ns1:Source>
+        //                     </ns1:POS>
+        //                     <ns1:OriginDestinationInformation>
+        //                         <ns1:DepartureDateTime WindowAfter="P0D" WindowBefore="P0D">' . $selDepartureDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
+        //                         <ns1:OriginLocation LocationCode="' . $this->from . '"/>
+        //                         <ns1:DestinationLocation LocationCode="' . $this->to . '"/>
+        //                     </ns1:OriginDestinationInformation>
+        //     ';
+
+        //     if ($this->tripType === 'round-trip') {
+        //         $body .= '
+        //             <ns1:OriginDestinationInformation>
+        //                 <ns1:DepartureDateTime>' . $this->elReturnDate . '</ns1:DepartureDateTime>
+        //                 <ns1:OriginLocation LocationCode="' . $this->to . '"/>
+        //                 <ns1:DestinationLocation LocationCode="' . $this->from . '"/>
+        //             </ns1:OriginDestinationInformation>
+        //         ';
+        //     }
+
+        //     $body .= '
+        //                     <ns1:TravelerInfoSummary>
+        //                         <ns1:AirTravelerAvail>
+        //                             <ns1:PassengerTypeQuantity Code="ADT" Quantity="' . $this->adults . '"/>
+        //                             <ns1:PassengerTypeQuantity Code="CHD" Quantity="' . $this->children . '"/>
+        //                             <ns1:PassengerTypeQuantity Code="INF" Quantity="' . $this->infants . '"/>
+        //                         </ns1:AirTravelerAvail>
+        //                     </ns1:TravelerInfoSummary>
+        //                 </ns1:OTA_AirAvailRQ>
+        //             </soap:Body>
+        //         </soap:Envelope>
+        //     ';
+
+        //     Log::info('SOAP Request: ' . $body);
+
+        //     try {
+        //         $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
+        //         $res = $client->sendAsync($request)->wait();
+        //         $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
+        //         $xml = new SimpleXMLElement($response);
+        //         $body = $xml->xpath('//soapBody')[0];
+        //         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
+
+        //         // Use dd() to dump the last added element in the array
+        //         $this->allResponses[$selDepartureDate->format('Y-m-d')] = $this->dataArray;
+        //     } catch (\Exception $e) {
+        //         Log::error('SOAP Request Error: ' . $e->getMessage());
+        //     }
+        // }
+        
+   
             // Prepare the SOAP request body for each date
+        // foreach ($dateVariations as $selDepartureDate) {
             $body = '
                 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                     <soap:Header>
@@ -82,34 +153,25 @@ class Search extends Component
                                 </ns1:Source>
                             </ns1:POS>
                             <ns1:OriginDestinationInformation>
-                                <ns1:DepartureDateTime WindowAfter="P0D" WindowBefore="P0D">' . $selDepartureDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
-                                <ns1:OriginLocation LocationCode="' . $this->from . '"/>
-                                <ns1:DestinationLocation LocationCode="' . $this->to . '"/>
-                            </ns1:OriginDestinationInformation>
-            ';
-
-            if ($this->tripType === 'round-trip') {
-                $elReturnDate = date('Y-m-d', strtotime($this->elReturnDate)) . 'T00:00:00.000';
-                $body .= '
-                    <ns1:OriginDestinationInformation>
-                        <ns1:DepartureDateTime WindowAfter="P0D" WindowBefore="P0D">' . $elReturnDate . '</ns1:DepartureDateTime>
-                        <ns1:OriginLocation LocationCode="' . $this->to . '"/>
-                        <ns1:DestinationLocation LocationCode="' . $this->from . '"/>
-                    </ns1:OriginDestinationInformation>
-                ';
-            }
-
-            $body .= '
-                            <ns1:TravelerInfoSummary>
-                                <ns1:AirTravelerAvail>
-                                    <ns1:PassengerTypeQuantity Code="ADT" Quantity="' . $this->adults . '"/>
-                                    <ns1:PassengerTypeQuantity Code="CHD" Quantity="' . $this->children . '"/>
-                                    <ns1:PassengerTypeQuantity Code="INF" Quantity="' . $this->infants . '"/>
-                                </ns1:AirTravelerAvail>
-                            </ns1:TravelerInfoSummary>
-                        </ns1:OTA_AirAvailRQ>
-                    </soap:Body>
-                </soap:Envelope>
+                            <ns1:DepartureDateTime WindowAfter="P3D" WindowBefore="P3D">2024-08-20T00:00:00.000</ns1:DepartureDateTime>
+                            <ns1:OriginLocation LocationCode="'. $this->to .'"/>
+                            <ns1:DestinationLocation LocationCode="'. $this->from .'"/>
+                        </ns1:OriginDestinationInformation>
+                        <ns1:OriginDestinationInformation>
+                            <ns1:DepartureDateTime>2024-08-30T00:00:00.000</ns1:DepartureDateTime>
+                            <ns1:OriginLocation LocationCode="'. $this->from .'"/>
+                            <ns1:DestinationLocation LocationCode="'. $this->to .'"/>
+                        </ns1:OriginDestinationInformation>
+                        <ns1:TravelerInfoSummary>
+                            <ns1:AirTravelerAvail>
+                                <ns1:PassengerTypeQuantity Code="ADT" Quantity="1"/>
+                                <ns1:PassengerTypeQuantity Code="CHD" Quantity="0"/>
+                                <ns1:PassengerTypeQuantity Code="INF" Quantity="0"/>
+                            </ns1:AirTravelerAvail>
+                        </ns1:TravelerInfoSummary>
+                    </ns1:OTA_AirAvailRQ>
+                </soap:Body>
+            </soap:Envelope>
             ';
 
             Log::info('SOAP Request: ' . $body);
@@ -123,12 +185,17 @@ class Search extends Component
                 $this->dataArray = json_decode(json_encode((array)$body), TRUE);
 
                 // Use dd() to dump the last added element in the array
-                $this->allResponses[$selDepartureDate->format('Y-m-d')] = $this->dataArray;
+                $this->allResponses[] = $this->dataArray;
             } catch (\Exception $e) {
                 Log::error('SOAP Request Error: ' . $e->getMessage());
             }
-        }
-        //dd($this->allResponses);
+  
+      
+             
+
+        
+      
+        dd($this->allResponses);
 
         return $this->send();
     }
@@ -400,27 +467,26 @@ class Search extends Component
     public function send()
     {
         Session::put('selDepartureDate', $this->selDepartureDate);
-        Session::put('allResponses', $this->allResponses);
 
         return redirect()->route('response'); // Make sure to define a route named 'details'
     }
 
-    public function showDetails()
-    {
-        Session::put('fare_basis_codes', $this->FareBasisCodes);
-        Session::put('fare_rule_reference', $this->FareRuleReference);
-        Session::put('DepartureAirport', $this->DepartureAirport);
-        Session::put('ArrivalAirport', $this->ArrivalAirport);
-        Session::put('DepartureDateTime', $this->DepartureDateTime);
-        Session::put('ArrivalDateTime', $this->ArrivalDateTime);
-        Session::put('FlightNumber', $this->FlightNumber);
-        Session::put('TotalFareWithCCFee', $this->TotalFareWithCCFee);
-        Session::put('TotalEquivFareWithCCFee', $this->TotalEquivFareWithCCFee);
-        Session::put('TransactionIdentifier', $this->TransactionIdentifier);
-        Session::put('RPH', $this->RPH);
+    // public function showDetails()
+    // {
+    //     Session::put('fare_basis_codes', $this->FareBasisCodes);
+    //     Session::put('fare_rule_reference', $this->FareRuleReference);
+    //     Session::put('DepartureAirport', $this->DepartureAirport);
+    //     Session::put('ArrivalAirport', $this->ArrivalAirport);
+    //     Session::put('DepartureDateTime', $this->DepartureDateTime);
+    //     Session::put('ArrivalDateTime', $this->ArrivalDateTime);
+    //     Session::put('FlightNumber', $this->FlightNumber);
+    //     Session::put('TotalFareWithCCFee', $this->TotalFareWithCCFee);
+    //     Session::put('TotalEquivFareWithCCFee', $this->TotalEquivFareWithCCFee);
+    //     Session::put('TransactionIdentifier', $this->TransactionIdentifier);
+    //     Session::put('RPH', $this->RPH);
 
-        return redirect()->route('details'); // Make sure to define a route named 'details'
-    }
+    //     return redirect()->route('details'); // Make sure to define a route named 'details'
+    // }
 
     public function test()
     {

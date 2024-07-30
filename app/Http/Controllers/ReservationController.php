@@ -11,7 +11,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return view('admin.empty');
+        return view('empty');
     }
 
     /**
