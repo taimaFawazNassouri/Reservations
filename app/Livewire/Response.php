@@ -54,12 +54,12 @@ class Response extends Component
 
         $this->goingFlightsGroups = $flights
             ->where('Path', $this->from . '/' . $this->to)
-            ->unique('FlightNumber')
+            ->unique(fn ($flight) => $flight->FlightNumber . $flight->DepartureDate)
             ->groupBy('DepartureDate');
 
         $this->returningFlightsGroups = $flights
             ->where('Path', $this->to . '/' . $this->from)
-            ->unique('FlightNumber')
+            ->unique(fn ($flight) => $flight->FlightNumber . $flight->DepartureDate)
             ->groupBy('DepartureDate');
     }
 
