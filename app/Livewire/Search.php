@@ -30,6 +30,9 @@ class Search extends Component
     public $username;
     public $password;
 
+    public $i;
+    public $responses = [];
+
 
     public function mount(): void
     {
@@ -56,14 +59,20 @@ class Search extends Component
         ]);
 
         try {
-            $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $this->body);
-            $response = (string) $client->sendAsync($request)->wait()->getBody();
 
-            $flightResponse = new FlightResponse($response);
-            // dd($flightResponse->getFlights());
-            // dd($flightResponse->body);
-            if ($flightResponse->errors()->count()) {
-                return;
+            for ($this->i = -3; $this->i <= 3; $this->i++) {
+                $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $this->body);
+                $response = (string) $client->sendAsync($request)->wait()->getBody();
+
+                $flightResponse = new FlightResponse($response);
+
+                // dd($flightResponse->getFlights());
+                dd($flightResponse->body);
+                if ($flightResponse->errors()->count()) {
+                    continue;
+                }
+
+                $this->responses[] = $response;
             }
 
             session()->put('response', $response);
@@ -83,16 +92,9 @@ class Search extends Component
     public function body(): string
     {
         $departureDate = Carbon::parse($this->selDepartureDate);
+        $departureDate->addDays($this->i);
         $elReturnDate = Carbon::parse($this->elReturnDate);
-        $pd = 'P3D';
-
-        $returnTemplate = '
-            <ns1:OriginDestinationInformation>
-                <ns1:DepartureDateTime WindowAfter="' . $pd . '" WindowBefore="' . $pd . '">' . $elReturnDate->format('Y-m-d\TH:i:s.v') . '</ns1:DepartureDateTime>
-                <ns1:OriginLocation LocationCode="' . $this->to . '"/>
-                <ns1:DestinationLocation LocationCode="' . $this->from . '"/>
-            </ns1:OriginDestinationInformation>
-        ';
+        $pd = 'P0D';
 
         $bodyTemplate = '
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -117,7 +119,6 @@ class Search extends Component
                             <ns1:OriginLocation LocationCode="' . $this->from . '"/>
                             <ns1:DestinationLocation LocationCode="' . $this->to . '"/>
                         </ns1:OriginDestinationInformation>
-                        {returnTemplate}
                         <ns1:TravelerInfoSummary>
                             <ns1:AirTravelerAvail>
                                 <ns1:PassengerTypeQuantity Code="ADT" Quantity="' . $this->adults . '"/>
@@ -130,16 +131,6 @@ class Search extends Component
             </soap:Envelope>
         ';
 
-        return str($bodyTemplate)
-            ->when($this->tripType == 'round-trip', function (Stringable $str) use ($returnTemplate) {
-                return $str->swap([
-                    '{returnTemplate}' => $returnTemplate,
-                ]);
-            })
-            ->when($this->tripType !== 'round-trip', function (Stringable $str) {
-                return $str->swap([
-                    '{returnTemplate}' => '',
-                ]);
-            });
+        return str($bodyTemplate);
     }
 }
