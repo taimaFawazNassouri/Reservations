@@ -56,7 +56,7 @@ class Search extends Component
         ]);
 
         try {
-            $responses = collect();
+            $flights = collect();
             for ($this->i = -3; $this->i <= 3; $this->i++) {
                 $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $this->body());
                 $response = (string) $client->sendAsync($request)->wait()->getBody();
@@ -67,7 +67,7 @@ class Search extends Component
                     continue;
                 }
 
-                $responses->push($response);
+                $flights = $flights->merge($flightResponse->getFlights());
             }
 
             if ($this->tripType == 'round-trip') {
@@ -84,14 +84,14 @@ class Search extends Component
                         continue;
                     }
 
-                    $responses->push($response);
+                    $flights = $flights->merge($flightResponse->getFlights());
                 }
 
                 list($this->from, $this->to) = array($this->to, $this->from);
                 list($this->selDepartureDate, $this->elReturnDate) = array($this->elReturnDate, $this->selDepartureDate);
             }
 
-            session()->put('responses', $responses);
+            session()->put('flights', $flights);
             session()->put('tripType', $this->tripType);
             session()->put('from', $this->from);
             session()->put('to', $this->to);

@@ -10,7 +10,7 @@ use Livewire\Attributes\Computed;
 
 class Response extends Component
 {
-    public Collection $responses;
+    // public Collection $responses;
 
     public ?string $tripType;
     public ?string $from;
@@ -29,9 +29,11 @@ class Response extends Component
 
     public function mount()
     {
-        $this->responses = session('responses');
-
-        // dd($this->responses);
+        // $this->responses = session('responses');
+        $flights = session('flights');
+        if (!session()->has('flights')) {
+            return to_route('search.index');
+        }
 
         $this->tripType = session('tripType');
         $this->from = session('from');
@@ -49,12 +51,6 @@ class Response extends Component
         $this->returningDates = collect([]);
         for ($i = -3; $i <= 3; $i++) {
             $this->returningDates->push($returningDate->clone()->addDays($i));
-        }
-
-        $flights = collect();
-        foreach ($this->responses as $key => $response) {
-            $flightResponse = new FlightResponse($response);
-            $flights = $flights->merge($flightResponse->getFlights());
         }
 
         $this->goingFlightsGroups = $flights
@@ -92,7 +88,6 @@ class Response extends Component
 
     public function goToPassengerDetails()
     {
-        session()->put('responses', $this->responses);
         session()->put('tripType', $this->tripType);
         session()->put('from', $this->from);
         session()->put('to', $this->to);
