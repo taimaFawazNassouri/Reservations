@@ -24,7 +24,9 @@ class FlightResponse
         $flights = collect([]);
 
         if (isset($this->body['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'])) {
+            $TransactionIdentifier = $this->body['ns1OTA_AirAvailRS']['@attributes']['TransactionIdentifier'];
             $informations = $this->body['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'];
+
             if (array_key_exists('@attributes', $informations)) {
                 $informations = [$informations];
             }
@@ -40,7 +42,7 @@ class FlightResponse
                     foreach ($option as $key => $flightRecord) {
                         $data = $flightRecord['ns1FlightSegment'];
                         $priceData = $this->body['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1ItinTotalFare'] ?? null;
-                        $flight = new Flight($data, $priceData);
+                        $flight = new Flight($data, $priceData, $TransactionIdentifier);
 
                         $flights->push($flight);
                     }

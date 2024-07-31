@@ -8,11 +8,14 @@ use Livewire\Wireable;
 
 class Flight extends FlightPrice implements Arrayable, Wireable
 {
-    // ['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'][#each]['ns1OriginDestinationOptions']['ns1OriginDestinationOption']['ns1FlightSegment']
-    private $data;
+    public $TransactionIdentifier;
+
     // ['ns1OTA_AirAvailRS']['ns1AAAirAvailRSExt']['ns1PricedItineraries']['ns1PricedItinerary']['ns1AirItineraryPricingInfo']['ns1ItinTotalFare']
     private $priceData;
     private $Price;
+
+    // ['ns1OTA_AirAvailRS']['ns1OriginDestinationInformation'][#each]['ns1OriginDestinationOptions']['ns1OriginDestinationOption']['ns1FlightSegment']
+    private $data;
 
     public $ArrivalDateTime;
     public $DepartureDateTime;
@@ -27,8 +30,10 @@ class Flight extends FlightPrice implements Arrayable, Wireable
     public $Path;
     public $DepartureDate;
 
-    public function __construct(array $data = [], ?array $priceData = [])
+    public function __construct(array $data = [], ?array $priceData = [], $TransactionIdentifier = null)
     {
+        $this->TransactionIdentifier = $TransactionIdentifier;
+
         $this->priceData = $priceData;
         $this->Price = new FlightPrice($priceData);
 
@@ -55,6 +60,7 @@ class Flight extends FlightPrice implements Arrayable, Wireable
     public function toArray()
     {
         $array = [
+            'TransactionIdentifier' => $this->TransactionIdentifier,
             'ArrivalDateTime' => $this->ArrivalDateTime,
             'DepartureDateTime' => $this->DepartureDateTime,
             'FlightNumber' => $this->FlightNumber,
@@ -79,6 +85,7 @@ class Flight extends FlightPrice implements Arrayable, Wireable
     public function toLivewire()
     {
         $array = [
+            'TransactionIdentifier' => $this->TransactionIdentifier,
             'ArrivalDateTime' => $this->ArrivalDateTime,
             'DepartureDateTime' => $this->DepartureDateTime,
             'FlightNumber' => $this->FlightNumber,
@@ -103,6 +110,7 @@ class Flight extends FlightPrice implements Arrayable, Wireable
     public static function fromLivewire($value)
     {
         $instance = new self;
+        $instance->TransactionIdentifier = $value['TransactionIdentifier'];
         $instance->ArrivalDateTime = $value['ArrivalDateTime'];
         $instance->DepartureDateTime = $value['DepartureDateTime'];
         $instance->FlightNumber = $value['FlightNumber'];
