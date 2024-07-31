@@ -16,7 +16,7 @@ class Response extends Component
     public ?string $from;
     public ?string $to;
     public ?string $goingDate;
-    public ?string $returningDate;
+    public ?string $returningDate = null;
 
     public Collection $goingDates;
     public Collection $returningDates;
