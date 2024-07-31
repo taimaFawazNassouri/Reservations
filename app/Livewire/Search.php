@@ -11,8 +11,6 @@ use Carbon\Carbon;
 use GuzzleHttp\Psr7\Request;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Stringable;
 
 class Search extends Component
 {
@@ -31,7 +29,6 @@ class Search extends Component
     public $password;
 
     public $i;
-    public $responses = [];
 
 
     public function mount(): void
@@ -57,57 +54,63 @@ class Search extends Component
                 'Content-Type' => 'application/xml',
             ]
         ]);
-    
+
         try {
-            // Initialize the responses array to store each day's response
-            $this->responses = [];
-            
-            // Loop from -3 to 3 to cover three days before and three days after the selected date
+            $responses = collect();
             for ($this->i = -3; $this->i <= 3; $this->i++) {
-                // Calculate the departure date for the current iteration
-                $departureDate = Carbon::parse($this->selDepartureDate)->addDays($this->i);
-    
-                // Generate the request body for the current day
-                $requestBody = $this->generateRequestBody($departureDate); 
-                $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $requestBody);
-                
-                // Send the request asynchronously and wait for the response
+                $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $this->body());
                 $response = (string) $client->sendAsync($request)->wait()->getBody();
+
                 $flightResponse = new FlightResponse($response);
-    
-                // If there are any errors, skip this response
+
                 if ($flightResponse->errors()->count()) {
                     continue;
                 }
-    
-                // Store the successful response
-                $this->responses[] = $response;
+
+                $responses->push($response);
             }
-    
-            // Use dd() to debug and inspect the responses
-            dd($this->responses);
-    
-            // Store relevant information in session for later retrieval
-            session()->put('response', $this->responses); // Store all responses
+
+            if ($this->tripType == 'round-trip') {
+                list($this->from, $this->to) = array($this->to, $this->from);
+                list($this->selDepartureDate, $this->elReturnDate) = array($this->elReturnDate, $this->selDepartureDate);
+
+                for ($this->i = -3; $this->i <= 3; $this->i++) {
+                    $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $this->body());
+                    $response = (string) $client->sendAsync($request)->wait()->getBody();
+
+                    $flightResponse = new FlightResponse($response);
+
+                    if ($flightResponse->errors()->count()) {
+                        continue;
+                    }
+
+                    $responses->push($response);
+                }
+
+                list($this->from, $this->to) = array($this->to, $this->from);
+                list($this->selDepartureDate, $this->elReturnDate) = array($this->elReturnDate, $this->selDepartureDate);
+            }
+
+            session()->put('responses', $responses);
             session()->put('tripType', $this->tripType);
             session()->put('from', $this->from);
             session()->put('to', $this->to);
             session()->put('goingDate', $this->selDepartureDate);
             session()->put('returningDate', $this->elReturnDate);
-    
-            // Redirect to the response page
-            return redirect()->route('response');
+
+            return redirect()->route('response'); // Make sure to define a route named 'details'
         } catch (\Exception $e) {
             Log::error('SOAP Request Error: ' . $e->getMessage());
         }
     }
-    
-    public function generateRequestBody($departureDate): string
+
+    #[Computed]
+    public function body(): string
     {
+        $departureDate = Carbon::parse($this->selDepartureDate)->addDays($this->i);
         $elReturnDate = Carbon::parse($this->elReturnDate);
-        $pd = 'P0D'; // Time window before and after the selected date
-    
-        // Construct the SOAP request body
+        $pd = 'P0D';
+
         $bodyTemplate = '
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <soap:Header>
@@ -142,8 +145,7 @@ class Search extends Component
                 </soap:Body>
             </soap:Envelope>
         ';
-    
+
         return str($bodyTemplate);
     }
-    
 }
