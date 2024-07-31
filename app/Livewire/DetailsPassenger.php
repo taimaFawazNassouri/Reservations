@@ -98,7 +98,7 @@ class DetailsPassenger extends Component
                 ->first();
         }
 
-        dd($goingTrip);
+        dd($this->goingTrip);
 
 
         $credentials = Credential::find(1);
