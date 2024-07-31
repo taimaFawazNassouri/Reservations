@@ -11,7 +11,7 @@
         Select your departing flight from {{ $this->from }} to {{ $this->to }}
     </h2>
 
-    <button wire:click="test">test</button>
+    {{-- <button wire:click="test">test</button> --}}
     <div class="flight-selection">
         @foreach ($goingDates as $gDate)
             <div wire:click.prevent="setGoingDate(@js($gDate->format('Y-m-d')))">
