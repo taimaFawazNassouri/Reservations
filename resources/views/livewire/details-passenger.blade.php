@@ -1,9 +1,10 @@
 <div class="container mt-5">
     @if (session()->has('success'))
         <div class="alert alert-success mt-3">
-           {{ session('success') }}
+            {{ session('success') }}
         </div>
     @endif
+
     <p>{{ $this->ticketAdvisory }}</p>
     <h2>Traveler Information Form</h2>
     <!-- Traveler and Contact Information Form -->
@@ -15,7 +16,7 @@
             <div class="col-md-4">
                 <label for="title" class="form-label">Title *</label>
                 <select wire:model="title" id="title" class="form-control" required>
-                    <option value=""  selected>Select your title</option>
+                    <option value="" selected>Select your title</option>
                     <option value="MR">Mr</option>
                     <option value="MS">Ms</option>
                     <option value="MRS">Mrs</option>
@@ -31,7 +32,7 @@
                 <input wire:model="last_name" type="text" id="lastName" class="form-control" required>
             </div>
         </div>
-            
+
         <!-- Nationality, Date of Birth -->
         <div class="row mb-3">
             <div class="col-md-6">
@@ -58,7 +59,7 @@
                     <option value="United Arab Emirates" data-code="+971">United Arab Emirates</option>
                     <option value="Argentina" data-code="+54">Argentina</option>
                     <option value="Indonesia" data-code="+62">Indonesia</option>
-                        <!-- Add more countries as needed -->
+                    <!-- Add more countries as needed -->
                 </select>
             </div>
             <div class="col-md-6">
@@ -66,7 +67,7 @@
                 <input wire:model="date_of_birth" type="date" id="dob" class="form-control" required>
             </div>
         </div>
-            
+
         <!-- Passport, Passport Issued Country, Passport Expiry -->
         <div class="row mb-3">
             <div class="col-md-4">
@@ -97,7 +98,7 @@
                     <option value="United Arab Emirates" data-code="+971">United Arab Emirates</option>
                     <option value="Argentina" data-code="+54">Argentina</option>
                     <option value="Indonesia" data-code="+62">Indonesia</option>
-                        <!-- Add more countries as needed -->
+                    <!-- Add more countries as needed -->
                 </select>
             </div>
             <div class="col-md-4">
@@ -105,10 +106,10 @@
                 <input wire:model="passport_expiry_date" type="date" id="passportExpiry" class="form-control" required>
             </div>
         </div>
-    
+
         <!-- Contact Information Section -->
-            <h3 class="mt-5">Contact Information Mandatory Fields *</h3>
-            
+        <h3 class="mt-5">Contact Information Mandatory Fields *</h3>
+
         <!-- City, Country of Residence -->
         <div class="row mb-3">
             <div class="col-md-6">
@@ -143,7 +144,7 @@
                 </select>
             </div>
         </div>
-    
+
         <!-- Email Address, Document Upload -->
         <div class="row mb-3">
             <div class="col-md-6">
@@ -155,7 +156,7 @@
                 <input wire:model="document_path" type="file" id="documentUpload" class="form-control" accept=".pdf, .doc, .docx, .jpg, .jpeg, .png">
             </div>
         </div>
-            
+
         <!-- Mobile, Country Code, Phone, Mobile During Travel, Country Code, Phone -->
         <div class="row mb-3">
             <label for="mobile" class="form-label">Mobile *</label>
@@ -168,8 +169,8 @@
                 <input wire:model="phone" type="tel" id="phone" class="form-control">
             </div>
         </div>
-        
-            
+
+
         <!-- Phone, Phone (During Travel) -->
         <div class="row mb-3">
             <label for="mobileDuringTravel" class="form-label">Mobile During Travel *</label>
@@ -182,7 +183,7 @@
                 <input wire:model="phone_travel" type="tel" id="phoneTravel" class="form-control">
             </div>
         </div>
-            
+
         <!-- Submit Button -->
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn btn-primary w-50">Continue to Extras</button>
