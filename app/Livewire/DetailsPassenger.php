@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class DetailsPassenger extends Component
 {
@@ -98,7 +99,7 @@ class DetailsPassenger extends Component
                 ->first();
         }
 
-        dd($this->goingTrip);
+        //dd($this->goingTrip);
 
 
         $credentials = Credential::find(1);
@@ -110,7 +111,7 @@ class DetailsPassenger extends Component
 
     public function submitDetails()
     {
-        $totalFareWithCCFeeString = $this->TotalFareWithCCFee;
+        $totalFareWithCCFeeString = $this->goingTrip->TotalFareWithCCFee;
 
 
         $amount = '0.00';
@@ -200,7 +201,7 @@ class DetailsPassenger extends Component
             </wsse:Security>
         </soap:Header>
         <soap:Body xmlns:ns1="http://www.isaaviation.com/thinair/webservices/OTA/Extensions/2003/05" xmlns:ns2="http://www.opentravel.org/OTA/2003/05">
-            <ns2:OTA_AirBookRQ EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="2008-08-25T16:15:59" TransactionIdentifier="' . $this->TransactionIdentifier . '" Version="20061.00">
+            <ns2:OTA_AirBookRQ EchoToken="11868765275150-1300257933" PrimaryLangID="en-us" SequenceNmbr="1" TimeStamp="2008-08-25T16:15:59" TransactionIdentifier="' . $this->goingTrip->TransactionIdentifier . '" Version="20061.00">
                 <ns2:POS>
                     <ns2:Source TerminalID="TestUser/Test Runner">
                         <ns2:RequestorID ID="' . $this->username . '" Type="4" />
@@ -210,13 +211,13 @@ class DetailsPassenger extends Component
                 <ns2:AirItinerary>
                     <ns2:OriginDestinationOptions>
                         <ns2:OriginDestinationOption>
-                            <ns2:FlightSegment ArrivalDateTime="' . $this->ArrivalDateTime . '"
-                                               DepartureDateTime="' . $this->DepartureDateTime . '"
-                                               FlightNumber="' . $this->FlightNumber . '"
-                                               RPH="' . $this->RPH . '"
+                            <ns2:FlightSegment ArrivalDateTime="' . $this->goingTrip->ArrivalDateTime . '"
+                                               DepartureDateTime="' . $this->goingTrip->DepartureDateTime . '"
+                                               FlightNumber="' . $this->goingTrip->FlightNumber . '"
+                                               RPH="' . $this->goingTrip->RPH . '"
                                                returnFlag="false">
-                                <ns2:DepartureAirport LocationCode="' . $this->DepartureAirport . '"/>
-                                <ns2:ArrivalAirport LocationCode="' . $this->ArrivalAirport . '"/>
+                                <ns2:DepartureAirport LocationCode="' . $this->goingTrip->DepartureAirport . '"/>
+                                <ns2:ArrivalAirport LocationCode="' . $this->goingTrip->ArrivalAirport . '"/>
                                 <ns2:OperatingAirline Code="6Q"/>
                             </ns2:FlightSegment>
                         </ns2:OriginDestinationOption>
@@ -282,32 +283,77 @@ class DetailsPassenger extends Component
         </soap:Body>
     </soap:Envelope>';
 
-        try {
-            $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
-            $res = $client->sendAsync($request)->wait();
+      
+        $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
+        $res = $client->sendAsync($request)->wait();
+        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
+        $xml = new SimpleXMLElement($response);
+        $body = $xml->xpath('//soapBody')[0];
+        $this->dataArray = json_decode(json_encode((array)$body), TRUE);
+        //dd( $this->dataArray);
+        // try {
+        //     $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
+        //     $res = $client->sendAsync($request)->wait();
 
-            // Capture and store the response body
-            $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
-            Log::info('SOAP Response: ' . $response);
-            dd($response);
-        } catch (\Exception $e) {
-            // Log the error for debugging
-            $responseBody = $e->getResponse() ? (string) $e->getResponse()->getBody() : 'No response body';
-            Log::error('SOAP Request Error: ' . $e->getMessage());
-            Log::error('SOAP Request Error Body: ' . $responseBody);
-            dd($e->getMessage(), $responseBody);
-        }
-        // $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
-        // $res = $client->sendAsync($request)->wait();
-        // $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
-        // $xml = new SimpleXMLElement($response);
-        // $body = $xml->xpath('//soapBody')[0];
-        // $this->dataArray = json_decode(json_encode((array)$body), TRUE);
-        // dd( $this->dataArray);
+        //     // Capture and store the response body
+        //     $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
+        //     Log::info('SOAP Response: ' . $response);
+        //     dd($response);
+        // } catch (\Exception $e) {
+        //     // Log the error for debugging
+        //     $responseBody = $e->getResponse() ? (string) $e->getResponse()->getBody() : 'No response body';
+        //     Log::error('SOAP Request Error: ' . $e->getMessage());
+        //     Log::error('SOAP Request Error Body: ' . $responseBody);
+        //     dd($e->getMessage(), $responseBody);
+        // }
 
 
 
     }
+    #computed
+    public function ticketAdvisory()
+    {
+        $ticket_advisory = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1Ticketing']['ns1TicketAdvisory'] ?? null;
+
+        $passengerData = [
+            'title' => $this->title,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'nationality' => strtoupper(substr($this->nationality, 0, 2)),
+            'date_of_birth' => $this->date_of_birth,
+            'passport_number' => $this->passport_number,
+            'passport_issued_country' => substr($this->passport_issued_country, 0, 2),
+            'passport_expiry_date' => $this->passport_expiry_date,
+            'city' => strtoupper(substr($this->city, 0, 2)),
+            'country_of_residence' => strtoupper(substr($this->country_of_residence, 0, 2)),
+            'email' => $this->email,
+            'country_code_phone' => $this->country_code_phone,
+            'phone' => $this->phone,
+            'country_code_travel' => $this->country_code_travel,
+            'phone_travel' => $this->phone_travel,
+            'document_path' => $documentPath,
+        ];
+    
+        if ($ticket_advisory) {
+            if (str($ticket_advisory)->contains('Reservation is fully paid and confirmed')) {
+                // Store in the details_passenger_confirm table
+                \DB::table('details_passenger_confirm')->insert($passengerData);
+    
+                 $this->ticketAdvisoryMessage = "Your ticket has been confirmed successfully. 
+                        Details:
+                        - Flight Number: {$this->goingTrip->FlightNumber}
+                        - Departure: {$this->goingTrip->DepartureDateTime} from {$this->goingTrip->DepartureAirport}
+                        - Arrival: {$this->goingTrip->ArrivalDateTime} at {$this->goingTrip->ArrivalAirport}";
+                return;
+            }
+        }
+    
+        // Store in the details_passenger_unconfirm table if not confirmed
+        \DB::table('details_passenger_unconfirm')->insert($passengerData);
+    
+        return "Your ticket could not be confirmed at this time.";
+    }
+     
     public function render()
     {
         return view('livewire.details-passenger');

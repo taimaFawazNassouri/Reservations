@@ -4,6 +4,9 @@
            {{ session('success') }}
         </div>
     @endif
+    @if($ticketAdvisoryMessage)
+        <p>{{ $ticketAdvisoryMessage }}</p>
+    @endif
     <h2>Traveler Information Form</h2>
     <!-- Traveler and Contact Information Form -->
     <form wire:submit.prevent="submitDetails" id="travelerForm" class="mt-4">
