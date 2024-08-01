@@ -311,10 +311,11 @@ class DetailsPassenger extends Component
 
 
     }
-    #computed
+    #[Computed]
     public function ticketAdvisory()
     {
         $ticket_advisory = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1Ticketing']['ns1TicketAdvisory'] ?? null;
+        $documentPath = $this->document_path ? $this->document_path->store('documents') : null;
 
         $passengerData = [
             'title' => $this->title,
@@ -338,7 +339,7 @@ class DetailsPassenger extends Component
         if ($ticket_advisory) {
             if (str($ticket_advisory)->contains('Reservation is fully paid and confirmed')) {
                 // Store in the details_passenger_confirm table
-                \DB::table('details_passenger_confirm')->insert($passengerData);
+                \DB::table('detail_passenger_confirms')->insert($passengerData);
     
                  $this->ticketAdvisoryMessage = "Your ticket has been confirmed successfully. 
                         Details:
@@ -347,12 +348,13 @@ class DetailsPassenger extends Component
                         - Arrival: {$this->goingTrip->ArrivalDateTime} at {$this->goingTrip->ArrivalAirport}";
                 return;
             }
+             // Store in the details_passenger_unconfirm table if not confirmed
+            \DB::table('detail_passenger_unconfirms')->insert($passengerData);
+    
+             return "Your ticket could not be confirmed at this time.";
         }
     
-        // Store in the details_passenger_unconfirm table if not confirmed
-        \DB::table('details_passenger_unconfirm')->insert($passengerData);
-    
-        return "Your ticket could not be confirmed at this time.";
+       
     }
     public function render()
     {
