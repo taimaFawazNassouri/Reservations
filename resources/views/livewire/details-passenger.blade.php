@@ -167,6 +167,9 @@
             <div class="col-md-6">
                 <label for="phone" class="form-label">Phone</label>
                 <input wire:model="phone" type="tel" id="phone" class="form-control">
+                @error('phone')
+                    <x-input-error :messages="$errors->first('phone')" />
+                @enderror
             </div>
         </div>
 

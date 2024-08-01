@@ -12,9 +12,6 @@ use App\Models\Reservation;
 use GuzzleHttp\Psr7\Request;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -38,43 +35,41 @@ class DetailsPassenger extends Component
     public $country_code_travel;
     public $phone_travel;
     public $document_path;
-
+    public $documentPath;
 
     public $username;
     public $password;
 
-
-    public $FareBasisCodes;
-    public $FareRuleReference;
-    public $DepartureAirport;
-    public $ArrivalAirport;
-    public $DepartureDateTime;
-    public $ArrivalDateTime;
-    public $FlightNumber;
-    public $TotalFareWithCCFee;
-    public $TotalEquivFareWithCCFee;
-    public $TransactionIdentifier;
-    public $RPH;
-    public $ticketAdvisoryMessage;
-
     public $dataArray = [];
+    public $ticketAdvisoryMessage;
 
     public $goingTrip;
     public $returningTrip;
 
     public function mount()
     {
-        $this->FareBasisCodes = session('fare_basis_codes');
-        $this->FareRuleReference = session('fare_rule_reference');
-        $this->DepartureAirport = session('DepartureAirport');
-        $this->ArrivalAirport = session('ArrivalAirport');
-        $this->DepartureDateTime = session('DepartureDateTime');
-        $this->ArrivalDateTime = session('ArrivalDateTime');
-        $this->FlightNumber = session('FlightNumber');
-        $this->TotalFareWithCCFee = session('TotalFareWithCCFee');
-        $this->TotalEquivFareWithCCFee = session('TotalEquivFareWithCCFee');
-        $this->TransactionIdentifier = session('TransactionIdentifier');
-        $this->RPH = session('RPH');
+        $this->title = fake()->randomElement(['MR', 'MS', 'MRS', 'DR']);
+        $this->first_name = fake()->name();
+        $this->last_name = fake()->lastName();
+        $this->nationality = 'Canada';
+        $this->date_of_birth = fake()->date(max: '-18 years');
+        $this->passport_number = fake()->randomNumber(9, true);
+        $this->passport_issued_country = 'Canada';
+        $this->passport_expiry_date = '2029-09-20';
+        $this->city = fake()->city();
+        $this->country_of_residence = 'Canada';
+        $this->email = fake()->email();
+        $this->country_code_phone = '+1';
+        $this->phone = str(fake()->phoneNumber())->swap([
+            '-' => '',
+            ' ' => '',
+            '+' => '',
+            '.' => '',
+            '(' => '',
+            ')' => '',
+        ])->take(10);
+        $this->country_code_travel =  $this->country_code_phone;
+        $this->phone_travel =  $this->phone;
 
         $flights = session('flights');
         $tripType = session('tripType');
@@ -99,9 +94,6 @@ class DetailsPassenger extends Component
                 ->first();
         }
 
-        //dd($this->goingTrip);
-
-
         $credentials = Credential::find(1);
         $this->username = $credentials->user_name;
         $this->password = $credentials->password;
@@ -115,73 +107,17 @@ class DetailsPassenger extends Component
     public function submitDetails()
     {
         $totalFareWithCCFeeString = $this->goingTrip->TotalFareWithCCFee;
-        $amount = '0.00';
-        $currencyCode = '';
+        $amount = str($totalFareWithCCFeeString)->before(' ');
+        $currencyCode = str($totalFareWithCCFeeString)->after(' ');
 
-        if (!empty($totalFareWithCCFeeString)) {
-            $parts = explode(' ', $totalFareWithCCFeeString);
+        $this->documentPath = $this->document_path ? $this->document_path->store('documents') : null;
 
-            // Check if we have at least two parts after splitting
-            if (count($parts) >= 2) {
-                $amount = $parts[0];
-                $currencyCode = $parts[1];
-            } else {
-                // Log a warning if the string format is not as expected
-                Log::warning('Unexpected format for TotalFareWithCCFee: ' . $totalFareWithCCFeeString);
-            }
-        } else {
-            Log::warning('TotalFareWithCCFee returned an empty or null string.');
-        }
-
-        $totalFare = number_format((float)$amount, 2, '.', '');
-        $documentPath = $this->document_path ? $this->document_path->store('documents') : null;
-        $countryCodeTravel = ltrim($this->country_code_travel, '+');
-        $countryCodePhone = ltrim($this->country_code_phone, '+');
-
-        $validator = Validator::make([
-            'phone_travel' => $this->phone_travel,
-            'phone' => $this->phone,
-        ], [
-            'phone_travel' => ['required', 'max:10',  'not_regex:/^0/'],
-            'phone' => ['required', 'max:10',  'not_regex:/^0/'],
+        $this->validate([
+            'phone_travel' => ['required', 'max:10'],
+            'phone' => ['required', 'max:10'],
         ]);
 
-        if ($validator->fails()) {
-            // Handle validation failure (e.g., return an error response or throw an exception)
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $passengerDetails = PassengerDetail::create([
-            'title' => $this->title,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'nationality' => strtoupper(substr($this->nationality, 0, 2)),
-            'date_of_birth' => $this->date_of_birth,
-            'passport_number' => $this->passport_number,
-            'passport_issued_country' => substr($this->passport_issued_country, 0, 2),
-            'passport_expiry_date' => $this->passport_expiry_date,
-            'city' => strtoupper(substr($this->city, 0, 2)),
-            'country_of_residence' => strtoupper(substr($this->country_of_residence, 0, 2)),
-            'email' => $this->email,
-            'country_code_phone' => $this->country_code_phone,
-            'phone' => $this->phone,
-            'country_code_travel' => $this->country_code_travel,
-            'phone_travel' => $this->phone_travel,
-            'document_path' => $documentPath,
-        ]);
-
-        $nationality1 = $passengerDetails->nationality;
-        $title1 = $passengerDetails->title;
-        $first_name1 = $passengerDetails->first_name;
-        $last_name1 = $passengerDetails->last_name;
-        $date_of_birth1 = $passengerDetails->date_of_birth;
-        $email1 = $passengerDetails->email;
-        $city1 = $passengerDetails->city;
-        $country_of_residence1 = $passengerDetails->country_of_residence;
-        $country_code_phone1 = $passengerDetails->country_code_phone;
-        $country_code_travel1 = $passengerDetails->country_code_travel;
-        $phone1 = $passengerDetails->phone;
-        $phone_travel1 = $passengerDetails->phone_travel;
+        $passengerDetails = PassengerDetail::create($this->passengerData);
 
         $client = new Client([
             'headers' => [
@@ -223,17 +159,17 @@ class DetailsPassenger extends Component
                             </ns2:OriginDestinationOptions>
                         </ns2:AirItinerary>
                         <ns2:TravelerInfo>
-                            <ns2:AirTraveler BirthDate="' . $date_of_birth1 . '" PassengerTypeCode="ADT">
+                            <ns2:AirTraveler BirthDate="' . $passengerDetails->date_of_birth . '" PassengerTypeCode="ADT">
                                 <ns2:PersonName>
-                                    <ns2:GivenName> ' . $first_name1 . '</ns2:GivenName>
-                                    <ns2:Surname>' . $last_name1 . '</ns2:Surname>
-                                    <ns2:NameTitle>' . $title1 . '</ns2:NameTitle>
+                                    <ns2:GivenName> ' . $passengerDetails->first_name . '</ns2:GivenName>
+                                    <ns2:Surname>' . $passengerDetails->last_name . '</ns2:Surname>
+                                    <ns2:NameTitle>' . $passengerDetails->title . '</ns2:NameTitle>
                                 </ns2:PersonName>
-                                <ns2:Telephone AreaCityCode="' . $city1 . '" CountryAccessCode="' . $country_code_phone1 . '" PhoneNumber="' . $phone1 . '" />
+                                <ns2:Telephone AreaCityCode="' . $passengerDetails->city . '" CountryAccessCode="' . $passengerDetails->country_code_phone . '" PhoneNumber="' . $passengerDetails->phone . '" />
                                 <ns2:Address>
-                                    <ns2:CountryName Code="' . $country_of_residence1 . '" />
+                                    <ns2:CountryName Code="' . $passengerDetails->country_of_residence . '" />
                                 </ns2:Address>
-                                <ns2:Document DocHolderNationality="' . $nationality1 . '" />
+                                <ns2:Document DocHolderNationality="' . $passengerDetails->nationality . '" />
                                 <ns2:TravelerRefNumber RPH="A1" />
                             </ns2:AirTraveler>
                             <ns2:SpecialReqDetails>
@@ -247,7 +183,7 @@ class DetailsPassenger extends Component
                                     <ns2:DirectBill>
                                         <ns2:CompanyName Code="DAM175" />
                                     </ns2:DirectBill>
-                                    <ns2:PaymentAmount Amount="' . $totalFare . '" CurrencyCode="USD" DecimalPlaces="2" />
+                                    <ns2:PaymentAmount Amount="' . $amount->toString() . '" CurrencyCode="' . $currencyCode->toString() . '" DecimalPlaces="2" />
                                 </ns2:PaymentDetail>
                             </ns2:PaymentDetails>
                         </ns2:Fulfillment>
@@ -255,27 +191,27 @@ class DetailsPassenger extends Component
                     <ns1:AAAirBookRQExt>
                         <ns1:ContactInfo>
                             <ns1:PersonName>
-                                <ns1:Title>' . $title1 . '</ns1:Title>
-                                <ns1:FirstName>' . $first_name1 . '</ns1:FirstName>
-                                <ns1:LastName>' . $last_name1 . '</ns1:LastName>
+                                <ns1:Title>' . $passengerDetails->title . '</ns1:Title>
+                                <ns1:FirstName>' . $passengerDetails->first_name . '</ns1:FirstName>
+                                <ns1:LastName>' . $passengerDetails->last_name . '</ns1:LastName>
                             </ns1:PersonName>
                             <ns1:Telephone>
-                                <ns1:PhoneNumber>"' . $phone1 . '"</ns1:PhoneNumber>
-                                <ns1:CountryCode>' . $country_of_residence1 . '</ns1:CountryCode>
-                                <ns1:AreaCode>' . $city1 . '</ns1:AreaCode>
+                                <ns1:PhoneNumber>"' . $passengerDetails->phone . '"</ns1:PhoneNumber>
+                                <ns1:CountryCode>' . $passengerDetails->country_of_residence . '</ns1:CountryCode>
+                                <ns1:AreaCode>' . $passengerDetails->city . '</ns1:AreaCode>
                             </ns1:Telephone>
                             <ns1:Mobile>
-                                <ns1:PhoneNumber>"' . $phone1 . '"</ns1:PhoneNumber>
-                                <ns1:CountryCode>' . $country_of_residence1 . '</ns1:CountryCode>
-                                <ns1:AreaCode>' . $city1 . '</ns1:AreaCode>
+                                <ns1:PhoneNumber>"' . $passengerDetails->phone . '"</ns1:PhoneNumber>
+                                <ns1:CountryCode>' . $passengerDetails->country_of_residence . '</ns1:CountryCode>
+                                <ns1:AreaCode>' . $passengerDetails->city . '</ns1:AreaCode>
                             </ns1:Mobile>
-                            <ns1:Email>' . $email1 . '</ns1:Email>
+                            <ns1:Email>' . $passengerDetails->email . '</ns1:Email>
                             <ns1:Address>
                                 <ns1:CountryName>
-                                    <ns1:CountryName>' . $country_of_residence1 . '</ns1:CountryName>
-                                    <ns1:CountryCode>' . $country_of_residence1 . '</ns1:CountryCode>
+                                    <ns1:CountryName>' . $passengerDetails->country_of_residence . '</ns1:CountryName>
+                                    <ns1:CountryCode>' . $passengerDetails->country_of_residence . '</ns1:CountryCode>
                                 </ns1:CountryName>
-                                <ns1:CityName>' . $city1 . '</ns1:CityName>
+                                <ns1:CityName>' . $passengerDetails->city . '</ns1:CityName>
                             </ns1:Address>
                         </ns1:ContactInfo>
                     </ns1:AAAirBookRQExt>
@@ -283,38 +219,44 @@ class DetailsPassenger extends Component
             </soap:Envelope>
         ';
 
-
         $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
-        $res = $client->sendAsync($request)->wait();
-        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
+        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $client->sendAsync($request)->wait()->getBody());
+
         $xml = new SimpleXMLElement($response);
         $body = $xml->xpath('//soapBody')[0];
         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
-        //dd( $this->dataArray);
-        // try {
-        //     $request = new Request('POST', 'https://6q15.isaaviations.com/webservices/services/AAResWebServices', [], $body);
-        //     $res = $client->sendAsync($request)->wait();
 
-        //     // Capture and store the response body
-        //     $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", (string) $res->getBody());
-        //     Log::info('SOAP Response: ' . $response);
-        //     dd($response);
-        // } catch (\Exception $e) {
-        //     // Log the error for debugging
-        //     $responseBody = $e->getResponse() ? (string) $e->getResponse()->getBody() : 'No response body';
-        //     Log::error('SOAP Request Error: ' . $e->getMessage());
-        //     Log::error('SOAP Request Error Body: ' . $responseBody);
-        //     dd($e->getMessage(), $responseBody);
-        // }
+        if ($this->ticket_advisory) {
+            if (!str($this->ticket_advisory)->contains('Reservation is fully paid and confirmed')) {
+                // Store in the details_passenger_unconfirm table if not confirmed
+                DB::table('detail_passenger_unconfirms')->insert($this->passengerData);
+                return;
+            } else {
+                // Store in the details_passenger_confirm table
+                DB::table('detail_passenger_confirms')->insert($this->passengerData);
+
+                $this->ticketAdvisoryMessage = "Your ticket has been confirmed successfully. 
+                        Details:
+                        - Flight Number: {$this->goingTrip->FlightNumber}
+                        - Departure: {$this->goingTrip->DepartureDateTime} from {$this->goingTrip->DepartureAirport}
+                        - Arrival: {$this->goingTrip->ArrivalDateTime} at {$this->goingTrip->ArrivalAirport}";
+                return;
+            }
+        }
+
+        dd($this->dataArray);
     }
 
     #[Computed]
-    public function ticketAdvisory()
+    public function ticketAdvisory(): ?string
     {
-        $ticket_advisory = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1Ticketing']['ns1TicketAdvisory'] ?? null;
-        $documentPath = $this->document_path ? $this->document_path->store('documents') : null;
+        return $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1Ticketing']['ns1TicketAdvisory'] ?? null;
+    }
 
-        $passengerData = [
+    #[Computed]
+    public function passengerData()
+    {
+        return [
             'title' => $this->title,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -330,25 +272,7 @@ class DetailsPassenger extends Component
             'phone' => $this->phone,
             'country_code_travel' => $this->country_code_travel,
             'phone_travel' => $this->phone_travel,
-            'document_path' => $documentPath,
+            'document_path' => $this->documentPath,
         ];
-
-        if ($ticket_advisory) {
-            if (str($ticket_advisory)->contains('Reservation is fully paid and confirmed')) {
-                // Store in the details_passenger_confirm table
-                DB::table('detail_passenger_confirms')->insert($passengerData);
-
-                $this->ticketAdvisoryMessage = "Your ticket has been confirmed successfully. 
-                        Details:
-                        - Flight Number: {$this->goingTrip->FlightNumber}
-                        - Departure: {$this->goingTrip->DepartureDateTime} from {$this->goingTrip->DepartureAirport}
-                        - Arrival: {$this->goingTrip->ArrivalDateTime} at {$this->goingTrip->ArrivalAirport}";
-                return;
-            }
-            // Store in the details_passenger_unconfirm table if not confirmed
-            DB::table('detail_passenger_unconfirms')->insert($passengerData);
-
-            return "Your ticket could not be confirmed at this time.";
-        }
     }
 }
