@@ -46,9 +46,6 @@ Route::group(
         Route::get('/response', function () {
             return view('admin.response');
         })->name('response');
-        Route::get('/response', function () {
-            return view('admin.confirm');
-        })->name('message-confirm');
       
 
       

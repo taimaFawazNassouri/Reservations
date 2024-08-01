@@ -55,6 +55,7 @@ class DetailsPassenger extends Component
     public $TotalEquivFareWithCCFee;
     public $TransactionIdentifier;
     public $RPH;
+    public $ticketAdvisoryMessage;
 
     public $dataArray = [];
 
@@ -353,7 +354,6 @@ class DetailsPassenger extends Component
     
         return "Your ticket could not be confirmed at this time.";
     }
-     
     public function render()
     {
         return view('livewire.details-passenger');

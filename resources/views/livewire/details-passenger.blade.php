@@ -4,7 +4,7 @@
            {{ session('success') }}
         </div>
     @endif
-    <p>{{ $this->ticket_advisory }}</p>
+    <p>{{ $this->ticketAdvisory }}</p>
     <h2>Traveler Information Form</h2>
     <!-- Traveler and Contact Information Form -->
     <form wire:submit.prevent="submitDetails" id="travelerForm" class="mt-4">
