@@ -26,6 +26,7 @@ class Response extends Component
 
     public Collection $goingFlightsGroups;
     public Collection $returningFlightsGroups;
+    public $adults;
 
     public function mount()
     {
@@ -40,6 +41,7 @@ class Response extends Component
         $this->to = session('to');
         $this->goingDate = session('goingDate');
         $this->returningDate = session('returningDate');
+        $this->adults = session('adults');
 
         $goingDate = Carbon::parse($this->goingDate)->startOfDay();
         $this->goingDates = collect([]);
@@ -95,6 +97,7 @@ class Response extends Component
         session()->put('returningDate', $this->returningDate);
         session()->put('goingTrip', $this->goingTrip);
         session()->put('returningTrip', $this->returningTrip);
+        session()->put('adults', $this->adults);
 
         return to_route('details');
     }

@@ -11,6 +11,7 @@ class DetailPassengerConfirm extends Model
     protected $fillable = [
         'title',
         'first_name',
+    
         'last_name',
         'nationality',
         'date_of_birth',

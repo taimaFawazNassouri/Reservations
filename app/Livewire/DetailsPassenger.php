@@ -45,6 +45,7 @@ class DetailsPassenger extends Component
 
     public $goingTrip;
     public $returningTrip;
+    public $adults;
 
     public function mount()
     {
@@ -80,12 +81,16 @@ class DetailsPassenger extends Component
         $returningTrip = session('returningTrip');
         $returningDate = session('returningDate');
 
+
+        $this->adults = session('adults');
+
+        
         $this->goingTrip = $flights
             ->where('Path',  $from . '/' . $to)
             ->where('FlightNumber', $goingTrip)
             ->where('DepartureDate', $goingDate)
             ->first();
-
+       
         if ($tripType == 'round-trip') {
             $this->returningTrip = $flights
                 ->where('Path',  $to . '/' . $from)
@@ -225,7 +230,7 @@ class DetailsPassenger extends Component
         $xml = new SimpleXMLElement($response);
         $body = $xml->xpath('//soapBody')[0];
         $this->dataArray = json_decode(json_encode((array)$body), TRUE);
-
+        
         if ($this->ticket_advisory) {
             if (!str($this->ticket_advisory)->contains('Reservation is fully paid and confirmed')) {
                 // Store in the details_passenger_unconfirm table if not confirmed
@@ -233,18 +238,20 @@ class DetailsPassenger extends Component
                 return;
             } else {
                 // Store in the details_passenger_confirm table
+                //$referinceId = $this->dataArray['ns1OTA_AirBookRS']['ns1AirReservation']['ns1BookingReferenceID']['@attributes']['ID'] ?? null;
+                //$this->passengerData['referinceId'] = $referinceId;
                 DB::table('detail_passenger_confirms')->insert($this->passengerData);
 
-                $this->ticketAdvisoryMessage = "Your ticket has been confirmed successfully. 
-                        Details:
-                        - Flight Number: {$this->goingTrip->FlightNumber}
-                        - Departure: {$this->goingTrip->DepartureDateTime} from {$this->goingTrip->DepartureAirport}
-                        - Arrival: {$this->goingTrip->ArrivalDateTime} at {$this->goingTrip->ArrivalAirport}";
-                return;
+                return "Your ticket has been confirmed successfully. 
+                Details:
+                - Flight Number: {$this->goingTrip->FlightNumber}
+                - Departure: {$this->goingTrip->DepartureDateTime} from {$this->goingTrip->DepartureAirport}
+                - Arrival: {$this->goingTrip->ArrivalDateTime} at {$this->goingTrip->ArrivalAirport}";
+            
             }
         }
 
-        dd($this->dataArray);
+        //dd($this->dataArray);
     }
 
     #[Computed]

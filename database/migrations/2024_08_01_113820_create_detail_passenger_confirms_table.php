@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('detail_passenger_confirms', function (Blueprint $table) {
             $table->id();
+            // $table->string('referinceId');
             $table->string('title');
             $table->string('first_name');
             $table->string('last_name');

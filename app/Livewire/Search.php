@@ -97,6 +97,7 @@ class Search extends Component
             session()->put('to', $this->to);
             session()->put('goingDate', $this->selDepartureDate);
             session()->put('returningDate', $this->elReturnDate);
+            session()->put('adults', $this->adults);
 
             return redirect()->route('response'); // Make sure to define a route named 'details'
         } catch (\Exception $e) {
